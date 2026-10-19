@@ -5,6 +5,7 @@ import { AppModule } from '../src/app.module.js';
 import { configureApp } from '../src/configure-app.js';
 import { PrismaService } from '../src/database/prisma.service.js';
 import { Prisma } from '../src/generated/prisma/client.js';
+import { AdminGuard, CsrfGuard, SessionGuard } from '../src/auth/auth.guards.js';
 
 describe('Produtos (HTTP)', () => {
   let app: INestApplication;
@@ -23,6 +24,10 @@ describe('Produtos (HTTP)', () => {
     findMany.mockReset().mockResolvedValue([record]);
     update.mockReset().mockResolvedValue({ ...record, imageUrl: '/products/foto-001.jpeg' });
     const module = await Test.createTestingModule({ imports: [AppModule] })
+      // Este arquivo testa produtos. Os guards reais são exercitados em auth.e2e-spec.ts.
+      .overrideGuard(SessionGuard).useValue({ canActivate: () => true })
+      .overrideGuard(AdminGuard).useValue({ canActivate: () => true })
+      .overrideGuard(CsrfGuard).useValue({ canActivate: () => true })
       .overrideProvider(PrismaService)
       .useValue({ product: { create, findMany, update } })
       .compile();

@@ -13,6 +13,33 @@ enum ProductCategory {
   SEM_CATEGORIA
 }
 
+enum UserRole {
+  ADMIN
+  CLIENTE
+}
+
+model User {
+  id           Int       @id @default(autoincrement())
+  name         String    @db.VarChar(100)
+  username     String    @unique @db.VarChar(32)
+  passwordHash String
+  role         UserRole  @default(CLIENTE)
+  createdAt    DateTime  @default(now())
+  sessions     Session[]
+}
+
+model Session {
+  id        String   @id @default(cuid())
+  tokenHash String   @unique @db.Char(64)
+  userId    Int
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+
+  @@index([userId])
+  @@index([expiresAt])
+}
+
 // Cada registro desta tabela representa um produto da loja.
 model Product {
   id          Int      @id @default(autoincrement())
