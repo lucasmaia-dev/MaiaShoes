@@ -1,0 +1,28 @@
+
+.env*
+!.env.example
+
+# Dependências e arquivos gerados
+node_modules/
+.next/
+dist/
+out/
+coverage/
+*.tsbuildinfo
+*.log
+
+# Configurações locais e credenciais
+.codex/
+.agents/
+.aws/
+.vscode/
+.idea/
+*.pem
+*.key
+.DS_Store
+Thumbs.db
+
+# Capturas locais; as prévias selecionadas ficam em docs/
+/maia-*.jpg
+/maia-*.png
+*.zip

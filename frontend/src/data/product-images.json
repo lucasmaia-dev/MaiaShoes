@@ -1,0 +1,610 @@
+[
+  {
+    "id": "001",
+    "label": "Foto 001",
+    "url": "/products/foto-001.jpeg",
+    "originalName": "WhatsApp Image 2026-10-16 at 11.42.54 (1).jpeg",
+    "width": 1200,
+    "height": 1600
+  },
+  {
+    "id": "002",
+    "label": "Foto 002",
+    "url": "/products/foto-002.jpeg",
+    "originalName": "WhatsApp Image 2026-10-16 at 11.42.54 (2).jpeg",
+    "width": 958,
+    "height": 1280
+  },
+  {
+    "id": "003",
+    "label": "Foto 003",
+    "url": "/products/foto-003.jpeg",
+    "originalName": "WhatsApp Image 2026-10-16 at 11.42.54 (3).jpeg",
+    "width": 960,
+    "height": 1280
+  },
+  {
+    "id": "004",
+    "label": "Foto 004",
+    "url": "/products/foto-004.jpeg",
+    "originalName": "WhatsApp Image 2026-10-16 at 11.42.54.jpeg",
+    "width": 1200,
+    "height": 1600
+  },
+  {
+    "id": "005",
+    "label": "Foto 005",
+    "url": "/products/foto-005.jpeg",
+    "originalName": "WhatsApp Image 2026-10-16 at 11.42.55 (1).jpeg",
+    "width": 900,
+    "height": 1600
+  },
+  {
+    "id": "006",
+    "label": "Foto 006",
+    "url": "/products/foto-006.jpeg",
+    "originalName": "WhatsApp Image 2026-10-16 at 11.42.55 (2).jpeg",
+    "width": 900,
+    "height": 1600
+  },
+  {
+    "id": "007",
+    "label": "Foto 007",
+    "url": "/products/foto-007.jpeg",
+    "originalName": "WhatsApp Image 2026-10-16 at 11.42.55.jpeg",
+    "width": 900,
+    "height": 1600
+  },
+  {
+    "id": "008",
+    "label": "Foto 008",
+    "url": "/products/foto-008.jpeg",
+    "originalName": "WhatsApp Image 2026-10-16 at 11.43.17.jpeg",
+    "width": 900,
+    "height": 1600
+  },
+  {
+    "id": "009",
+    "label": "Foto 009",
+    "url": "/products/foto-009.jpeg",
+    "originalName": "WhatsApp Image 2026-10-16 at 11.43.27.jpeg",
+    "width": 900,
+    "height": 1600
+  },
+  {
+    "id": "010",
+    "label": "Foto 010",
+    "url": "/products/foto-010.jpeg",
+    "originalName": "WhatsApp Image 2026-10-16 at 11.43.32 (1).jpeg",
+    "width": 900,
+    "height": 1600
+  },
+  {
+    "id": "011",
+    "label": "Foto 011",
+    "url": "/products/foto-011.jpeg",
+    "originalName": "WhatsApp Image 2026-10-16 at 11.43.32.jpeg",
+    "width": 900,
+    "height": 1600
+  },
+  {
+    "id": "012",
+    "label": "Foto 012",
+    "url": "/products/foto-012.jpeg",
+    "originalName": "WhatsApp Image 2026-10-16 at 11.44.01 (1).jpeg",
+    "width": 1066,
+    "height": 1600
+  },
+  {
+    "id": "013",
+    "label": "Foto 013",
+    "url": "/products/foto-013.jpeg",
+    "originalName": "WhatsApp Image 2026-10-16 at 11.44.01.jpeg",
+    "width": 900,
+    "height": 1600
+  },
+  {
+    "id": "014",
+    "label": "Foto 014",
+    "url": "/products/foto-014.jpeg",
+    "originalName": "WhatsApp Image 2026-10-16 at 11.44.05.jpeg",
+    "width": 900,
+    "height": 1600
+  },
+  {
+    "id": "015",
+    "label": "Foto 015",
+    "url": "/products/foto-015.jpeg",
+    "originalName": "WhatsApp Image 2026-10-16 at 11.44.50.jpeg",
+    "width": 900,
+    "height": 1600
+  },
+  {
+    "id": "016",
+    "label": "Foto 016",
+    "url": "/products/foto-016.jpeg",
+    "originalName": "WhatsApp Image 2026-10-16 at 11.44.51 (1).jpeg",
+    "width": 900,
+    "height": 1600
+  },
+  {
+    "id": "017",
+    "label": "Foto 017",
+    "url": "/products/foto-017.jpeg",
+    "originalName": "WhatsApp Image 2026-10-16 at 11.44.51.jpeg",
+    "width": 900,
+    "height": 1600
+  },
+  {
+    "id": "018",
+    "label": "Foto 018",
+    "url": "/products/foto-018.jpeg",
+    "originalName": "WhatsApp Image 2026-10-16 at 11.44.52.jpeg",
+    "width": 900,
+    "height": 1600
+  },
+  {
+    "id": "019",
+    "label": "Foto 019",
+    "url": "/products/foto-019.jpeg",
+    "originalName": "WhatsApp Image 2026-10-16 at 11.45.02.jpeg",
+    "width": 1284,
+    "height": 1600
+  },
+  {
+    "id": "020",
+    "label": "Foto 020",
+    "url": "/products/foto-020.jpeg",
+    "originalName": "WhatsApp Image 2026-10-16 at 11.45.18.jpeg",
+    "width": 900,
+    "height": 1600
+  },
+  {
+    "id": "021",
+    "label": "Foto 021",
+    "url": "/products/foto-021.jpeg",
+    "originalName": "WhatsApp Image 2026-10-16 at 11.45.20 (1).jpeg",
+    "width": 900,
+    "height": 1600
+  },
+  {
+    "id": "022",
+    "label": "Foto 022",
+    "url": "/products/foto-022.jpeg",
+    "originalName": "WhatsApp Image 2026-10-16 at 11.45.20.jpeg",
+    "width": 900,
+    "height": 1600
+  },
+  {
+    "id": "023",
+    "label": "Foto 023",
+    "url": "/products/foto-023.jpeg",
+    "originalName": "WhatsApp Image 2026-10-16 at 11.45.21 (1).jpeg",
+    "width": 900,
+    "height": 1600
+  },
+  {
+    "id": "024",
+    "label": "Foto 024",
+    "url": "/products/foto-024.jpeg",
+    "originalName": "WhatsApp Image 2026-10-16 at 11.45.21 (2).jpeg",
+    "width": 900,
+    "height": 1600
+  },
+  {
+    "id": "025",
+    "label": "Foto 025",
+    "url": "/products/foto-025.jpeg",
+    "originalName": "WhatsApp Image 2026-10-16 at 11.45.21.jpeg",
+    "width": 900,
+    "height": 1600
+  },
+  {
+    "id": "026",
+    "label": "Foto 026",
+    "url": "/products/foto-026.jpeg",
+    "originalName": "WhatsApp Image 2026-10-16 at 11.45.22 (1).jpeg",
+    "width": 900,
+    "height": 1600
+  },
+  {
+    "id": "027",
+    "label": "Foto 027",
+    "url": "/products/foto-027.jpeg",
+    "originalName": "WhatsApp Image 2026-10-16 at 11.45.22.jpeg",
+    "width": 900,
+    "height": 1600
+  },
+  {
+    "id": "028",
+    "label": "Foto 028",
+    "url": "/products/foto-028.jpeg",
+    "originalName": "WhatsApp Image 2026-10-16 at 11.45.23.jpeg",
+    "width": 900,
+    "height": 1600
+  },
+  {
+    "id": "029",
+    "label": "Foto 029",
+    "url": "/products/foto-029.jpeg",
+    "originalName": "WhatsApp Image 2026-10-16 at 11.45.38.jpeg",
+    "width": 1086,
+    "height": 1448
+  },
+  {
+    "id": "030",
+    "label": "Foto 030",
+    "url": "/products/foto-030.jpeg",
+    "originalName": "WhatsApp Image 2026-10-16 at 11.45.39.jpeg",
+    "width": 900,
+    "height": 1600
+  },
+  {
+    "id": "031",
+    "label": "Foto 031",
+    "url": "/products/foto-031.jpeg",
+    "originalName": "WhatsApp Image 2026-10-16 at 11.45.48 (1).jpeg",
+    "width": 900,
+    "height": 1600
+  },
+  {
+    "id": "032",
+    "label": "Foto 032",
+    "url": "/products/foto-032.jpeg",
+    "originalName": "WhatsApp Image 2026-10-16 at 11.45.48.jpeg",
+    "width": 900,
+    "height": 1600
+  },
+  {
+    "id": "033",
+    "label": "Foto 033",
+    "url": "/products/foto-033.jpeg",
+    "originalName": "WhatsApp Image 2026-10-16 at 11.45.49 (1).jpeg",
+    "width": 960,
+    "height": 1280
+  },
+  {
+    "id": "034",
+    "label": "Foto 034",
+    "url": "/products/foto-034.jpeg",
+    "originalName": "WhatsApp Image 2026-10-16 at 11.45.49.jpeg",
+    "width": 900,
+    "height": 1600
+  },
+  {
+    "id": "035",
+    "label": "Foto 035",
+    "url": "/products/foto-035.jpeg",
+    "originalName": "WhatsApp Image 2026-10-16 at 11.45.50.jpeg",
+    "width": 819,
+    "height": 904
+  },
+  {
+    "id": "036",
+    "label": "Foto 036",
+    "url": "/products/foto-036.jpeg",
+    "originalName": "WhatsApp Image 2026-10-16 at 11.45.51 (1).jpeg",
+    "width": 960,
+    "height": 1280
+  },
+  {
+    "id": "037",
+    "label": "Foto 037",
+    "url": "/products/foto-037.jpeg",
+    "originalName": "WhatsApp Image 2026-10-16 at 11.45.51.jpeg",
+    "width": 750,
+    "height": 893
+  },
+  {
+    "id": "038",
+    "label": "Foto 038",
+    "url": "/products/foto-038.jpeg",
+    "originalName": "WhatsApp Image 2026-10-16 at 11.45.52 (1).jpeg",
+    "width": 1600,
+    "height": 1600
+  },
+  {
+    "id": "039",
+    "label": "Foto 039",
+    "url": "/products/foto-039.jpeg",
+    "originalName": "WhatsApp Image 2026-10-16 at 11.45.52.jpeg",
+    "width": 893,
+    "height": 1600
+  },
+  {
+    "id": "040",
+    "label": "Foto 040",
+    "url": "/products/foto-040.jpeg",
+    "originalName": "WhatsApp Image 2026-10-16 at 11.45.53 (1).jpeg",
+    "width": 900,
+    "height": 1600
+  },
+  {
+    "id": "041",
+    "label": "Foto 041",
+    "url": "/products/foto-041.jpeg",
+    "originalName": "WhatsApp Image 2026-10-16 at 11.45.53 (2).jpeg",
+    "width": 900,
+    "height": 1600
+  },
+  {
+    "id": "042",
+    "label": "Foto 042",
+    "url": "/products/foto-042.jpeg",
+    "originalName": "WhatsApp Image 2026-10-16 at 11.45.53 (3).jpeg",
+    "width": 900,
+    "height": 1600
+  },
+  {
+    "id": "043",
+    "label": "Foto 043",
+    "url": "/products/foto-043.jpeg",
+    "originalName": "WhatsApp Image 2026-10-16 at 11.45.53.jpeg",
+    "width": 900,
+    "height": 1600
+  },
+  {
+    "id": "044",
+    "label": "Foto 044",
+    "url": "/products/foto-044.jpeg",
+    "originalName": "WhatsApp Image 2026-10-16 at 11.45.54 (1).jpeg",
+    "width": 900,
+    "height": 1600
+  },
+  {
+    "id": "045",
+    "label": "Foto 045",
+    "url": "/products/foto-045.jpeg",
+    "originalName": "WhatsApp Image 2026-10-16 at 11.45.54 (2).jpeg",
+    "width": 900,
+    "height": 1600
+  },
+  {
+    "id": "046",
+    "label": "Foto 046",
+    "url": "/products/foto-046.jpeg",
+    "originalName": "WhatsApp Image 2026-10-16 at 11.45.54.jpeg",
+    "width": 1600,
+    "height": 900
+  },
+  {
+    "id": "047",
+    "label": "Foto 047",
+    "url": "/products/foto-047.jpeg",
+    "originalName": "WhatsApp Image 2026-10-16 at 11.45.55.jpeg",
+    "width": 900,
+    "height": 1600
+  },
+  {
+    "id": "048",
+    "label": "Foto 048",
+    "url": "/products/foto-048.jpeg",
+    "originalName": "WhatsApp Image 2026-10-16 at 11.45.56 (1).jpeg",
+    "width": 900,
+    "height": 1600
+  },
+  {
+    "id": "049",
+    "label": "Foto 049",
+    "url": "/products/foto-049.jpeg",
+    "originalName": "WhatsApp Image 2026-10-16 at 11.45.56.jpeg",
+    "width": 900,
+    "height": 1600
+  },
+  {
+    "id": "050",
+    "label": "Foto 050",
+    "url": "/products/foto-050.jpeg",
+    "originalName": "WhatsApp Image 2026-10-16 at 11.45.57 (1).jpeg",
+    "width": 900,
+    "height": 1600
+  },
+  {
+    "id": "051",
+    "label": "Foto 051",
+    "url": "/products/foto-051.jpeg",
+    "originalName": "WhatsApp Image 2026-10-16 at 11.45.57 (2).jpeg",
+    "width": 900,
+    "height": 1600
+  },
+  {
+    "id": "052",
+    "label": "Foto 052",
+    "url": "/products/foto-052.jpeg",
+    "originalName": "WhatsApp Image 2026-10-16 at 11.45.57.jpeg",
+    "width": 900,
+    "height": 1600
+  },
+  {
+    "id": "053",
+    "label": "Foto 053",
+    "url": "/products/foto-053.jpeg",
+    "originalName": "WhatsApp Image 2026-10-16 at 11.45.58 (1).jpeg",
+    "width": 900,
+    "height": 1600
+  },
+  {
+    "id": "054",
+    "label": "Foto 054",
+    "url": "/products/foto-054.jpeg",
+    "originalName": "WhatsApp Image 2026-10-16 at 11.45.58.jpeg",
+    "width": 1600,
+    "height": 900
+  },
+  {
+    "id": "055",
+    "label": "Foto 055",
+    "url": "/products/foto-055.jpeg",
+    "originalName": "WhatsApp Image 2026-10-16 at 11.45.59.jpeg",
+    "width": 900,
+    "height": 1600
+  },
+  {
+    "id": "056",
+    "label": "Foto 056",
+    "url": "/products/foto-056.jpeg",
+    "originalName": "WhatsApp Image 2026-10-16 at 11.46.08.jpeg",
+    "width": 900,
+    "height": 1600
+  },
+  {
+    "id": "057",
+    "label": "Foto 057",
+    "url": "/products/foto-057.jpeg",
+    "originalName": "WhatsApp Image 2026-10-16 at 11.46.09.jpeg",
+    "width": 900,
+    "height": 1600
+  },
+  {
+    "id": "058",
+    "label": "Foto 058",
+    "url": "/products/foto-058.jpeg",
+    "originalName": "WhatsApp Image 2026-10-16 at 11.46.29.jpeg",
+    "width": 900,
+    "height": 1600
+  },
+  {
+    "id": "059",
+    "label": "Foto 059",
+    "url": "/products/foto-059.jpeg",
+    "originalName": "WhatsApp Image 2026-10-16 at 11.46.30 (1).jpeg",
+    "width": 900,
+    "height": 1600
+  },
+  {
+    "id": "060",
+    "label": "Foto 060",
+    "url": "/products/foto-060.jpeg",
+    "originalName": "WhatsApp Image 2026-10-16 at 11.46.30 (2).jpeg",
+    "width": 900,
+    "height": 1600
+  },
+  {
+    "id": "061",
+    "label": "Foto 061",
+    "url": "/products/foto-061.jpeg",
+    "originalName": "WhatsApp Image 2026-10-16 at 11.46.30 (3).jpeg",
+    "width": 900,
+    "height": 1600
+  },
+  {
+    "id": "062",
+    "label": "Foto 062",
+    "url": "/products/foto-062.jpeg",
+    "originalName": "WhatsApp Image 2026-10-16 at 11.46.30.jpeg",
+    "width": 1600,
+    "height": 900
+  },
+  {
+    "id": "063",
+    "label": "Foto 063",
+    "url": "/products/foto-063.jpeg",
+    "originalName": "WhatsApp Image 2026-10-16 at 11.46.31 (1).jpeg",
+    "width": 900,
+    "height": 1600
+  },
+  {
+    "id": "064",
+    "label": "Foto 064",
+    "url": "/products/foto-064.jpeg",
+    "originalName": "WhatsApp Image 2026-10-16 at 11.46.31 (2).jpeg",
+    "width": 900,
+    "height": 1600
+  },
+  {
+    "id": "065",
+    "label": "Foto 065",
+    "url": "/products/foto-065.jpeg",
+    "originalName": "WhatsApp Image 2026-10-16 at 11.46.31 (3).jpeg",
+    "width": 900,
+    "height": 1600
+  },
+  {
+    "id": "066",
+    "label": "Foto 066",
+    "url": "/products/foto-066.jpeg",
+    "originalName": "WhatsApp Image 2026-10-16 at 11.46.31.jpeg",
+    "width": 1600,
+    "height": 900
+  },
+  {
+    "id": "067",
+    "label": "Foto 067",
+    "url": "/products/foto-067.jpeg",
+    "originalName": "WhatsApp Image 2026-10-16 at 11.46.32 (1).jpeg",
+    "width": 900,
+    "height": 1600
+  },
+  {
+    "id": "068",
+    "label": "Foto 068",
+    "url": "/products/foto-068.jpeg",
+    "originalName": "WhatsApp Image 2026-10-16 at 11.46.32 (2).jpeg",
+    "width": 900,
+    "height": 1600
+  },
+  {
+    "id": "069",
+    "label": "Foto 069",
+    "url": "/products/foto-069.jpeg",
+    "originalName": "WhatsApp Image 2026-10-16 at 11.46.32 (3).jpeg",
+    "width": 900,
+    "height": 1600
+  },
+  {
+    "id": "070",
+    "label": "Foto 070",
+    "url": "/products/foto-070.jpeg",
+    "originalName": "WhatsApp Image 2026-10-16 at 11.46.32.jpeg",
+    "width": 900,
+    "height": 1600
+  },
+  {
+    "id": "071",
+    "label": "Foto 071",
+    "url": "/products/foto-071.jpeg",
+    "originalName": "WhatsApp Image 2026-10-16 at 11.46.33 (1).jpeg",
+    "width": 1200,
+    "height": 1600
+  },
+  {
+    "id": "072",
+    "label": "Foto 072",
+    "url": "/products/foto-072.jpeg",
+    "originalName": "WhatsApp Image 2026-10-16 at 11.46.33 (2).jpeg",
+    "width": 1183,
+    "height": 1305
+  },
+  {
+    "id": "073",
+    "label": "Foto 073",
+    "url": "/products/foto-073.jpeg",
+    "originalName": "WhatsApp Image 2026-10-16 at 11.46.33.jpeg",
+    "width": 900,
+    "height": 1600
+  },
+  {
+    "id": "074",
+    "label": "Foto 074",
+    "url": "/products/foto-074.jpeg",
+    "originalName": "WhatsApp Image 2026-10-16 at 11.46.34 (1).jpeg",
+    "width": 1600,
+    "height": 1600
+  },
+  {
+    "id": "075",
+    "label": "Foto 075",
+    "url": "/products/foto-075.jpeg",
+    "originalName": "WhatsApp Image 2026-10-16 at 11.46.34 (2).jpeg",
+    "width": 960,
+    "height": 1280
+  },
+  {
+    "id": "076",
+    "label": "Foto 076",
+    "url": "/products/foto-076.jpeg",
+    "originalName": "WhatsApp Image 2026-10-16 at 11.46.34.jpeg",
+    "width": 1214,
+    "height": 1305
+  }
+]
