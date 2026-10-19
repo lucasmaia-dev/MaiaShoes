@@ -40,4 +40,10 @@ As 76 fotos do ZIP estão em `public/products/`. No painel, escolha uma foto no 
 
 `src/data/product-images.json` registra os nomes originais e os caminhos. Os componentes `photo-picker.tsx` e `product-photo-editor.tsx` ficam em `src/app/admin/`. Há uma foto principal por produto; não existe upload genérico nesta etapa. Os vídeos do ZIP não foram importados.
 
-Esta versão é local e ainda não tem autenticação de administrador. Categorias serão adicionadas em uma próxima etapa.
+## Categorias
+
+Escolha Tênis, Bolsas ou Sem categoria no cadastro. Para classificar os produtos antigos, abra “Alterar categoria de …” no painel e salve. Atualize a vitrine e use os filtros para conferir o resultado. Os filtros funcionam sobre os produtos reais recebidos da API e exibem uma mensagem quando não há resultados.
+
+Os rótulos e tipos ficam em `src/lib/product-categories.ts`. No banco, o enum usa os valores `TENIS`, `BOLSAS` e `SEM_CATEGORIA`.
+
+Esta versão é local e ainda não tem autenticação de administrador.

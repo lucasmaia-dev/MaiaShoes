@@ -1,6 +1,6 @@
 import { Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from '../database/prisma.service.js';
-import type { Product } from '../generated/prisma/client.js';
+import type { Product, ProductCategory } from '../generated/prisma/client.js';
 import { Prisma } from '../generated/prisma/client.js';
 import type { CreateProductDto } from './dto/create-product.dto.js';
 
@@ -10,7 +10,7 @@ export class ProductsService {
 
   async create(data: CreateProductDto) {
     const product = await this.prisma.product.create({
-      data: { name: data.name, description: data.description, price: data.price, imageUrl: data.imageUrl },
+      data: { name: data.name, description: data.description, price: data.price, imageUrl: data.imageUrl, category: data.category },
     });
     return this.toResponse(product);
   }
@@ -38,9 +38,22 @@ export class ProductsService {
       name: product.name,
       description: product.description,
       imageUrl: product.imageUrl,
+      category: product.category,
       price: product.price.toFixed(2),
       createdAt: product.createdAt,
       updatedAt: product.updatedAt,
     };
+  }
+
+  async updateCategory(id: number, category: ProductCategory) {
+    try {
+      const product = await this.prisma.product.update({ where: { id }, data: { category } });
+      return this.toResponse(product);
+    } catch (error) {
+      if (error instanceof Prisma.PrismaClientKnownRequestError && error.code === 'P2025') {
+        throw new NotFoundException('Produto não encontrado.');
+      }
+      throw error;
+    }
   }
 }

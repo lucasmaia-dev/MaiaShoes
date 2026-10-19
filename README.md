@@ -8,6 +8,7 @@ Aplicação full stack de uma loja de calçados e bolsas, com vitrine e painel d
 - Cadastro de produtos pelo painel administrativo.
 - Galeria com 76 fotos fornecidas para o projeto.
 - Seleção, troca e remoção da foto principal de produtos existentes.
+- Categorias no cadastro, classificação de produtos existentes e filtros na vitrine.
 - Validação de dados na API e preços armazenados como decimal.
 - Persistência no PostgreSQL, com histórico de migrações.
 - Tratamento de carregamento, coleção vazia e falhas na consulta.
@@ -127,6 +128,7 @@ docs/                      # Prévias e registro de aprendizado
 | GET | `/api/products` | Listar os produtos |
 | POST | `/api/products` | Cadastrar um produto |
 | PATCH | `/api/products/:id/image` | Alterar ou remover a foto principal |
+| PATCH | `/api/products/:id/category` | Alterar a categoria de um produto existente |
 
 Exemplo de cadastro:
 
@@ -135,6 +137,7 @@ Exemplo de cadastro:
   "name": "Tênis de exemplo",
   "description": "Descrição do produto.",
   "price": "189.90",
+  "category": "TENIS",
   "imageUrl": "/products/foto-001.jpeg"
 }
 ```
@@ -161,7 +164,7 @@ Os testes HTTP usam um substituto do banco para verificar os contratos e as vali
 
 ## Próximas etapas
 
-- [ ] Categorias no cadastro e filtros na vitrine.
+- [x] Categorias no cadastro e filtros na vitrine.
 - [ ] Autenticação e autorização de administrador.
 - [ ] Estoque por tamanho e cor.
 - [ ] Edição completa de produtos.
@@ -172,6 +175,8 @@ Os testes HTTP usam um substituto do banco para verificar os contratos e as vali
 ## Aprendizado e desenvolvimento
 
 O [registro de aprendizado](docs/APRENDIZADO.md) reúne a evolução por etapas. O [guia de contribuição](CONTRIBUTING.md) descreve o fluxo de branches, commits e pull requests para as próximas atualizações.
+
+A [etapa de categorias](docs/CATEGORIAS.md) acompanha o campo desde a migração até os filtros da vitrine e inclui um exercício para praticar.
 
 Arquivos `.env`, credenciais, dependências e builds são excluídos do Git. O repositório contém somente `.env.example`, com valores de exemplo.
 

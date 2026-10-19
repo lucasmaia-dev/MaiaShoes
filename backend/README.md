@@ -76,7 +76,15 @@ A API continua restrita ao computador local. Login de administrador e formulári
 
 São aceitos apenas os caminhos em `src/products/product-images.ts`, gerados a partir da importação do ZIP. A API rejeita caminhos desconhecidos e devolve 404 para produtos inexistentes. A migração `add_product_image` adiciona o campo opcional sem modificar os registros antigos.
 
-## Verificações
+## Categorias
+
+Os valores aceitos são `TENIS`, `BOLSAS` e `SEM_CATEGORIA`. O campo `category` é retornado em GET e pode ser enviado no POST. Se for omitido por um cliente antigo, o banco usa `SEM_CATEGORIA`; `null` e valores fora da lista recebem HTTP 400.
+
+`PATCH /api/products/:id/category` recebe, por exemplo, `{ "category": "TENIS" }` e altera apenas a categoria. O campo é obrigatório nessa rota. Produtos inexistentes recebem 404.
+
+A migração `add_product_category` adiciona um enum e uma coluna com valor padrão. Os produtos anteriores são preservados como `SEM_CATEGORIA`, sem inferência pelo nome ou pela foto.
+
+## Executar as verificações
 
 ```powershell
 npm run build

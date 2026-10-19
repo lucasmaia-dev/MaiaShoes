@@ -7,12 +7,19 @@ datasource db {
   provider = "postgresql"
 }
 
+enum ProductCategory {
+  TENIS
+  BOLSAS
+  SEM_CATEGORIA
+}
+
 // Cada registro desta tabela representa um produto da loja.
 model Product {
   id          Int      @id @default(autoincrement())
   name        String   @db.VarChar(150)
   description String?
   imageUrl    String?  @db.VarChar(255)
+  category    ProductCategory @default(SEM_CATEGORIA)
   price       Decimal  @db.Decimal(10, 2)
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt

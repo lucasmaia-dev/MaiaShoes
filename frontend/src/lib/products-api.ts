@@ -1,14 +1,17 @@
+import type { ProductCategory } from './product-categories';
+
 export type Product = {
   id: number;
   name: string;
   description: string | null;
   imageUrl: string | null;
+  category: ProductCategory;
   price: string;
   createdAt: string;
   updatedAt: string;
 };
 
-export type NewProduct = Pick<Product, 'name' | 'price'> & { description?: string; imageUrl?: string | null };
+export type NewProduct = Pick<Product, 'name' | 'price' | 'category'> & { description?: string; imageUrl?: string | null };
 
 async function requestProducts<T>(options: RequestInit = {}, path = '/api/products'): Promise<T> {
   let response: Response;
@@ -41,6 +44,14 @@ export function updateProductImage(id: number, imageUrl: string | null) {
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ imageUrl }),
   }, `/api/products/${id}/image`);
+}
+
+export function updateProductCategory(id: number, category: ProductCategory) {
+  return requestProducts<Product>({
+    method: 'PATCH',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ category }),
+  }, `/api/products/${id}/category`);
 }
 
 export function listProducts(signal?: AbortSignal) {

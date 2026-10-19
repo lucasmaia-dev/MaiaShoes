@@ -22,6 +22,13 @@
 .fields textarea { resize: vertical; min-height: 110px; }
 .fields small { color: var(--muted); font-size: 10px; margin-top: 9px; line-height: 1.6; }
 .optional { color: var(--muted); font-size: 10px; }
+.fields select, .categoryForm select { width: 100%; border: 1px solid #c9c9c3; padding: 13px 14px; font: inherit; font-size: 14px; background: #fdfdfb; color: var(--ink); border-radius: 0; }
+.fields select:focus, .categoryForm select:focus { outline: 2px solid #555; outline-offset: 2px; }
+.categoryEditor { margin-top: 10px; }
+.categoryEditor summary { cursor: pointer; font-size: 11px; line-height: 1.6; padding: 10px 0; }
+.categoryForm { display: flex; flex-direction: column; gap: 12px; margin: 10px 0; }
+.categoryForm label { font-size: 11px; }
+.productText .categoryBadge { display: inline-block; padding: 3px 8px; margin-top: 10px; background: #f0f0ed; font-size: 10px; }
 .photoPicker { border: 0; border-top: 1px solid var(--line); padding: 16px 0 0; margin: 25px 0 12px; min-width: 0; }
 .photoPicker legend { font-size: 12px; padding: 0 6px 0 0; }
 .photoHint { font-size: 11px; color: var(--muted); line-height: 1.7; }

@@ -1,5 +1,6 @@
 import { Transform } from 'class-transformer';
-import { IsIn, IsOptional, IsString, Length, Matches, MaxLength } from 'class-validator';
+import { IsEnum, IsIn, IsOptional, IsString, Length, Matches, MaxLength, ValidateIf } from 'class-validator';
+import { ProductCategory } from '../../generated/prisma/client.js';
 import { PRODUCT_IMAGE_PATHS } from '../product-images.js';
 
 export class CreateProductDto {
@@ -16,6 +17,11 @@ export class CreateProductDto {
   @IsOptional()
   @IsIn(PRODUCT_IMAGE_PATHS, { message: 'Escolha uma foto da galeria importada.' })
   imageUrl?: string | null;
+
+  // Clientes antigos podem omitir o campo; null e valores desconhecidos são rejeitados.
+  @ValidateIf((_object: unknown, value: unknown) => value !== undefined)
+  @IsEnum(ProductCategory, { message: 'Escolha Tênis, Bolsas ou Sem categoria.' })
+  category?: ProductCategory;
 
   // O preço viaja como texto decimal para preservar os centavos.
   @IsString({ message: 'Envie o preço como texto, por exemplo "189.90".' })
