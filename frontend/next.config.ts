@@ -12,6 +12,9 @@ const nextConfig: NextConfig = {
     }, {
       source: '/api/products/:id/image',
       destination: 'http://127.0.0.1:3001/api/products/:id/image',
+    }, {
+      source: '/api/products/:id/category',
+      destination: 'http://127.0.0.1:3001/api/products/:id/category',
     }];
   },
 };

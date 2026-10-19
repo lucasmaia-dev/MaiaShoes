@@ -12,7 +12,7 @@ describe('Produtos (HTTP)', () => {
   const findMany = vi.fn();
   const update = vi.fn();
   const record = {
-    id: 1, name: 'Tênis Essencial', description: null, imageUrl: null,
+    id: 1, name: 'Tênis Essencial', description: null, imageUrl: null, category: 'SEM_CATEGORIA' as const,
     price: new Prisma.Decimal('189.90'),
     createdAt: new Date('2026-10-16T12:00:00.000Z'),
     updatedAt: new Date('2026-10-16T12:00:00.000Z'),
@@ -41,7 +41,7 @@ describe('Produtos (HTTP)', () => {
       createdAt: record.createdAt.toISOString(), updatedAt: record.updatedAt.toISOString(),
     });
     expect(create).toHaveBeenCalledWith({
-      data: { name: 'Tênis Essencial', price: '189.90', description: undefined, imageUrl: undefined },
+      data: { name: 'Tênis Essencial', price: '189.90', description: undefined, imageUrl: undefined, category: undefined },
     });
   });
 
@@ -108,6 +108,43 @@ describe('Produtos (HTTP)', () => {
 
   it('rejeita identificador que não é um número', async () => {
     await request(app.getHttpServer()).patch('/api/products/abc/image').send({ imageUrl: null }).expect(400);
+    expect(update).not.toHaveBeenCalled();
+  });
+
+  it.each(['TENIS', 'BOLSAS', 'SEM_CATEGORIA'])('cadastra a categoria %s', async (category) => {
+    create.mockResolvedValue({ ...record, category });
+    const response = await request(app.getHttpServer()).post('/api/products')
+      .send({ name: 'Produto', price: '10.00', category }).expect(201);
+    expect(response.body.category).toBe(category);
+    expect(create).toHaveBeenCalledWith({ data: expect.objectContaining({ category }) });
+  });
+
+  it.each(['INEXISTENTE', '', null, 1])('rejeita categoria inválida no cadastro: %j', async (category) => {
+    await request(app.getHttpServer()).post('/api/products')
+      .send({ name: 'Produto', price: '10.00', category }).expect(400);
+    expect(create).not.toHaveBeenCalled();
+  });
+
+  it('altera apenas a categoria, preservando nome, preço e foto', async () => {
+    update.mockResolvedValue({ ...record, category: 'TENIS' });
+    const response = await request(app.getHttpServer()).patch('/api/products/1/category')
+      .send({ category: 'TENIS' }).expect(200);
+    expect(response.body).toMatchObject({ name: record.name, price: '189.90', imageUrl: null, category: 'TENIS' });
+    expect(update).toHaveBeenCalledWith({ where: { id: 1 }, data: { category: 'TENIS' } });
+  });
+
+  it.each([{}, { category: null }, { category: 'OUTRA' }, { category: 'TENIS', price: '0.00' }])('rejeita mudança de categoria inválida: %j', async (body) => {
+    await request(app.getHttpServer()).patch('/api/products/1/category').send(body).expect(400);
+    expect(update).not.toHaveBeenCalled();
+  });
+
+  it('retorna 404 ao classificar produto inexistente', async () => {
+    update.mockRejectedValue(new Prisma.PrismaClientKnownRequestError('Missing', { code: 'P2025', clientVersion: '7.10.1' }));
+    await request(app.getHttpServer()).patch('/api/products/999/category').send({ category: 'TENIS' }).expect(404);
+  });
+
+  it('rejeita identificador inválido ao mudar a categoria', async () => {
+    await request(app.getHttpServer()).patch('/api/products/abc/category').send({ category: 'TENIS' }).expect(400);
     expect(update).not.toHaveBeenCalled();
   });
 });
