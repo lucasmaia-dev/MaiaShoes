@@ -30,10 +30,19 @@ try {
   assert.equal(adminPage.status, 200);
   assert.ok((await adminPage.text()).includes('Área do administrador'));
   const username = `teste_${randomBytes(8).toString('hex')}`;
-  const signup = await call('/api/auth/register', { method: 'POST', body: JSON.stringify({ name: 'Verificação temporária', username, password: randomBytes(24).toString('hex') }) });
+  const customerPassword = `T!1${randomBytes(24).toString('hex')}`;
+  const signup = await call('/api/auth/register', { method: 'POST', body: JSON.stringify({ name: 'Verificação temporária', email: `${username}@example.com`, password: customerPassword }) });
   assert.equal(signup.status, 201);
   const customer = await signup.json(); customerId = customer.id; clientCookie = cookie(signup);
   assert.equal(customer.role, 'CLIENTE');
+  assert.equal(customer.email, `${username}@example.com`);
+  const emailLogin = await call('/api/auth/login', { method: 'POST', body: JSON.stringify({ username: `${username.toUpperCase()}@EXAMPLE.COM`, password: customerPassword }) });
+  assert.equal(emailLogin.status, 200);
+  assert.equal((await emailLogin.json()).id, customerId);
+  await call('/api/auth/logout', { method: 'POST', headers: { Cookie: cookie(emailLogin) } });
+  const googleStatus = await call('/api/auth/google/status');
+  assert.equal(googleStatus.status, 200);
+  assert.equal(typeof (await googleStatus.json()).enabled, 'boolean');
   for (const [path, method] of [['/api/products', 'POST'], ['/api/products/1/image', 'PATCH'], ['/api/products/1/category', 'PATCH']]) {
     assert.equal((await call(path, { method, headers: { Cookie: clientCookie }, body: '{}' })).status, 403);
   }

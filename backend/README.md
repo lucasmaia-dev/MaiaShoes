@@ -86,7 +86,7 @@ A migração `add_product_category` adiciona um enum e uma coluna com valor padr
 
 ## Autenticação
 
-As rotas `/api/auth/register`, `/api/auth/login`, `/api/auth/me` e `/api/auth/logout` fazem cadastro de cliente, login, consulta da sessão e logout. O login usa usuário e senha. Sessões são armazenadas por hash do token no banco, e senhas usam scrypt com salt individual.
+As rotas `/api/auth/register`, `/api/auth/login`, `/api/auth/me` e `/api/auth/logout` fazem cadastro de cliente, login, consulta da sessão e logout. O cadastro recebe nome, e-mail e senha; o login recebe `username` (e-mail ou usuário existente) e `password`. Novas senhas exigem 12 a 128 caracteres, maiúscula, número e símbolo. Sessões são armazenadas por hash do token no banco, e senhas usam scrypt com salt individual. As rotas `/api/auth/google/status`, `/start` e `/callback` preparam o login Google; veja [configuração OAuth](../docs/AUTENTICACAO.md#entrar-com-google).
 
 Para criar o primeiro administrador, copie `.env.admin.example` para `.env.admin.local`, preencha os dados locais e execute `npm run build` e `npm run admin:create`. Nenhuma senha padrão é publicada. Os testes HTTP de autenticação usam os guards reais; os de produtos substituem os guards para isolar suas validações.
 

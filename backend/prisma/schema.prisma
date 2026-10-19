@@ -21,8 +21,10 @@ enum UserRole {
 model User {
   id           Int       @id @default(autoincrement())
   name         String    @db.VarChar(100)
-  username     String    @unique @db.VarChar(32)
-  passwordHash String
+  username     String?   @unique @db.VarChar(32)
+  email        String?   @unique @db.VarChar(254)
+  googleSub    String?   @unique @db.VarChar(255)
+  passwordHash String?
   role         UserRole  @default(CLIENTE)
   createdAt    DateTime  @default(now())
   sessions     Session[]
@@ -52,4 +54,13 @@ model Product {
   updatedAt   DateTime @updatedAt
 
   @@map("products")
+}
+
+model GoogleLoginAttempt {
+  stateHash String @id @db.Char(64)
+  browserHash String @db.Char(64)
+  nonce String @db.Char(64)
+  codeVerifier String @db.VarChar(128)
+  expiresAt DateTime
+  @@index([expiresAt])
 }
