@@ -48,7 +48,7 @@ Os rótulos e tipos ficam em `src/lib/product-categories.ts`. No banco, o enum u
 
 ## Login
 
-`/login` permite entrar com usuário e senha. `/cadastro` cria somente contas de cliente. `/conta` é a área da própria conta; `/admin` exige administrador.
+`/login` permite entrar com e-mail e senha ou com o usuário administrativo existente. `/cadastro` cria somente clientes com e-mail único e senha de 12 a 128 caracteres, incluindo maiúscula, número e símbolo. O botão Google depende das credenciais OAuth locais descritas em [AUTENTICACAO.md](../docs/AUTENTICACAO.md). `/conta` é a área da própria conta; `/admin` exige administrador.
 
 O cookie de sessão é HttpOnly e validado pelo servidor em `src/lib/current-user.ts`. As páginas privadas usam Suspense e não compartilham cache de usuário. As permissões de escrita são verificadas novamente pela API. Para sair, use o botão Sair.
 

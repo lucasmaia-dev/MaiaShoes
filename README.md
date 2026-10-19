@@ -147,7 +147,10 @@ docs/                      # Prévias e registro de aprendizado
 | PATCH | `/api/products/:id/image` | Alterar ou remover a foto principal |
 | PATCH | `/api/products/:id/category` | Alterar a categoria de um produto existente |
 | POST | `/api/auth/register` | Criar conta de cliente e iniciar sessão |
-| POST | `/api/auth/login` | Entrar com usuário e senha |
+| POST | `/api/auth/login` | Entrar com e-mail ou usuário e senha |
+| GET | `/api/auth/google/status` | Consultar disponibilidade do login Google |
+| GET | `/api/auth/google/start` | Iniciar login Google configurado |
+| GET | `/api/auth/google/callback` | Receber retorno do Google |
 | GET | `/api/auth/me` | Consultar a própria sessão |
 | POST | `/api/auth/logout` | Revogar a sessão e limpar o cookie |
 

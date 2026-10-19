@@ -6,12 +6,13 @@ import { configureApp } from '../src/configure-app.js';
 import { PrismaService } from '../src/database/prisma.service.js';
 import { Prisma } from '../src/generated/prisma/client.js';
 import { hashPassword } from '../src/auth/password.js';
+import { GoogleService } from '../src/auth/google.service.js';
 
-type User = { id: number; name: string; username: string; role: 'ADMIN' | 'CLIENTE'; passwordHash: string };
+type User = { id: number; name: string; username: string | null; email: string | null; googleSub?: string | null; role: 'ADMIN' | 'CLIENTE'; passwordHash: string | null };
 type Session = { tokenHash: string; userId: number; expiresAt: Date };
-const password = 'senha-de-teste-12345';
+const password = 'Senha-de-teste-12345!';
 const csrf = ['X-MaiaShoes-Request', '1'] as const;
-const publicUser = ({ passwordHash: _hash, ...user }: User) => user;
+const publicUser = ({ id, name, username = null, email = null, role }: User) => ({ id, name, username, email, role });
 const cookie = (response: request.Response) => response.headers['set-cookie'][0].split(';')[0] as string;
 
 describe('Autenticação e permissões (guards reais)', () => {
@@ -24,17 +25,17 @@ describe('Autenticação e permissões (guards reais)', () => {
   beforeAll(async () => { passwordHash = await hashPassword(password); });
   beforeEach(async () => {
     users = [
-      { id: 100, name: 'Administrador', username: 'admin_teste', role: 'ADMIN', passwordHash },
-      { id: 101, name: 'Cliente', username: 'cliente_teste', role: 'CLIENTE', passwordHash },
+      { id: 100, name: 'Administrador', username: 'admin_teste', email: null, role: 'ADMIN', passwordHash },
+      { id: 101, name: 'Cliente', username: 'cliente_teste', email: 'cliente@example.com', role: 'CLIENTE', passwordHash },
     ];
     sessions = new Map();
     createProduct.mockReset().mockResolvedValue({ id: 1, name: 'Tênis', price: new Prisma.Decimal('10'), description: null, imageUrl: null, category: 'TENIS', createdAt: new Date(), updatedAt: new Date() });
     const module = await Test.createTestingModule({ imports: [AppModule] })
       .overrideProvider(PrismaService).useValue({
         user: {
-          findUnique: ({ where }: { where: { username: string } }) => Promise.resolve(users.find((user) => user.username === where.username) ?? null),
+          findUnique: ({ where }: { where: Partial<User> }) => Promise.resolve(users.find((user) => Object.entries(where).every(([key, value]) => user[key as keyof User] === value)) ?? null),
           create: ({ data }: { data: Omit<User, 'id'> }) => {
-            if (users.some((user) => user.username === data.username)) throw new Prisma.PrismaClientKnownRequestError('Duplicate', { code: 'P2002', clientVersion: '7.10.1' });
+            if (users.some((user) => user.email === data.email)) throw new Prisma.PrismaClientKnownRequestError('Duplicate', { code: 'P2002', clientVersion: '7.10.1' });
             const user = { ...data, id: users.length + 100 }; users.push(user); return Promise.resolve(publicUser(user));
           },
         },
@@ -64,8 +65,8 @@ describe('Autenticação e permissões (guards reais)', () => {
 
   it('cria apenas cliente, normaliza o usuário e não expõe senha ou token', async () => {
     const response = await request(app.getHttpServer()).post('/api/auth/register').set(...csrf)
-      .send({ name: ' Novo Cliente ', username: ' Novo.Cliente ', password }).expect(201);
-    expect(response.body).toEqual({ id: 102, name: 'Novo Cliente', username: 'novo.cliente', role: 'CLIENTE' });
+      .send({ name: ' Novo Cliente ', email: ' Novo.Cliente@EXAMPLE.COM ', password }).expect(201);
+    expect(response.body).toEqual({ id: 102, name: 'Novo Cliente', username: null, email: 'novo.cliente@example.com', role: 'CLIENTE' });
     expect(users[2].passwordHash).not.toBe(password);
     expect(response.headers['set-cookie'][0]).toMatch(/HttpOnly/);
     expect(response.headers['set-cookie'][0]).toMatch(/SameSite=Lax/);
@@ -76,19 +77,64 @@ describe('Autenticação e permissões (guards reais)', () => {
 
   it('impede elevação de privilégio pelo cadastro', async () => {
     await request(app.getHttpServer()).post('/api/auth/register').set(...csrf)
-      .send({ name: 'Novo', username: 'novo', password, role: 'ADMIN' }).expect(400);
+      .send({ name: 'Novo', email: 'novo@example.com', password, role: 'ADMIN' }).expect(400);
     expect(users).toHaveLength(2);
   });
 
-  it.each(['123', ' '.repeat(14)])('rejeita senha fraca no cadastro público: %j', async (weak) => {
+  it.each(['123', ' '.repeat(14), 'sem-maiuscula-123!', 'SemNumeroAqui!!!', 'SemSimbolo123456', 'Senha Com Espaco123'])('rejeita senha fraca no cadastro público: %j', async (weak) => {
     await request(app.getHttpServer()).post('/api/auth/register').set(...csrf)
-      .send({ name: 'Novo', username: 'novo', password: weak }).expect(400);
+      .send({ name: 'Novo', email: 'novo@example.com', password: weak }).expect(400);
     expect(users).toHaveLength(2);
   });
 
   it('não permite duplicar usuário existente', async () => {
     await request(app.getHttpServer()).post('/api/auth/register').set(...csrf)
-      .send({ name: 'Novo', username: 'CLIENTE_TESTE', password }).expect(409);
+      .send({ name: 'Novo', email: 'CLIENTE@EXAMPLE.COM', password }).expect(409);
+  });
+
+  it('aceita e-mail normalizado no login com senha', async () => {
+    const response = await request(app.getHttpServer()).post('/api/auth/login').set(...csrf)
+      .send({ username: ' CLIENTE@EXAMPLE.COM ', password }).expect(200);
+    expect(response.body.id).toBe(101);
+    expect(response.body.email).toBe('cliente@example.com');
+  });
+
+  it('conta criada apenas com Google não aceita login por senha', async () => {
+    users.push({ id: 102, name: 'Google', username: null, email: 'google@example.com', googleSub: '123', passwordHash: null, role: 'CLIENTE' });
+    await request(app.getHttpServer()).post('/api/auth/login').set(...csrf)
+      .send({ username: 'google@example.com', password }).expect(401);
+    expect(sessions.size).toBe(0);
+  });
+
+  it.each(['invalido', '', 'nome@'])('recusa e-mail inválido no cadastro: %j', async (email) => {
+    await request(app.getHttpServer()).post('/api/auth/register').set(...csrf).send({ name: 'Cliente', email, password }).expect(400);
+    expect(users).toHaveLength(2);
+  });
+
+  it('callback Google cria cookie de sessão e redireciona cliente', async () => {
+    vi.spyOn(app.get(GoogleService), 'finish').mockResolvedValue({ sub: 'google-new', email: 'google@example.com', name: 'Google Cliente' });
+    const response = await request(app.getHttpServer()).get('/api/auth/google/callback?code=test&state=test').expect(302);
+    expect(response.headers.location).toBe('/conta');
+    expect(response.headers['set-cookie'].some((value: string) => value.startsWith('maiashoes_session=') && value.includes('HttpOnly'))).toBe(true);
+    expect(users[2].role).toBe('CLIENTE');
+  });
+
+  it('início Google define cookie HttpOnly e nunca expõe segredo no status', async () => {
+    const google = app.get(GoogleService);
+    vi.spyOn(google, 'configuration').mockReturnValue({ clientId: 'test', clientSecret: 'secret-test', origin: 'http://localhost:3000', redirectUri: 'http://localhost:3000/api/auth/google/callback' });
+    vi.spyOn(google, 'start').mockResolvedValue({ url: 'https://accounts.google.com/o/oauth2/v2/auth?state=test', browser: 'a'.repeat(64) });
+    const status = await request(app.getHttpServer()).get('/api/auth/google/status').expect(200);
+    expect(status.body).toEqual({ enabled: true, startUrl: 'http://localhost:3000/api/auth/google/start' });
+    const response = await request(app.getHttpServer()).get('/api/auth/google/start').expect(302);
+    expect(response.headers.location).toContain('https://accounts.google.com/');
+    expect(response.headers['set-cookie'][0]).toMatch(/maiashoes_google=.*HttpOnly/);
+    expect(response.headers['cache-control']).toBe('no-store');
+  });
+
+  it('callback inválida não cria sessão nem expõe detalhes de erro', async () => {
+    const response = await request(app.getHttpServer()).get('/api/auth/google/callback?code=bad&state=bad').expect(302);
+    expect(response.headers.location).toBe('/login?google=failed');
+    expect(sessions.size).toBe(0);
   });
 
   it.each(['admin_teste', 'nao_existe'])('usa erro genérico para credenciais incorretas: %s', async (username) => {

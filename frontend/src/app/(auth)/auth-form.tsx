@@ -1,12 +1,22 @@
 'use client';
 import Link from 'next/link';
-import { useRef, useState, type FormEvent } from 'react';
+import { useEffect, useRef, useState, type FormEvent } from 'react';
 import styles from './auth.module.css';
 
 export default function AuthForm({ register = false }: { register?: boolean }) {
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState('');
+  const [googleUrl, setGoogleUrl] = useState<string | null>(null);
   const sending = useRef(false);
+  useEffect(() => {
+    const controller = new AbortController();
+    fetch('/api/auth/google/status', { signal: controller.signal, cache: 'no-store' })
+      .then((response) => response.ok ? response.json() : null)
+      .then((result) => setGoogleUrl(result?.enabled === true ? result.startUrl : null)).catch(() => {});
+    const status = new URLSearchParams(window.location.search).get('google');
+    if (status) setError(status === 'existing' ? 'Este e-mail já tem uma conta. Entre com sua senha.' : status === 'unavailable' ? 'O login com Google ainda não está disponível.' : 'Não foi possível concluir o login com Google. Tente novamente.');
+    return () => controller.abort();
+  }, []);
   async function submit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     if (sending.current) return;
@@ -16,7 +26,7 @@ export default function AuthForm({ register = false }: { register?: boolean }) {
     try {
       const response = await fetch(`/api/auth/${register ? 'register' : 'login'}`, {
         method: 'POST', headers: { 'Content-Type': 'application/json', 'X-MaiaShoes-Request': '1' },
-        body: JSON.stringify({ username: data.get('username'), password: data.get('password'), ...(register ? { name: data.get('name') } : {}) }),
+        body: JSON.stringify({ password: data.get('password'), ...(register ? { name: data.get('name'), email: data.get('email') } : { username: data.get('username') }) }),
         signal: AbortSignal.timeout(15000),
       });
       const result = await response.json().catch(() => null);
@@ -35,16 +45,18 @@ export default function AuthForm({ register = false }: { register?: boolean }) {
     <form className={styles.form} onSubmit={submit}>
       <fieldset disabled={busy}>
         {register && <><label htmlFor="auth-name">Seu nome</label><input id="auth-name" name="name" required maxLength={100} autoComplete="name" /></>}
-        <label htmlFor="auth-username">Usuário</label>
-        <input id="auth-username" name="username" required minLength={3} maxLength={32} pattern="[a-zA-Z0-9_.-]{3,32}" autoComplete="username" autoCapitalize="none" spellCheck={false} />
-        {register && <small>Use de 3 a 32 letras, números, pontos, traços ou sublinhados.</small>}
+        <label htmlFor="auth-identity">{register ? 'E-mail' : 'E-mail ou usuário'}</label>
+        <input id="auth-identity" name={register ? 'email' : 'username'} type={register ? 'email' : 'text'} required maxLength={254} autoComplete={register ? 'email' : 'username'} autoCapitalize="none" spellCheck={false} />
         <label htmlFor="auth-password">Senha</label>
-        <input id="auth-password" name="password" type="password" required minLength={register ? 12 : 1} maxLength={128} autoComplete={register ? 'new-password' : 'current-password'} />
-        {register && <><small>Use pelo menos 12 caracteres. Uma frase longa é uma boa opção.</small><label htmlFor="auth-confirmation">Repita a senha</label><input id="auth-confirmation" name="confirmation" type="password" required minLength={12} maxLength={128} autoComplete="new-password" /></>}
+        <input id="auth-password" name="password" type="password" required minLength={register ? 12 : 1} maxLength={128} pattern={register ? '(?=.*[A-Z])(?=.*[0-9])(?=.*[^\\p{L}\\p{N}\\s]).{12,128}' : undefined} title={register ? '12 a 128 caracteres, uma letra maiúscula, um número e um símbolo.' : undefined} autoComplete={register ? 'new-password' : 'current-password'} aria-describedby={register ? 'password-rules' : undefined} />
+        {register && <><small id="password-rules">Use de 12 a 128 caracteres, com pelo menos uma letra maiúscula, um número e um símbolo (ex.: !, @, #).</small><label htmlFor="auth-confirmation">Repita a senha</label><input id="auth-confirmation" name="confirmation" type="password" required minLength={12} maxLength={128} autoComplete="new-password" /></>}
       </fieldset>
       {error && <p className={styles.error} role="alert">{error}</p>}
       <button type="submit" disabled={busy}>{busy ? 'Aguarde…' : register ? 'Criar minha conta' : 'Entrar'}</button>
     </form>
+    <div className={styles.google}>
+      {googleUrl ? <a href={googleUrl}>Entrar com Google</a> : <><button type="button" disabled>Entrar com Google</button><small>Entrar com Google ainda não está disponível.</small></>}
+    </div>
     <p className={styles.switch}>{register ? 'Já tem uma conta? ' : 'Ainda não tem conta? '}<Link href={register ? '/login' : '/cadastro'}>{register ? 'Entrar' : 'Criar conta de cliente'}</Link></p>
   </>;
 }

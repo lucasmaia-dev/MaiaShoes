@@ -13,7 +13,7 @@ async function Account() {
   return <section className={styles.card}>
     <p className={styles.eyebrow}>MINHA CONTA</p><h1>Olá, {user.name}.</h1>
     <p className={styles.intro}>Você está conectado à MaiaShoes.</p>
-    <div className={styles.details}><p>Usuário: <strong>{user.username}</strong></p><p>Perfil: <strong>{user.role === 'ADMIN' ? 'Administrador' : 'Cliente'}</strong></p></div>
+    <div className={styles.details}><p>{user.email ? 'E-mail' : 'Usuário'}: <strong>{user.email ?? user.username}</strong></p><p>Perfil: <strong>{user.role === 'ADMIN' ? 'Administrador' : 'Cliente'}</strong></p></div>
     <div className={styles.links}><Link href="/">Ver coleção ↗</Link>{user.role === 'ADMIN' && <Link href="/admin">Abrir painel</Link>}<LogoutButton /></div>
   </section>;
 }

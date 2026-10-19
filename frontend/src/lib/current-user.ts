@@ -1,7 +1,7 @@
 import 'server-only';
 import { cookies } from 'next/headers';
 
-export type CurrentUser = { id: number; name: string; username: string; role: 'ADMIN' | 'CLIENTE' };
+export type CurrentUser = { id: number; name: string; username: string | null; email: string | null; role: 'ADMIN' | 'CLIENTE' };
 
 export async function currentUser(): Promise<CurrentUser | null> {
   const token = (await cookies()).get('maiashoes_session')?.value;
