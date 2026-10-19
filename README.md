@@ -9,12 +9,13 @@ Aplicação full stack de uma loja de calçados e bolsas, com vitrine e painel d
 - Galeria com 76 fotos fornecidas para o projeto.
 - Seleção, troca e remoção da foto principal de produtos existentes.
 - Categorias no cadastro, classificação de produtos existentes e filtros na vitrine.
+- Login, cadastro de clientes, sessão com cookie HttpOnly e permissões de administrador na API.
 - Validação de dados na API e preços armazenados como decimal.
 - Persistência no PostgreSQL, com histórico de migrações.
 - Tratamento de carregamento, coleção vazia e falhas na consulta.
 - Testes automatizados e verificações no GitHub Actions.
 
-**Em desenvolvimento:** o painel ainda não possui autenticação. Esta versão foi preparada para uso local; acesso de administrador, estoque, carrinho e pagamentos fazem parte do planejamento.
+**Em desenvolvimento:** esta versão foi preparada para uso local. Estoque, carrinho, pedidos, recuperação de senha e pagamentos fazem parte do planejamento. O catálogo é público; as operações de escrita exigem administrador autenticado.
 
 ## Tecnologias
 
@@ -84,6 +85,17 @@ npm run start:dev
 
 API: [http://127.0.0.1:3001/api/health](http://127.0.0.1:3001/api/health).
 
+### Criar o primeiro administrador
+
+Em outro terminal de `backend/`, depois de configurar o banco:
+
+```powershell
+npm run build
+Copy-Item .env.admin.example .env.admin.local
+```
+
+Edite `.env.admin.local` com nome, usuário e uma senha local. Esse arquivo é ignorado pelo Git. Depois execute `npm run admin:create`. O comando cria apenas a primeira conta: não altera senhas nem promove clientes já existentes. Não há usuário ou senha padrão no repositório.
+
 ### 3. Iniciar o front-end
 
 Em outro terminal, a partir da raiz:
@@ -96,8 +108,13 @@ npm run dev
 
 - Loja: [http://localhost:3000](http://localhost:3000).
 - Painel: [http://localhost:3000/admin](http://localhost:3000/admin).
+- Login: [http://localhost:3000/login](http://localhost:3000/login).
+- Cadastro de cliente: [http://localhost:3000/cadastro](http://localhost:3000/cadastro).
+- Conta: [http://localhost:3000/conta](http://localhost:3000/conta).
 
 Cadastre um produto pelo painel, selecione uma foto e atualize a loja. Cada cadastro cria um registro novo. Para ver dados, a API e o PostgreSQL precisam estar em execução.
+
+O painel exige login de administrador. O cadastro público cria somente clientes. A documentação de [login e permissões](docs/AUTENTICACAO.md) explica sessões, proteção das rotas e exercícios para verificar os dois perfis.
 
 O script `backend/scripts/setup-local-db.mjs` é uma conveniência específica do ambiente original. A instalação a partir de um clone segue os passos acima e não exige as credenciais administrativas do autor.
 
@@ -129,6 +146,10 @@ docs/                      # Prévias e registro de aprendizado
 | POST | `/api/products` | Cadastrar um produto |
 | PATCH | `/api/products/:id/image` | Alterar ou remover a foto principal |
 | PATCH | `/api/products/:id/category` | Alterar a categoria de um produto existente |
+| POST | `/api/auth/register` | Criar conta de cliente e iniciar sessão |
+| POST | `/api/auth/login` | Entrar com usuário e senha |
+| GET | `/api/auth/me` | Consultar a própria sessão |
+| POST | `/api/auth/logout` | Revogar a sessão e limpar o cookie |
 
 Exemplo de cadastro:
 
@@ -143,6 +164,8 @@ Exemplo de cadastro:
 ```
 
 O preço é enviado como texto decimal para preservar os centavos. A API aceita somente caminhos das fotos importadas. O campo de imagem é opcional; `null` remove a associação na rota de atualização.
+
+POST e PATCH de produtos exigem sessão de administrador. As chamadas de escrita também exigem `X-MaiaShoes-Request: 1`; o front-end envia esse cabeçalho automaticamente como proteção contra solicitações de outros sites.
 
 ## Verificações
 
@@ -165,7 +188,8 @@ Os testes HTTP usam um substituto do banco para verificar os contratos e as vali
 ## Próximas etapas
 
 - [x] Categorias no cadastro e filtros na vitrine.
-- [ ] Autenticação e autorização de administrador.
+- [x] Autenticação e autorização de administrador.
+- [ ] Recuperação de senha e verificação de contato.
 - [ ] Estoque por tamanho e cor.
 - [ ] Edição completa de produtos.
 - [ ] Carrinho e pedidos.

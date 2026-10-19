@@ -19,6 +19,7 @@ async function requestProducts<T>(options: RequestInit = {}, path = '/api/produc
     const timeout = AbortSignal.timeout(10000);
     response = await fetch(path, {
       ...options,
+      headers: { 'X-MaiaShoes-Request': '1', ...options.headers },
       cache: 'no-store',
       signal: options.signal ? AbortSignal.any([options.signal, timeout]) : timeout,
     });
@@ -27,6 +28,8 @@ async function requestProducts<T>(options: RequestInit = {}, path = '/api/produc
   }
 
   if (!response.ok) {
+    if (response.status === 401) throw new Error('Sua sessão expirou. Entre novamente para continuar.');
+    if (response.status === 403) throw new Error('Você não tem permissão para alterar os produtos.');
     if (response.status === 400) {
       const error = await response.json().catch(() => null);
       if (Array.isArray(error?.message) && error.message.every((item: unknown) => typeof item === 'string')) {

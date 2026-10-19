@@ -1,5 +1,6 @@
 import Image from "next/image";
 import ProductCatalog from "./components/product-catalog";
+import Link from "next/link";
 
 function ProductArtwork({ bag = false }: { bag?: boolean }) {
   return bag ? (
@@ -28,7 +29,7 @@ export default function Home() {
       <div className="announcement">MAIA SHOES & BAGS <span>·</span> Cada detalhe, um pouco de você.</div>
       <header className="header container">
         <a href="#inicio" aria-label="MaiaShoes — início" className="brand"><Image src="/logo-maia.jpg" width={76} height={76} alt="Maia shoes" priority /></a>
-        <nav aria-label="Menu principal"><a href="#colecao">Coleção</a><a href="#sobre">Nossa essência</a></nav>
+        <nav aria-label="Menu principal"><a href="#colecao">Coleção</a><a href="#sobre">Nossa essência</a><Link href="/conta">Minha conta</Link></nav>
         <a href="#colecao" className="header-link">Encontre seu próximo favorito ↗</a>
       </header>
       <main id="inicio">

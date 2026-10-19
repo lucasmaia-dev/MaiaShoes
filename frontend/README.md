@@ -46,4 +46,10 @@ Escolha Tênis, Bolsas ou Sem categoria no cadastro. Para classificar os produto
 
 Os rótulos e tipos ficam em `src/lib/product-categories.ts`. No banco, o enum usa os valores `TENIS`, `BOLSAS` e `SEM_CATEGORIA`.
 
-Esta versão é local e ainda não tem autenticação de administrador.
+## Login
+
+`/login` permite entrar com usuário e senha. `/cadastro` cria somente contas de cliente. `/conta` é a área da própria conta; `/admin` exige administrador.
+
+O cookie de sessão é HttpOnly e validado pelo servidor em `src/lib/current-user.ts`. As páginas privadas usam Suspense e não compartilham cache de usuário. As permissões de escrita são verificadas novamente pela API. Para sair, use o botão Sair.
+
+Esta versão continua em desenvolvimento local. Veja `docs/AUTENTICACAO.md` na raiz para configurar o primeiro administrador e conferir os limites desta etapa.

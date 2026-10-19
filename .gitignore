@@ -1,6 +1,7 @@
 
 .env*
 !.env.example
+!.env.admin.example
 
 # Dependências e arquivos gerados
 node_modules/

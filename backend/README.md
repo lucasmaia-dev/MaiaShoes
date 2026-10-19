@@ -68,7 +68,7 @@ Invoke-RestMethod -Uri 'http://127.0.0.1:3001/api/products' -Method Post -Conten
 
 Cada POST válido cria um novo registro. Para apenas consultar, abra http://127.0.0.1:3001/api/products ou use `Invoke-RestMethod` com esse endereço, sem `-Method Post`.
 
-A API continua restrita ao computador local. Login de administrador e formulário do painel serão implementados nas próximas etapas. O front-end ainda usa o catálogo de exemplo.
+A API continua restrita ao computador local. As rotas de escrita de produtos exigem uma sessão de administrador e o cabeçalho `X-MaiaShoes-Request: 1`. A vitrine e o painel consultam os produtos reais do banco. Os exemplos de escrita pelo terminal exigem também o cookie recebido no login; para praticar o cadastro, use o painel autenticado.
 
 ## Foto principal
 
@@ -84,7 +84,15 @@ Os valores aceitos são `TENIS`, `BOLSAS` e `SEM_CATEGORIA`. O campo `category` 
 
 A migração `add_product_category` adiciona um enum e uma coluna com valor padrão. Os produtos anteriores são preservados como `SEM_CATEGORIA`, sem inferência pelo nome ou pela foto.
 
-## Executar as verificações
+## Autenticação
+
+As rotas `/api/auth/register`, `/api/auth/login`, `/api/auth/me` e `/api/auth/logout` fazem cadastro de cliente, login, consulta da sessão e logout. O login usa usuário e senha. Sessões são armazenadas por hash do token no banco, e senhas usam scrypt com salt individual.
+
+Para criar o primeiro administrador, copie `.env.admin.example` para `.env.admin.local`, preencha os dados locais e execute `npm run build` e `npm run admin:create`. Nenhuma senha padrão é publicada. Os testes HTTP de autenticação usam os guards reais; os de produtos substituem os guards para isolar suas validações.
+
+Mais detalhes e exemplos estão em `docs/AUTENTICACAO.md` na raiz.
+
+## Comandos de verificação
 
 ```powershell
 npm run build

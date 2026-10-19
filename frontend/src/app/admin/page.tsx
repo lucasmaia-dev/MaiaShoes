@@ -3,6 +3,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import ProductsPanel from './products-panel';
 import styles from './admin.module.css';
+import LogoutButton from '../components/logout-button';
 
 export const metadata: Metadata = {
   title: 'Produtos | Painel MaiaShoes',
@@ -18,6 +19,7 @@ export default function AdminPage() {
           <span>MAIA SHOES <small>PAINEL ADMINISTRATIVO</small></span>
         </Link>
         <Link href="/" className={styles.storeLink}>Ver loja ↗</Link>
+        <LogoutButton />
       </header>
       <main className={styles.main}>
         <div className={styles.intro}>
@@ -25,7 +27,7 @@ export default function AdminPage() {
           <h1>Produtos</h1>
           <p>Cadastre os detalhes de cada peça e acompanhe seus produtos em um só lugar.</p>
         </div>
-        <p className={styles.localNotice}>Versão local de estudo · O acesso de administrador com login será adicionado em uma próxima etapa.</p>
+        <p className={styles.localNotice}>Área do administrador · Cadastros e alterações exigem uma sessão autorizada.</p>
         <ProductsPanel />
       </main>
       <footer className={styles.footer}>MAIA SHOES & BAGS <span>Cuidar dos detalhes faz parte.</span></footer>
