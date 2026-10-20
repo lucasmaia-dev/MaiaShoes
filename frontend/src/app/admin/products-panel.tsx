@@ -130,7 +130,7 @@ export default function ProductsPanel() {
             <strong>{currency.format(Number(product.price))}</strong>
           </li>)}
         </ul>
-        <p className={styles.listNote}>Os produtos desta lista estão salvos no banco e aparecem na vitrine. Abra a loja ou recarregue o catálogo para conferir.</p>
+        <p className={styles.listNote}>A vitrine mostra produtos com foto e categoria definida. Cadastros sem foto ou sem categoria continuam disponíveis aqui para você completar.</p>
       </section>
     </div>
   );

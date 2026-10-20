@@ -1,73 +1,329 @@
-'use client';
+"use client";
 
-import { useCallback, useEffect, useState } from 'react';
-import { listProducts, type Product } from '@/lib/products-api';
-import ProductGallery from './product-gallery';
-import { PRODUCT_CATEGORIES, categoryLabel, type ProductCategory } from '@/lib/product-categories';
+import { useCallback, useEffect, useRef, useState } from "react";
+import Image from "next/image";
+import Link from "next/link";
+import { useSearchParams } from "next/navigation";
+import { listProducts, type Product } from "@/lib/products-api";
+import { PUBLIC_CATEGORIES, categoryLabel } from "@/lib/product-categories";
+import ProductGallery from "./product-gallery";
 
-const currency = new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' });
+const currency = new Intl.NumberFormat("pt-BR", {
+  style: "currency",
+  currency: "BRL",
+});
+const normalize = (text: string) =>
+  text
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .toLocaleLowerCase("pt-BR");
+const gallery = (product: Product) =>
+  product.imageUrls.length ? product.imageUrls : [product.imageUrl!];
+
+function ProductDetails({
+  product,
+  close,
+}: {
+  product: Product;
+  close: () => void;
+}) {
+  const dialog = useRef<HTMLDialogElement>(null);
+  useEffect(() => {
+    const element = dialog.current!;
+    const previousOverflow = document.body.style.overflow;
+    element.showModal();
+    document.body.style.overflow = "hidden";
+    return () => {
+      element.close();
+      document.body.style.overflow = previousOverflow;
+    };
+  }, []);
+  return (
+    <dialog
+      ref={dialog}
+      className="product-dialog"
+      aria-labelledby="detail-title"
+      onCancel={(event) => {
+        event.preventDefault();
+        close();
+      }}
+      onClick={(event) => {
+        if (event.target === event.currentTarget) close();
+      }}
+    >
+      <div className="detail-layout">
+        <ProductGallery name={product.name} images={gallery(product)} />
+        <div className="detail-copy">
+          <button
+            autoFocus
+            className="dialog-close"
+            type="button"
+            onClick={close}
+            aria-label="Fechar detalhes"
+          >
+            ×
+          </button>
+          <p className="eyebrow">MAIA / {categoryLabel(product.category)}</p>
+          <h2 id="detail-title">{product.name}</h2>
+          <p className="detail-price">
+            {currency.format(Number(product.price))}
+          </p>
+          {product.description &&
+            product.description !==
+              "Consulte a disponibilidade de numeração com a MaiaShoes." && (
+              <p className="detail-description">{product.description}</p>
+            )}
+          <div className="availability">
+            <span aria-hidden="true">◇</span>
+            <p>
+              A sua próxima escolha começa pelos detalhes.
+              <br />
+              Consulte a disponibilidade desta peça antes de comprar.
+            </p>
+          </div>
+          <button className="button" onClick={close} type="button">
+            Continuar explorando <span aria-hidden="true">↗</span>
+          </button>
+        </div>
+      </div>
+    </dialog>
+  );
+}
 
 export default function ProductCatalog() {
+  const params = useSearchParams();
+  const category =
+    PUBLIC_CATEGORIES.find((item) => item.value === params.get("categoria"))
+      ?.value ?? "TENIS";
+  // A chave reinicia busca e paginação quando o visitante troca de categoria, inclusive pelo histórico.
+  return <CategoryCatalog key={category} category={category} />;
+}
+
+function CategoryCatalog({
+  category,
+}: {
+  category: (typeof PUBLIC_CATEGORIES)[number]["value"];
+}) {
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
-  const [category, setCategory] = useState<ProductCategory | 'TODOS'>('TODOS');
-
-  // Reutiliza a mesma consulta que alimenta o painel administrativo.
-  const loadProducts = useCallback(async (signal?: AbortSignal) => {
-    setLoading(true);
-    setError(false);
-    try {
-      const result = await listProducts(signal);
-      if (!signal?.aborted) setProducts(result);
-    } catch {
-      if (!signal?.aborted) setError(true);
-    } finally {
-      if (!signal?.aborted) setLoading(false);
-    }
+  const [search, setSearch] = useState("");
+  const [sort, setSort] = useState("selection");
+  const [limit, setLimit] = useState(12);
+  const [selected, setSelected] = useState<Product | null>(null);
+  const opener = useRef<HTMLButtonElement | null>(null);
+  const loadProducts = useCallback((signal?: AbortSignal) => {
+    return listProducts(signal).then(
+      (result) => {
+        if (signal?.aborted) return;
+        setProducts(result);
+        setLoading(false);
+      },
+      () => {
+        if (signal?.aborted) return;
+        setError(true);
+        setLoading(false);
+      },
+    );
   }, []);
-
   useEffect(() => {
     const controller = new AbortController();
     void loadProducts(controller.signal);
     return () => controller.abort();
   }, [loadProducts]);
 
-  if (loading) return <p className="catalog-message" role="status">Carregando a coleção…</p>;
-
-  if (error) return (
-    <div className="catalog-message catalog-error">
-      <p role="alert">Não foi possível carregar a coleção. Tente novamente em instantes.</p>
-      <button type="button" onClick={() => void loadProducts()}>Tentar novamente</button>
-    </div>
+  const categoryProducts = products.filter(
+    (product) => product.imageUrl && product.category === category,
   );
-
-  if (products.length === 0) return (
-    <div className="catalog-message"><h3>Novidades a caminho.</h3><p>Nossa coleção está sendo preparada. Volte em breve para conhecer as peças.</p></div>
-  );
-
-  const visibleProducts = products.filter((product) => category === 'TODOS' || product.category === category);
+  const matches = categoryProducts
+    .filter((product) =>
+      normalize(product.name).includes(normalize(search.trim())),
+    )
+    .sort((a, b) => {
+      if (sort === "price-asc") return Number(a.price) - Number(b.price);
+      if (sort === "price-desc") return Number(b.price) - Number(a.price);
+      if (sort === "name") return a.name.localeCompare(b.name, "pt-BR");
+      return a.id - b.id;
+    });
+  const closeDetails = () => {
+    setSelected(null);
+    opener.current?.focus();
+  };
 
   return (
     <>
-      <div className="catalog-filters" role="group" aria-label="Filtrar produtos por categoria">
-        <button type="button" aria-pressed={category === 'TODOS'} onClick={() => setCategory('TODOS')}>Todos</button>
-        {PRODUCT_CATEGORIES.map((item) => <button key={item.value} type="button" aria-pressed={category === item.value} onClick={() => setCategory(item.value)}>{item.label}</button>)}
+      <nav className="catalog-tabs" aria-label="Filtrar coleção por categoria">
+        {PUBLIC_CATEGORIES.map((item) => (
+          <Link
+            key={item.value}
+            href={`/?categoria=${item.value}#colecao`}
+            aria-current={item.value === category ? "page" : undefined}
+          >
+            {item.label}
+            <span aria-hidden="true">↗</span>
+          </Link>
+        ))}
+      </nav>
+      <div className="catalog-toolbar">
+        <label className="catalog-search">
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="1.5"
+            aria-hidden="true"
+          >
+            <circle cx="10.5" cy="10.5" r="6.5" />
+            <path d="m16 16 5 5" />
+          </svg>
+          <span className="sr-only">Buscar em {categoryLabel(category)}</span>
+          <input
+            type="search"
+            placeholder={`Encontre seu favorito em ${categoryLabel(category).toLowerCase()}`}
+            value={search}
+            onChange={(event) => {
+              setSearch(event.target.value);
+              setLimit(12);
+            }}
+          />
+        </label>
+        <label className="catalog-sort">
+          <span>Ordenar por</span>
+          <select
+            value={sort}
+            onChange={(event) => {
+              setSort(event.target.value);
+              setLimit(12);
+            }}
+          >
+            <option value="selection">Seleção Maia</option>
+            <option value="price-asc">Menor preço</option>
+            <option value="price-desc">Maior preço</option>
+            <option value="name">Nome: A a Z</option>
+          </select>
+        </label>
       </div>
-      <p className="catalog-count" role="status">{visibleProducts.length} {visibleProducts.length === 1 ? 'produto encontrado' : 'produtos encontrados'}</p>
-      {visibleProducts.length === 0 && <div className="catalog-message"><h3>Novidades a caminho.</h3><p>Ainda não há produtos nesta categoria. Escolha outra opção para continuar.</p></div>}
-      <div className="product-grid">
-        {visibleProducts.map((product) => <article className="product-card" key={product.id}>
-          {product.imageUrl ? <ProductGallery name={product.name} images={product.imageUrls?.length ? product.imageUrls : [product.imageUrl]} /> : <div className="product-art product-placeholder">
-            <span className="product-tag">MAIA SELECTION</span>
-            <svg viewBox="0 0 160 160" aria-hidden="true" focusable="false"><path d="M45 52h70l8 80H37zM61 52V39a19 19 0 0 1 38 0v13" fill="none" stroke="currentColor" strokeWidth="2" /><path d="M65 84l15 23 15-23" fill="none" stroke="currentColor" strokeWidth="1.5" /></svg>
-            <span className="placeholder-label">Foto em breve</span>
-          </div>}
-          <p className="product-category">{categoryLabel(product.category)}</p>
-          <div className="product-info"><h3>{product.name}</h3><strong>{currency.format(Number(product.price))}</strong></div>
-          {product.description && <p className="product-description">{product.description}</p>}
-        </article>)}
-      </div>
+      {loading ? (
+        <div className="catalog-message" role="status">
+          Carregando seus próximos favoritos…
+        </div>
+      ) : error ? (
+        <div className="catalog-message">
+          <p role="alert">Não foi possível carregar a coleção.</p>
+          <button
+            className="button"
+            type="button"
+            onClick={() => {
+              setLoading(true);
+              setError(false);
+              void loadProducts();
+            }}
+          >
+            Tentar novamente ↗
+          </button>
+        </div>
+      ) : (
+        <>
+          <div className="catalog-meta">
+            <p role="status">
+              {matches.length}{" "}
+              {matches.length === 1 ? "peça encontrada" : "peças encontradas"}
+              <span> / {categoryLabel(category)}</span>
+            </p>
+            <span>ESCOLHA NO SEU TEMPO</span>
+          </div>
+          {!matches.length && (
+            <div className="catalog-empty">
+              <span className="empty-monogram" aria-hidden="true">
+                M
+              </span>
+              <h3>
+                {categoryProducts.length
+                  ? "Vamos tentar outra busca?"
+                  : `${categoryLabel(category)}: o próximo capítulo.`}
+              </h3>
+              <p>
+                {categoryProducts.length
+                  ? "Ainda não encontramos uma peça com esse nome. Experimente outra palavra."
+                  : "Estamos preparando esta seleção. Enquanto isso, descubra os tênis que já fazem parte da Maia."}
+              </p>
+              {categoryProducts.length ? (
+                <button
+                  className="text-link"
+                  type="button"
+                  onClick={() => {
+                    setSearch("");
+                    setLimit(12);
+                  }}
+                >
+                  Limpar busca ↗
+                </button>
+              ) : (
+                <Link className="text-link" href="/?categoria=TENIS#colecao">
+                  Explorar tênis ↗
+                </Link>
+              )}
+            </div>
+          )}
+          <div className="product-grid">
+            {matches.slice(0, limit).map((product) => (
+              <article className="product-card" key={product.id}>
+                <button
+                  type="button"
+                  className="product-open"
+                  onClick={(event) => {
+                    opener.current = event.currentTarget;
+                    setSelected(product);
+                  }}
+                  aria-label={`Ver detalhes de ${product.name}`}
+                >
+                  <div className="product-photo">
+                    <Image
+                      src={product.imageUrl!}
+                      alt={product.name}
+                      fill
+                      sizes="(max-width: 700px) 45vw, (max-width: 1050px) 30vw, 23vw"
+                    />
+                    <span className="product-view">
+                      Ver detalhes <span aria-hidden="true">↗</span>
+                    </span>
+                    {gallery(product).length > 1 && (
+                      <span className="photo-count">
+                        {gallery(product).length} fotos
+                      </span>
+                    )}
+                  </div>
+                  <div className="product-info">
+                    <p className="product-category">
+                      {categoryLabel(product.category)} / Maia selection
+                    </p>
+                    <h3>{product.name}</h3>
+                    <p className="product-price">
+                      {currency.format(Number(product.price))}
+                    </p>
+                  </div>
+                </button>
+              </article>
+            ))}
+          </div>
+          {limit < matches.length && (
+            <div className="load-more">
+              <p>
+                Você viu {Math.min(limit, matches.length)} de {matches.length}{" "}
+                peças.
+              </p>
+              <button
+                className="outline-button"
+                type="button"
+                onClick={() => setLimit((value) => value + 12)}
+              >
+                Ver mais peças <span aria-hidden="true">↓</span>
+              </button>
+            </div>
+          )}
+        </>
+      )}
+      {selected && <ProductDetails product={selected} close={closeDetails} />}
     </>
   );
 }

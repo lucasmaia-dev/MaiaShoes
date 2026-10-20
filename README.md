@@ -4,9 +4,12 @@ Aplicação full stack de uma loja de calçados e bolsas, com vitrine e painel d
 
 ## Funcionalidades
 
-- Vitrine responsiva com nome, descrição, preço e foto principal dos produtos.
+- Vitrine editorial responsiva com fotos reais, tipografia e cores da identidade Maia.
+- Navegação separada em Tênis, Sapatos, Sandálias e Bolsas, com links compartilháveis por categoria.
+- Busca por nome, ordenação por preço ou nome e carregamento de mais peças sob demanda.
+- Detalhes do produto em janela com galeria, navegação por teclado e retorno à coleção.
 - Cadastro de produtos pelo painel administrativo.
-- Galeria com 76 fotos fornecidas para o projeto.
+- Galeria com 100 fotos fornecidas para o projeto.
 - Seleção, troca e remoção da foto principal de produtos existentes.
 - Categorias no cadastro, classificação de produtos existentes e filtros na vitrine.
 - Login, cadastro de clientes, sessão com cookie HttpOnly e permissões de administrador na API.
@@ -16,6 +19,8 @@ Aplicação full stack de uma loja de calçados e bolsas, com vitrine e painel d
 - Testes automatizados e verificações no GitHub Actions.
 
 **Em desenvolvimento:** esta versão foi preparada para uso local. Estoque, carrinho, pedidos, recuperação de senha e pagamentos fazem parte do planejamento. O catálogo é público; as operações de escrita exigem administrador autenticado.
+
+A vitrine exibe somente produtos com foto e categoria definida. Cadastros incompletos continuam no painel administrativo. No catálogo atual, as 46 peças com preços confirmados são tênis; Sapatos, Sandálias e Bolsas mostram uma seleção em preparação até receberem produtos completos. A reorganização visual não altera os preços.
 
 ## Tecnologias
 
@@ -37,7 +42,7 @@ O Next.js encaminha as chamadas `/api/products` para o NestJS na porta 3001. As 
 
 ### Vitrine
 
-![Vitrine MaiaShoes](docs/vitrine.jpg)
+![Vitrine MaiaShoes](docs/vitrine-editorial.png)
 
 ### Painel de produtos e galeria
 

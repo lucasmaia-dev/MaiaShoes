@@ -1,0 +1,2 @@
+ALTER TYPE "ProductCategory" ADD VALUE 'SAPATOS';
+ALTER TYPE "ProductCategory" ADD VALUE 'SANDALIAS';
