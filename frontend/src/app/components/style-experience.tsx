@@ -94,12 +94,12 @@ export default function StyleExperience() {
         </span>
         <h1>{look.title}</h1>
         <p>{look.caption}</p>
-        <Link href="/?categoria=TENIS#colecao" className="button button-light">
+        <a href="#colecao" className="button button-light">
           Explorar coleção{" "}
           <span className="round-arrow" aria-hidden="true">
             ↗
           </span>
-        </Link>
+        </a>
       </div>
       <Link
         className="stage-pick"

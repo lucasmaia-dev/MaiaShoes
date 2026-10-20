@@ -65,9 +65,9 @@ export default function Home() {
               <p className="eyebrow">EXPLORE POR CATEGORIA</p>
               <h2 id="categories-title">Qual é a sua vibe?</h2>
             </div>
-            <Link className="text-link" href="/?categoria=TENIS#colecao">
+            <a className="text-link" href="#colecao">
               Ver a coleção <span aria-hidden="true">↗</span>
-            </Link>
+            </a>
           </div>
           <nav className="category-grid" aria-label="Categorias de produtos">
             {categories.map((category, index) => (
@@ -108,6 +108,9 @@ export default function Home() {
                   </div>
                 )}
                 <span className="category-index">0{index + 1}</span>
+                {category.value !== "TENIS" && (
+                  <span className="category-coming">Em breve</span>
+                )}
                 <div className="category-caption">
                   <div>
                     <h3>{category.label}</h3>
@@ -173,29 +176,26 @@ export default function Home() {
               <br />
               Para todas as versões de você.
             </p>
-            <Link
-              className="button button-light"
-              href="/?categoria=TENIS#colecao"
-            >
+            <a className="button button-light" href="#colecao">
               Encontre sua Maia{" "}
               <span className="round-arrow" aria-hidden="true">
                 ↗
               </span>
-            </Link>
+            </a>
           </div>
         </section>
       </main>
       <footer className="footer container">
         <div className="footer-top">
           <a href="#inicio" className="footer-wordmark">
-            maia<span>®</span>
+            maia<span>SHOES & BAGS</span>
           </a>
           <p>O próximo passo é seu.</p>
         </div>
         <div className="footer-bottom">
           <span>© Maia Shoes & Bags</span>
           <nav aria-label="Menu do rodapé">
-            <Link href="/?categoria=TENIS#colecao">Coleção</Link>
+            <a href="#colecao">Coleção</a>
             <Link href="/conta">Minha conta</Link>
             <a href="#inicio">Voltar ao topo ↑</a>
           </nav>

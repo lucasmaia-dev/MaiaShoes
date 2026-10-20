@@ -32,7 +32,7 @@ export default function StoreHeader() {
           </span>
         </Link>
         <nav className="desktop-nav" aria-label="Menu principal">
-          <Link href="/?categoria=TENIS#colecao">Explorar coleção</Link>
+          <a href="#colecao">Explorar coleção</a>
           <a href="#categorias">Categorias</a>
           <a href="#sobre">Universo Maia</a>
         </nav>
@@ -75,14 +75,14 @@ export default function StoreHeader() {
               <span />
             </summary>
             <nav aria-label="Menu no celular">
-              <Link
-                href="/?categoria=TENIS#colecao"
+              <a
+                href="#colecao"
                 onClick={() => {
                   if (menu.current) menu.current.open = false;
                 }}
               >
                 Explorar coleção ↗
-              </Link>
+              </a>
               <a
                 href="#categorias"
                 onClick={() => {

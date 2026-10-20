@@ -6,7 +6,7 @@ Aplicação full stack de uma loja de calçados e bolsas, com vitrine e painel d
 
 - Vitrine interativa com três estilos visuais, transições, fotos reais e navegação flutuante.
 - Navegação separada em Tênis, Sapatos, Sandálias e Bolsas, com links compartilháveis por categoria.
-- Busca por nome, filtros por marca, ordenação e carregamento de mais peças sob demanda.
+- Busca por nome, painel de filtros por marca e preço com prévia de resultados, ordenação e carregamento de mais peças sob demanda.
 - Favoritos salvos no navegador, com seleção e remoção na própria coleção.
 - Detalhes em janela com galeria, zoom, navegação por teclado e retorno à coleção.
 - Categorias com fotos e navegação horizontal por deslize no celular.

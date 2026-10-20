@@ -6,19 +6,18 @@ import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { listProducts, type Product } from "@/lib/products-api";
 import { PUBLIC_CATEGORIES, categoryLabel } from "@/lib/product-categories";
-import ProductGallery from "./product-gallery";
 import { useFavorites } from "@/lib/favorites";
+import {
+  DEFAULT_FILTERS,
+  currency,
+  normalize,
+  matchesFilters,
+  type CatalogFilters,
+} from "@/lib/catalog-filters";
+import ProductDetails from "./product-details";
 import { HeartIcon } from "./store-header";
+import CatalogFilterPanel, { FilterIcon } from "./catalog-filter-panel";
 
-const currency = new Intl.NumberFormat("pt-BR", {
-  style: "currency",
-  currency: "BRL",
-});
-const normalize = (text: string) =>
-  text
-    .normalize("NFD")
-    .replace(/[\u0300-\u036f]/g, "")
-    .toLocaleLowerCase("pt-BR");
 const gallery = (product: Product) =>
   product.imageUrls.length ? product.imageUrls : [product.imageUrl!];
 const featuredNames = [
@@ -31,78 +30,26 @@ const selectionRank = (product: Product) => {
   const rank = featuredNames.indexOf(product.name);
   return rank < 0 ? featuredNames.length : rank;
 };
+const sortLabels: Record<string, string> = {
+  "price-asc": "Menor preço",
+  "price-desc": "Maior preço",
+  name: "Nome: A a Z",
+};
 
-function ProductDetails({
-  product,
-  close,
-}: {
-  product: Product;
-  close: () => void;
-}) {
-  const dialog = useRef<HTMLDialogElement>(null);
-  const requestClose = () => {
-    dialog.current?.close();
-    close();
-  };
-  useEffect(() => {
-    const element = dialog.current!;
-    const previousOverflow = document.body.style.overflow;
-    element.showModal();
-    document.body.style.overflow = "hidden";
-    return () => {
-      element.close();
-      document.body.style.overflow = previousOverflow;
-    };
-  }, []);
+function CatalogSkeleton() {
   return (
-    <dialog
-      ref={dialog}
-      className="product-dialog"
-      aria-labelledby="detail-title"
-      onCancel={(event) => {
-        event.preventDefault();
-        requestClose();
-      }}
-      onClick={(event) => {
-        if (event.target === event.currentTarget) requestClose();
-      }}
-    >
-      <div className="detail-layout">
-        <ProductGallery name={product.name} images={gallery(product)} />
-        <div className="detail-copy">
-          <button
-            autoFocus
-            className="dialog-close"
-            type="button"
-            onClick={requestClose}
-            aria-label="Fechar detalhes"
-          >
-            ×
-          </button>
-          <p className="eyebrow">MAIA / {categoryLabel(product.category)}</p>
-          <h2 id="detail-title">{product.name}</h2>
-          <p className="detail-price">
-            {currency.format(Number(product.price))}
-          </p>
-          {product.description &&
-            product.description !==
-              "Consulte a disponibilidade de numeração com a MaiaShoes." && (
-              <p className="detail-description">{product.description}</p>
-            )}
-          <div className="availability">
-            <span aria-hidden="true">◇</span>
-            <p>
-              A sua próxima escolha começa pelos detalhes.
-              <br />
-              Consulte a disponibilidade desta peça antes de comprar.
-            </p>
+    <div role="status" aria-label="Carregando a coleção">
+      <span className="sr-only">Carregando a coleção…</span>
+      <div className="product-grid catalog-skeleton" aria-hidden="true">
+        {Array.from({ length: 8 }, (_, index) => (
+          <div key={index}>
+            <div className="skeleton-photo" />
+            <div className="skeleton-line" />
+            <div className="skeleton-line short" />
           </div>
-          <button className="button" onClick={requestClose} type="button">
-            Continuar explorando <span aria-hidden="true">↗</span>
-          </button>
-        </div>
+        ))}
       </div>
-    </dialog>
+    </div>
   );
 }
 
@@ -113,82 +60,122 @@ export default function ProductCatalog() {
       ?.value ?? "TENIS";
   const initialSearch = params.get("busca") ?? "";
   const onlyFavorites = params.get("favoritos") === "1";
-  // A URL permite chegar a uma peça pelo destaque e compartilhar uma categoria.
+  // A troca de categoria reutiliza os dados carregados, sem piscar toda a coleção.
+  const [products, setProducts] = useState<Product[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(false);
+  const loadProducts = useCallback(
+    (signal?: AbortSignal) =>
+      listProducts(signal).then(
+        (result) => {
+          if (signal?.aborted) return;
+          setProducts(result);
+          setLoading(false);
+        },
+        () => {
+          if (!signal?.aborted) {
+            setError(true);
+            setLoading(false);
+          }
+        },
+      ),
+    [],
+  );
+  useEffect(() => {
+    const controller = new AbortController();
+    void loadProducts(controller.signal);
+    return () => controller.abort();
+  }, [loadProducts]);
   return (
     <CategoryCatalog
       key={`${category}:${initialSearch}:${onlyFavorites}`}
       category={category}
       initialSearch={initialSearch}
       onlyFavorites={onlyFavorites}
+      products={products}
+      loading={loading}
+      error={error}
+      retry={() => {
+        setLoading(true);
+        setError(false);
+        void loadProducts();
+      }}
     />
   );
 }
+
+type CatalogProps = {
+  category: (typeof PUBLIC_CATEGORIES)[number]["value"];
+  initialSearch: string;
+  onlyFavorites: boolean;
+  products: Product[];
+  loading: boolean;
+  error: boolean;
+  retry: () => void;
+};
 
 function CategoryCatalog({
   category,
   initialSearch,
   onlyFavorites,
-}: {
-  category: (typeof PUBLIC_CATEGORIES)[number]["value"];
-  initialSearch: string;
-  onlyFavorites: boolean;
-}) {
-  const [products, setProducts] = useState<Product[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(false);
+  products,
+  loading,
+  error,
+  retry,
+}: CatalogProps) {
   const [search, setSearch] = useState(initialSearch);
-  const [brand, setBrand] = useState("Todas");
-  const { ids: favorites, toggle: toggleFavorite } = useFavorites();
-  const [sort, setSort] = useState("selection");
+  const [filters, setFilters] = useState<CatalogFilters>(DEFAULT_FILTERS);
+  const [filtersOpen, setFiltersOpen] = useState(false);
   const [limit, setLimit] = useState(12);
   const [selected, setSelected] = useState<Product | null>(null);
+  const { ids: favorites, toggle: toggleFavorite } = useFavorites();
   const opener = useRef<HTMLButtonElement | null>(null);
-  const loadProducts = useCallback((signal?: AbortSignal) => {
-    return listProducts(signal).then(
-      (result) => {
-        if (signal?.aborted) return;
-        setProducts(result);
-        setLoading(false);
-      },
-      () => {
-        if (signal?.aborted) return;
-        setError(true);
-        setLoading(false);
-      },
-    );
-  }, []);
-  useEffect(() => {
-    const controller = new AbortController();
-    void loadProducts(controller.signal);
-    return () => controller.abort();
-  }, [loadProducts]);
-
+  const filterOpener = useRef<HTMLButtonElement>(null);
   const categoryProducts = products.filter(
     (product) =>
       product.imageUrl &&
       product.category !== "SEM_CATEGORIA" &&
       (onlyFavorites || product.category === category),
   );
-  const matches = categoryProducts
-    .filter(
-      (product) =>
-        normalize(product.name).includes(normalize(search.trim())) &&
-        (!onlyFavorites || favorites.includes(product.id)) &&
-        (brand === "Todas" ||
-          (brand === "Adidas"
-            ? /adidas|samba|campus|gazelle/.test(normalize(product.name))
-            : normalize(product.name).includes(normalize(brand)))),
-    )
+  const searched = categoryProducts.filter(
+    (product) =>
+      normalize(product.name).includes(normalize(search.trim())) &&
+      (!onlyFavorites || favorites.includes(product.id)),
+  );
+  const matches = searched
+    .filter((product) => matchesFilters(product, filters))
     .sort((a, b) => {
-      if (sort === "price-asc") return Number(a.price) - Number(b.price);
-      if (sort === "price-desc") return Number(b.price) - Number(a.price);
-      if (sort === "name") return a.name.localeCompare(b.name, "pt-BR");
+      if (filters.sort === "price-asc")
+        return Number(a.price) - Number(b.price);
+      if (filters.sort === "price-desc")
+        return Number(b.price) - Number(a.price);
+      if (filters.sort === "name") return a.name.localeCompare(b.name, "pt-BR");
       return selectionRank(a) - selectionRank(b) || a.id - b.id;
     });
+  const filterCount =
+    Number(filters.brand !== "Todas") +
+    Number(filters.maxPrice !== null) +
+    Number(filters.sort !== "selection");
+  const hasSelection = Boolean(search || filterCount);
+  const updateFilters = (next: CatalogFilters) => {
+    setFilters(next);
+    setLimit(12);
+  };
+  const reset = () => {
+    setSearch("");
+    updateFilters(DEFAULT_FILTERS);
+  };
+  const closeFilters = () => {
+    setFiltersOpen(false);
+    filterOpener.current?.focus();
+  };
   const closeDetails = () => {
     setSelected(null);
     opener.current?.focus();
   };
+  const emptyFavorites =
+    onlyFavorites &&
+    !categoryProducts.some((product) => favorites.includes(product.id));
 
   return (
     <>
@@ -201,99 +188,155 @@ function CategoryCatalog({
               !onlyFavorites && item.value === category ? "page" : undefined
             }
           >
-            {item.label}
+            <span>{item.label}</span>
+            {!loading && !error && (
+              <small>
+                {
+                  products.filter(
+                    (product) =>
+                      product.imageUrl && product.category === item.value,
+                  ).length
+                }
+              </small>
+            )}
           </Link>
         ))}
       </nav>
-      <div className="catalog-toolbar">
-        <label className="catalog-search">
-          <svg
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="1.5"
-            aria-hidden="true"
-          >
-            <circle cx="10.5" cy="10.5" r="6.5" />
-            <path d="m16 16 5 5" />
-          </svg>
-          <span className="sr-only">
-            {onlyFavorites
-              ? "Buscar nos favoritos"
-              : `Buscar em ${categoryLabel(category)}`}
-          </span>
-          <input
-            type="search"
-            placeholder="Busque por modelo ou marca"
-            value={search}
-            onChange={(event) => {
-              setSearch(event.target.value);
-              setLimit(12);
-            }}
-          />
-        </label>
-        <label className="catalog-sort">
-          <span>Ordenar por</span>
-          <select
-            value={sort}
-            onChange={(event) => {
-              setSort(event.target.value);
-              setLimit(12);
-            }}
-          >
-            <option value="selection">Seleção Maia</option>
-            <option value="price-asc">Menor preço</option>
-            <option value="price-desc">Maior preço</option>
-            <option value="name">Nome: A a Z</option>
-          </select>
-        </label>
-      </div>
-      <div className="catalog-refinements">
-        <div
-          className="brand-filters"
-          role="group"
-          aria-label="Filtrar por marca"
-        >
-          {["Todas", "Nike", "Adidas", "New Balance", "Vans", "Mizuno"].map(
-            (item) => (
-              <button
-                key={item}
-                type="button"
-                aria-pressed={item === brand}
-                onClick={() => {
-                  setBrand(item);
+      {!loading && !error && categoryProducts.length > 0 && !emptyFavorites && (
+        <>
+          <div className="catalog-toolbar">
+            <label className="catalog-search">
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="1.6"
+                aria-hidden="true"
+              >
+                <circle cx="10.5" cy="10.5" r="6.5" />
+                <path d="m16 16 5 5" />
+              </svg>
+              <span className="sr-only">
+                {onlyFavorites
+                  ? "Buscar nos favoritos"
+                  : `Buscar em ${categoryLabel(category)}`}
+              </span>
+              <input
+                id="catalog-search"
+                type="search"
+                placeholder="Qual peça combina com você?"
+                value={search}
+                onChange={(event) => {
+                  setSearch(event.target.value);
                   setLimit(12);
                 }}
+              />
+            </label>
+            <div className="catalog-tools">
+              <button
+                ref={filterOpener}
+                className={`filter-trigger ${filterCount ? "has-filters" : ""}`}
+                type="button"
+                onClick={() => setFiltersOpen(true)}
+                aria-expanded={filtersOpen}
+                aria-controls={filtersOpen ? "catalog-filter-panel" : undefined}
               >
-                {item}
+                <FilterIcon />
+                <span>Filtros</span>
+                {filterCount > 0 && <small>{filterCount}</small>}
               </button>
-            ),
+              <label className="catalog-sort">
+                <span className="sr-only">Ordenar por</span>
+                <select
+                  value={filters.sort}
+                  onChange={(event) =>
+                    updateFilters({ ...filters, sort: event.target.value })
+                  }
+                >
+                  <option value="selection">Seleção Maia</option>
+                  <option value="price-asc">Menor preço</option>
+                  <option value="price-desc">Maior preço</option>
+                  <option value="name">Nome: A a Z</option>
+                </select>
+              </label>
+              <Link
+                className={`favorites-filter ${onlyFavorites ? "is-active" : ""}`}
+                href={`/?categoria=${category}${onlyFavorites ? "" : "&favoritos=1"}#colecao`}
+                aria-label={
+                  onlyFavorites
+                    ? "Voltar à coleção completa"
+                    : "Ver meus favoritos"
+                }
+                title={onlyFavorites ? "Voltar à coleção" : "Meus favoritos"}
+              >
+                <HeartIcon filled={onlyFavorites} />
+              </Link>
+            </div>
+          </div>
+          {hasSelection && (
+            <div
+              className="active-filters"
+              role="group"
+              aria-label="Escolhas aplicadas"
+            >
+              {search && (
+                <button
+                  type="button"
+                  onClick={() => {
+                    setSearch("");
+                    setLimit(12);
+                  }}
+                  aria-label={`Remover busca ${search}`}
+                >
+                  <span>“{search}”</span>
+                  <span aria-hidden="true">×</span>
+                </button>
+              )}
+              {filters.brand !== "Todas" && (
+                <button
+                  type="button"
+                  onClick={() => updateFilters({ ...filters, brand: "Todas" })}
+                  aria-label={`Remover filtro de marca ${filters.brand}`}
+                >
+                  {filters.brand}
+                  <span aria-hidden="true">×</span>
+                </button>
+              )}
+              {filters.maxPrice !== null && (
+                <button
+                  type="button"
+                  onClick={() => updateFilters({ ...filters, maxPrice: null })}
+                  aria-label="Remover limite de preço"
+                >
+                  Até {currency.format(filters.maxPrice)}
+                  <span aria-hidden="true">×</span>
+                </button>
+              )}
+              {filters.sort !== "selection" && (
+                <button
+                  type="button"
+                  onClick={() =>
+                    updateFilters({ ...filters, sort: "selection" })
+                  }
+                  aria-label="Restaurar ordenação da seleção"
+                >
+                  {sortLabels[filters.sort]}
+                  <span aria-hidden="true">×</span>
+                </button>
+              )}
+              <button type="button" className="clear-filters" onClick={reset}>
+                Limpar tudo
+              </button>
+            </div>
           )}
-        </div>
-        <Link
-          className={`favorites-filter ${onlyFavorites ? "is-active" : ""}`}
-          href={`/?categoria=${category}${onlyFavorites ? "" : "&favoritos=1"}#colecao`}
-        >
-          <HeartIcon filled={onlyFavorites} /> Meus favoritos
-          {onlyFavorites && <span>×</span>}
-        </Link>
-      </div>
+        </>
+      )}
       {loading ? (
-        <div className="catalog-message" role="status">
-          Carregando seus próximos favoritos…
-        </div>
+        <CatalogSkeleton />
       ) : error ? (
         <div className="catalog-message">
           <p role="alert">Não foi possível carregar a coleção.</p>
-          <button
-            className="button"
-            type="button"
-            onClick={() => {
-              setLoading(true);
-              setError(false);
-              void loadProducts();
-            }}
-          >
+          <button className="button" type="button" onClick={retry}>
             Tentar novamente ↗
           </button>
         </div>
@@ -311,46 +354,38 @@ function CategoryCatalog({
             <span>
               {onlyFavorites
                 ? "Salvos neste navegador"
-                : "Encontre uma peça. Descubra os detalhes."}
+                : "Uma seleção para chamar de sua."}
             </span>
           </div>
           {!matches.length && (
             <div className="catalog-empty">
               <span className="empty-monogram" aria-hidden="true">
-                M
+                m.
               </span>
               <h3>
-                {onlyFavorites
+                {emptyFavorites
                   ? "Guarde o que faz seu estilo."
                   : categoryProducts.length
-                    ? "Ainda não encontramos essa combinação."
+                    ? "Uma nova combinação te espera."
                     : `${categoryLabel(category)}: em breve por aqui.`}
               </h3>
               <p>
-                {onlyFavorites
-                  ? "Toque no coração das peças que você gosta. Elas ficam salvas neste navegador para você rever depois."
+                {emptyFavorites
+                  ? "Toque no coração das peças que você gosta e volte para elas quando quiser."
                   : categoryProducts.length
-                    ? "Experimente outro modelo, outra marca ou limpe os filtros."
-                    : "Estamos preparando esta seleção. Descubra os tênis que já fazem parte da Maia."}
+                    ? "Não encontramos peças com essa combinação. Ajuste os filtros e descubra outras possibilidades."
+                    : "Estamos preparando esta seleção. Enquanto isso, explore os tênis que já fazem parte da Maia."}
               </p>
-              {onlyFavorites ? (
+              {emptyFavorites ? (
                 <Link
                   className="button"
                   href={`/?categoria=${category}#colecao`}
                 >
-                  Explorar peças <span aria-hidden="true">↗</span>
+                  Explorar a coleção <span aria-hidden="true">↗</span>
                 </Link>
               ) : categoryProducts.length ? (
-                <button
-                  className="text-link"
-                  type="button"
-                  onClick={() => {
-                    setSearch("");
-                    setBrand("Todas");
-                    setLimit(12);
-                  }}
-                >
-                  Limpar filtros ↗
+                <button className="text-link" type="button" onClick={reset}>
+                  Limpar escolhas ↗
                 </button>
               ) : (
                 <Link className="text-link" href="/?categoria=TENIS#colecao">
@@ -388,7 +423,7 @@ function CategoryCatalog({
                       />
                     )}
                     <span className="product-view">
-                      Explorar peça <span aria-hidden="true">↗</span>
+                      Ver de perto <span aria-hidden="true">↗</span>
                     </span>
                     {gallery(product).length > 1 && (
                       <span className="photo-count">
@@ -397,13 +432,15 @@ function CategoryCatalog({
                     )}
                   </div>
                   <div className="product-info">
-                    <p className="product-category">
-                      {categoryLabel(product.category)}
-                    </p>
                     <h3>{product.name}</h3>
                     <p className="product-price">
                       {currency.format(Number(product.price))}
                     </p>
+                    {onlyFavorites && (
+                      <p className="product-category">
+                        {categoryLabel(product.category)}
+                      </p>
+                    )}
                   </div>
                 </button>
                 <button
@@ -420,20 +457,45 @@ function CategoryCatalog({
           </div>
           {limit < matches.length && (
             <div className="load-more">
+              <div
+                className="collection-progress"
+                role="progressbar"
+                aria-label="Peças exibidas da coleção"
+                aria-valuemin={0}
+                aria-valuemax={matches.length}
+                aria-valuenow={Math.min(limit, matches.length)}
+              >
+                <span
+                  style={{
+                    width: `${Math.min(limit / matches.length, 1) * 100}%`,
+                  }}
+                />
+              </div>
               <p>
-                Você viu {Math.min(limit, matches.length)} de {matches.length}{" "}
-                peças.
+                Você explorou {Math.min(limit, matches.length)} de{" "}
+                {matches.length} peças.
               </p>
               <button
                 className="outline-button"
                 type="button"
                 onClick={() => setLimit((value) => value + 12)}
               >
-                Ver mais peças <span aria-hidden="true">↓</span>
+                Descobrir mais peças <span aria-hidden="true">↓</span>
               </button>
             </div>
           )}
         </>
+      )}
+      {filtersOpen && (
+        <CatalogFilterPanel
+          initial={filters}
+          products={searched}
+          onApply={(next) => {
+            updateFilters(next);
+            closeFilters();
+          }}
+          onClose={closeFilters}
+        />
       )}
       {selected && <ProductDetails product={selected} close={closeDetails} />}
     </>
