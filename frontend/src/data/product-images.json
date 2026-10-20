@@ -5,7 +5,8 @@
     "url": "/products/foto-001.jpeg",
     "originalName": "WhatsApp Image 2026-10-16 at 11.42.54 (1).jpeg",
     "width": 1200,
-    "height": 1600
+    "height": 1600,
+    "sha256": "067f9e7cf3a82f5d0ee1287696ae3e04f084d6a4c08aed7bf267cb4097cabfca"
   },
   {
     "id": "002",
@@ -13,7 +14,8 @@
     "url": "/products/foto-002.jpeg",
     "originalName": "WhatsApp Image 2026-10-16 at 11.42.54 (2).jpeg",
     "width": 958,
-    "height": 1280
+    "height": 1280,
+    "sha256": "607af2aa6715db1d32ebf4a6d7b21eb3dc6ede9b0d896296491ccdadd96bf58d"
   },
   {
     "id": "003",
@@ -21,7 +23,8 @@
     "url": "/products/foto-003.jpeg",
     "originalName": "WhatsApp Image 2026-10-16 at 11.42.54 (3).jpeg",
     "width": 960,
-    "height": 1280
+    "height": 1280,
+    "sha256": "44aa2273775cde88490f434f92fbb0c935df9abdce4ce46c958a377b3ec97ced"
   },
   {
     "id": "004",
@@ -29,7 +32,8 @@
     "url": "/products/foto-004.jpeg",
     "originalName": "WhatsApp Image 2026-10-16 at 11.42.54.jpeg",
     "width": 1200,
-    "height": 1600
+    "height": 1600,
+    "sha256": "08ef6abc9000ba9e9054c854e1653fb77c317fda8195c54fa0478bf7e3d8690d"
   },
   {
     "id": "005",
@@ -37,7 +41,8 @@
     "url": "/products/foto-005.jpeg",
     "originalName": "WhatsApp Image 2026-10-16 at 11.42.55 (1).jpeg",
     "width": 900,
-    "height": 1600
+    "height": 1600,
+    "sha256": "c24c4708b6d269386473d022afa2987279722e4d07402755d12437f18b20db9c"
   },
   {
     "id": "006",
@@ -45,7 +50,8 @@
     "url": "/products/foto-006.jpeg",
     "originalName": "WhatsApp Image 2026-10-16 at 11.42.55 (2).jpeg",
     "width": 900,
-    "height": 1600
+    "height": 1600,
+    "sha256": "ccc072d0ae08c7881ade303ea866c2ee282a69f1e3383fb50519539b34ba3f4f"
   },
   {
     "id": "007",
@@ -53,7 +59,8 @@
     "url": "/products/foto-007.jpeg",
     "originalName": "WhatsApp Image 2026-10-16 at 11.42.55.jpeg",
     "width": 900,
-    "height": 1600
+    "height": 1600,
+    "sha256": "c23d3bf47cce82380cc955b53ad1872b5f9d61fdd332db79a021c2ff609dfb15"
   },
   {
     "id": "008",
@@ -61,7 +68,8 @@
     "url": "/products/foto-008.jpeg",
     "originalName": "WhatsApp Image 2026-10-16 at 11.43.17.jpeg",
     "width": 900,
-    "height": 1600
+    "height": 1600,
+    "sha256": "00d1f05066704bdf03e76492cd0dd5825ce982a43459135218fc3033c9b814e9"
   },
   {
     "id": "009",
@@ -69,7 +77,8 @@
     "url": "/products/foto-009.jpeg",
     "originalName": "WhatsApp Image 2026-10-16 at 11.43.27.jpeg",
     "width": 900,
-    "height": 1600
+    "height": 1600,
+    "sha256": "461df797b57c5198d9c79688e7845e8672fcc328fb176a7f07163edbd0fb4348"
   },
   {
     "id": "010",
@@ -77,7 +86,8 @@
     "url": "/products/foto-010.jpeg",
     "originalName": "WhatsApp Image 2026-10-16 at 11.43.32 (1).jpeg",
     "width": 900,
-    "height": 1600
+    "height": 1600,
+    "sha256": "9ddbe7b0a55a6d5fed3af4ebbcb25d99a615270cc6dfe5f4d4a8646687412b02"
   },
   {
     "id": "011",
@@ -85,7 +95,8 @@
     "url": "/products/foto-011.jpeg",
     "originalName": "WhatsApp Image 2026-10-16 at 11.43.32.jpeg",
     "width": 900,
-    "height": 1600
+    "height": 1600,
+    "sha256": "00a7397fc599de524b5df3b6ea1b955b682fcb0f264b1e61c620ebae6b49eced"
   },
   {
     "id": "012",
@@ -93,7 +104,8 @@
     "url": "/products/foto-012.jpeg",
     "originalName": "WhatsApp Image 2026-10-16 at 11.44.01 (1).jpeg",
     "width": 1066,
-    "height": 1600
+    "height": 1600,
+    "sha256": "cdcf5bc610b1fa00af25ff049608ae5a854dbc71d77390247d8bd3917a5960fc"
   },
   {
     "id": "013",
@@ -101,7 +113,8 @@
     "url": "/products/foto-013.jpeg",
     "originalName": "WhatsApp Image 2026-10-16 at 11.44.01.jpeg",
     "width": 900,
-    "height": 1600
+    "height": 1600,
+    "sha256": "186f89d608e91b59dfb6d5c7f2ab8560e63606507144ad7d3543d019af5670ff"
   },
   {
     "id": "014",
@@ -109,7 +122,8 @@
     "url": "/products/foto-014.jpeg",
     "originalName": "WhatsApp Image 2026-10-16 at 11.44.05.jpeg",
     "width": 900,
-    "height": 1600
+    "height": 1600,
+    "sha256": "57c31935bf001a9dbebe9a45c8736569dd680c4cb62f07847bf89c2ead7072b0"
   },
   {
     "id": "015",
@@ -117,7 +131,8 @@
     "url": "/products/foto-015.jpeg",
     "originalName": "WhatsApp Image 2026-10-16 at 11.44.50.jpeg",
     "width": 900,
-    "height": 1600
+    "height": 1600,
+    "sha256": "826a56efaccb0168c471913fd12e62bd06033a26b7480db37658edf934922e25"
   },
   {
     "id": "016",
@@ -125,7 +140,8 @@
     "url": "/products/foto-016.jpeg",
     "originalName": "WhatsApp Image 2026-10-16 at 11.44.51 (1).jpeg",
     "width": 900,
-    "height": 1600
+    "height": 1600,
+    "sha256": "36559dfb8e04f731ba2be5b41a855e95eceb2dea01bcfca0ad4c0aa4709ef83a"
   },
   {
     "id": "017",
@@ -133,7 +149,8 @@
     "url": "/products/foto-017.jpeg",
     "originalName": "WhatsApp Image 2026-10-16 at 11.44.51.jpeg",
     "width": 900,
-    "height": 1600
+    "height": 1600,
+    "sha256": "16d22dc5bc3aeb4d53e145152ee38e1acd3272632645f4923ab34b6a8a2a7b8d"
   },
   {
     "id": "018",
@@ -141,7 +158,8 @@
     "url": "/products/foto-018.jpeg",
     "originalName": "WhatsApp Image 2026-10-16 at 11.44.52.jpeg",
     "width": 900,
-    "height": 1600
+    "height": 1600,
+    "sha256": "806ef38d55a71761fd99a33a63038470aa6acaf76e5b2b4b660879ac4f29f5a5"
   },
   {
     "id": "019",
@@ -149,7 +167,8 @@
     "url": "/products/foto-019.jpeg",
     "originalName": "WhatsApp Image 2026-10-16 at 11.45.02.jpeg",
     "width": 1284,
-    "height": 1600
+    "height": 1600,
+    "sha256": "41a48625f80933dfee4557b5934b6323abcc127ce2aacc7ee0edb4fd77e3a21f"
   },
   {
     "id": "020",
@@ -157,7 +176,8 @@
     "url": "/products/foto-020.jpeg",
     "originalName": "WhatsApp Image 2026-10-16 at 11.45.18.jpeg",
     "width": 900,
-    "height": 1600
+    "height": 1600,
+    "sha256": "23e1d9d150cd960ac81817c556f7ef8f14e7f0b8fe23fabb2552742a954acf42"
   },
   {
     "id": "021",
@@ -165,7 +185,8 @@
     "url": "/products/foto-021.jpeg",
     "originalName": "WhatsApp Image 2026-10-16 at 11.45.20 (1).jpeg",
     "width": 900,
-    "height": 1600
+    "height": 1600,
+    "sha256": "fdee7a865f3a4b4833cdbbaf3285c6d792031986f04dc779b9203c341fc57999"
   },
   {
     "id": "022",
@@ -173,7 +194,8 @@
     "url": "/products/foto-022.jpeg",
     "originalName": "WhatsApp Image 2026-10-16 at 11.45.20.jpeg",
     "width": 900,
-    "height": 1600
+    "height": 1600,
+    "sha256": "52f4afc28cdcc51379bcd30a7ca85a8b70572f40f0a1b287186e5a842c63d028"
   },
   {
     "id": "023",
@@ -181,7 +203,8 @@
     "url": "/products/foto-023.jpeg",
     "originalName": "WhatsApp Image 2026-10-16 at 11.45.21 (1).jpeg",
     "width": 900,
-    "height": 1600
+    "height": 1600,
+    "sha256": "07e00e7f3798a1d5ad2b061e677fe49d3b9e5a4446d5a6162762c886139fa74e"
   },
   {
     "id": "024",
@@ -189,7 +212,8 @@
     "url": "/products/foto-024.jpeg",
     "originalName": "WhatsApp Image 2026-10-16 at 11.45.21 (2).jpeg",
     "width": 900,
-    "height": 1600
+    "height": 1600,
+    "sha256": "1a820dd85372c815a1b768018d55f5b3a43ab9d396c079c34a61aca1889fe6ae"
   },
   {
     "id": "025",
@@ -197,7 +221,8 @@
     "url": "/products/foto-025.jpeg",
     "originalName": "WhatsApp Image 2026-10-16 at 11.45.21.jpeg",
     "width": 900,
-    "height": 1600
+    "height": 1600,
+    "sha256": "07328a96cca3cd8b07a64f5cbed5ccefb86000ee82e10009948cdbeaa0cfc774"
   },
   {
     "id": "026",
@@ -205,7 +230,8 @@
     "url": "/products/foto-026.jpeg",
     "originalName": "WhatsApp Image 2026-10-16 at 11.45.22 (1).jpeg",
     "width": 900,
-    "height": 1600
+    "height": 1600,
+    "sha256": "284ad3f68ce0209ce72838346f36e262cb17aef99465de73ce1bc53b7cf87b2a"
   },
   {
     "id": "027",
@@ -213,7 +239,8 @@
     "url": "/products/foto-027.jpeg",
     "originalName": "WhatsApp Image 2026-10-16 at 11.45.22.jpeg",
     "width": 900,
-    "height": 1600
+    "height": 1600,
+    "sha256": "32e13e13de726ee4e2b13de722aa7fa1d14091757be13816b8e560fda26ce615"
   },
   {
     "id": "028",
@@ -221,7 +248,8 @@
     "url": "/products/foto-028.jpeg",
     "originalName": "WhatsApp Image 2026-10-16 at 11.45.23.jpeg",
     "width": 900,
-    "height": 1600
+    "height": 1600,
+    "sha256": "061ba44eae9be4f75bb9d062438ce64190b9dc67ecd44693bb6561be0bbd9c2a"
   },
   {
     "id": "029",
@@ -229,7 +257,8 @@
     "url": "/products/foto-029.jpeg",
     "originalName": "WhatsApp Image 2026-10-16 at 11.45.38.jpeg",
     "width": 1086,
-    "height": 1448
+    "height": 1448,
+    "sha256": "1bedb751a75ca0e1f12f458e5981cdddb6299f764175ccdfab53b695d0acc3c0"
   },
   {
     "id": "030",
@@ -237,7 +266,8 @@
     "url": "/products/foto-030.jpeg",
     "originalName": "WhatsApp Image 2026-10-16 at 11.45.39.jpeg",
     "width": 900,
-    "height": 1600
+    "height": 1600,
+    "sha256": "073c4f0f2335f03e538f9e7a43f66437ee088d07085875756309067fb2c96867"
   },
   {
     "id": "031",
@@ -245,7 +275,8 @@
     "url": "/products/foto-031.jpeg",
     "originalName": "WhatsApp Image 2026-10-16 at 11.45.48 (1).jpeg",
     "width": 900,
-    "height": 1600
+    "height": 1600,
+    "sha256": "56c87f7ef29da085914304840b2cec9e753ed954ba8d5d2f042d4d2fb28fc2cf"
   },
   {
     "id": "032",
@@ -253,7 +284,8 @@
     "url": "/products/foto-032.jpeg",
     "originalName": "WhatsApp Image 2026-10-16 at 11.45.48.jpeg",
     "width": 900,
-    "height": 1600
+    "height": 1600,
+    "sha256": "bba45e3d4b412ce359f92fc021fb96b09eff1f42fb741bb9d3162d79f805b162"
   },
   {
     "id": "033",
@@ -261,7 +293,8 @@
     "url": "/products/foto-033.jpeg",
     "originalName": "WhatsApp Image 2026-10-16 at 11.45.49 (1).jpeg",
     "width": 960,
-    "height": 1280
+    "height": 1280,
+    "sha256": "2303c372c726f541ce9ad351cfee1c323ee373b94af9a2c9aeefbde0d8a2c4c6"
   },
   {
     "id": "034",
@@ -269,7 +302,8 @@
     "url": "/products/foto-034.jpeg",
     "originalName": "WhatsApp Image 2026-10-16 at 11.45.49.jpeg",
     "width": 900,
-    "height": 1600
+    "height": 1600,
+    "sha256": "f184df4d2e958b2dd7a4bdad030f33eeac4aef4f85bb6c0d4d89f3c2585df5ea"
   },
   {
     "id": "035",
@@ -277,7 +311,8 @@
     "url": "/products/foto-035.jpeg",
     "originalName": "WhatsApp Image 2026-10-16 at 11.45.50.jpeg",
     "width": 819,
-    "height": 904
+    "height": 904,
+    "sha256": "1d22fb5e2f3fae86f63e5edf864f45bbe4c3f03286e4bae29607fd3800ac23bf"
   },
   {
     "id": "036",
@@ -285,7 +320,8 @@
     "url": "/products/foto-036.jpeg",
     "originalName": "WhatsApp Image 2026-10-16 at 11.45.51 (1).jpeg",
     "width": 960,
-    "height": 1280
+    "height": 1280,
+    "sha256": "572ce9c77ae278375ac2a61390e38ec1a08e9853bc13735427826d234de077d7"
   },
   {
     "id": "037",
@@ -293,7 +329,8 @@
     "url": "/products/foto-037.jpeg",
     "originalName": "WhatsApp Image 2026-10-16 at 11.45.51.jpeg",
     "width": 750,
-    "height": 893
+    "height": 893,
+    "sha256": "7ea42ffed8a69688fee6203abd83dc85c1593a654e249ec721fecdd5a509cdb0"
   },
   {
     "id": "038",
@@ -301,7 +338,8 @@
     "url": "/products/foto-038.jpeg",
     "originalName": "WhatsApp Image 2026-10-16 at 11.45.52 (1).jpeg",
     "width": 1600,
-    "height": 1600
+    "height": 1600,
+    "sha256": "1882be0a9c5b2179d36f7abcaedd245e4c7b0a924bcbbe616c82462d995a32e6"
   },
   {
     "id": "039",
@@ -309,7 +347,8 @@
     "url": "/products/foto-039.jpeg",
     "originalName": "WhatsApp Image 2026-10-16 at 11.45.52.jpeg",
     "width": 893,
-    "height": 1600
+    "height": 1600,
+    "sha256": "2280f7270f30b457a4c70ab4b9f57df8f5cc94485db3922aa145166da1fc5d92"
   },
   {
     "id": "040",
@@ -317,7 +356,8 @@
     "url": "/products/foto-040.jpeg",
     "originalName": "WhatsApp Image 2026-10-16 at 11.45.53 (1).jpeg",
     "width": 900,
-    "height": 1600
+    "height": 1600,
+    "sha256": "db7362d9fcc10f363b796b2157682926f64274fbc54ab0ab3422abb5c8d27638"
   },
   {
     "id": "041",
@@ -325,7 +365,8 @@
     "url": "/products/foto-041.jpeg",
     "originalName": "WhatsApp Image 2026-10-16 at 11.45.53 (2).jpeg",
     "width": 900,
-    "height": 1600
+    "height": 1600,
+    "sha256": "87cc394fbdedc218ca9c13c34ff2cf98b790387f3c3cf22f767b01fedf33acb1"
   },
   {
     "id": "042",
@@ -333,7 +374,8 @@
     "url": "/products/foto-042.jpeg",
     "originalName": "WhatsApp Image 2026-10-16 at 11.45.53 (3).jpeg",
     "width": 900,
-    "height": 1600
+    "height": 1600,
+    "sha256": "a7750a76875b543e4ae1167ee1e1e182e767ed8d23913c473e89b7df1fb9712a"
   },
   {
     "id": "043",
@@ -341,7 +383,8 @@
     "url": "/products/foto-043.jpeg",
     "originalName": "WhatsApp Image 2026-10-16 at 11.45.53.jpeg",
     "width": 900,
-    "height": 1600
+    "height": 1600,
+    "sha256": "c5aeef577e1b3fdd2d3c5cd9a3ed240e34240b71b02aa7239e86d6001f68dfef"
   },
   {
     "id": "044",
@@ -349,7 +392,8 @@
     "url": "/products/foto-044.jpeg",
     "originalName": "WhatsApp Image 2026-10-16 at 11.45.54 (1).jpeg",
     "width": 900,
-    "height": 1600
+    "height": 1600,
+    "sha256": "4b1143df9784fafa4138308803fdb687e0e992d00d7dc2478e4acdc09ef93380"
   },
   {
     "id": "045",
@@ -357,7 +401,8 @@
     "url": "/products/foto-045.jpeg",
     "originalName": "WhatsApp Image 2026-10-16 at 11.45.54 (2).jpeg",
     "width": 900,
-    "height": 1600
+    "height": 1600,
+    "sha256": "7ca84da144ec0915c57a21b1fd1af345d0d329327129d8530f0f145128401601"
   },
   {
     "id": "046",
@@ -365,7 +410,8 @@
     "url": "/products/foto-046.jpeg",
     "originalName": "WhatsApp Image 2026-10-16 at 11.45.54.jpeg",
     "width": 1600,
-    "height": 900
+    "height": 900,
+    "sha256": "62b4580aa2eea3fdd515a8959dfba54d234cfcc110d88444f9c4bf178c31b64f"
   },
   {
     "id": "047",
@@ -373,7 +419,8 @@
     "url": "/products/foto-047.jpeg",
     "originalName": "WhatsApp Image 2026-10-16 at 11.45.55.jpeg",
     "width": 900,
-    "height": 1600
+    "height": 1600,
+    "sha256": "d5962196b6484f304e22df8ea02d527f529146290f3b65efbdf191101f1a6545"
   },
   {
     "id": "048",
@@ -381,7 +428,8 @@
     "url": "/products/foto-048.jpeg",
     "originalName": "WhatsApp Image 2026-10-16 at 11.45.56 (1).jpeg",
     "width": 900,
-    "height": 1600
+    "height": 1600,
+    "sha256": "d0c9603aaf7db6892e2eaea5324719b38ca48e44e02ff10cb836e34cee3fc00d"
   },
   {
     "id": "049",
@@ -389,7 +437,8 @@
     "url": "/products/foto-049.jpeg",
     "originalName": "WhatsApp Image 2026-10-16 at 11.45.56.jpeg",
     "width": 900,
-    "height": 1600
+    "height": 1600,
+    "sha256": "6e32b82bf8bae2b3e0fe8b84fdac5cb2cc3a6f393855d93d40c74203eac54fcd"
   },
   {
     "id": "050",
@@ -397,7 +446,8 @@
     "url": "/products/foto-050.jpeg",
     "originalName": "WhatsApp Image 2026-10-16 at 11.45.57 (1).jpeg",
     "width": 900,
-    "height": 1600
+    "height": 1600,
+    "sha256": "bdbb3c6eb55bb03217dbae893dac5da00fdac184f92b9c0c1db48e7818fe3a96"
   },
   {
     "id": "051",
@@ -405,7 +455,8 @@
     "url": "/products/foto-051.jpeg",
     "originalName": "WhatsApp Image 2026-10-16 at 11.45.57 (2).jpeg",
     "width": 900,
-    "height": 1600
+    "height": 1600,
+    "sha256": "320ae6fcb425fd1b8a4962fa72f66655039d5fe223fbc7f33b7872bd3d19a860"
   },
   {
     "id": "052",
@@ -413,7 +464,8 @@
     "url": "/products/foto-052.jpeg",
     "originalName": "WhatsApp Image 2026-10-16 at 11.45.57.jpeg",
     "width": 900,
-    "height": 1600
+    "height": 1600,
+    "sha256": "7586afa78db0cbebc456b36b95b80e1095a9fb24d03fafdd19e6d010beb29919"
   },
   {
     "id": "053",
@@ -421,7 +473,8 @@
     "url": "/products/foto-053.jpeg",
     "originalName": "WhatsApp Image 2026-10-16 at 11.45.58 (1).jpeg",
     "width": 900,
-    "height": 1600
+    "height": 1600,
+    "sha256": "951ebe08f4c9bcb874bfe1727f06362ee2263fb572fcc18c12d2153f02ffc273"
   },
   {
     "id": "054",
@@ -429,7 +482,8 @@
     "url": "/products/foto-054.jpeg",
     "originalName": "WhatsApp Image 2026-10-16 at 11.45.58.jpeg",
     "width": 1600,
-    "height": 900
+    "height": 900,
+    "sha256": "f394b85ab5e67ce97f03fb6fed50d0fca285e97b7ea3d2e2f3458dec105799ed"
   },
   {
     "id": "055",
@@ -437,7 +491,8 @@
     "url": "/products/foto-055.jpeg",
     "originalName": "WhatsApp Image 2026-10-16 at 11.45.59.jpeg",
     "width": 900,
-    "height": 1600
+    "height": 1600,
+    "sha256": "4c6e04605c864cf4a4e5b675485e04d15ae9de0b57ad2778bf1abb0928de5404"
   },
   {
     "id": "056",
@@ -445,7 +500,8 @@
     "url": "/products/foto-056.jpeg",
     "originalName": "WhatsApp Image 2026-10-16 at 11.46.08.jpeg",
     "width": 900,
-    "height": 1600
+    "height": 1600,
+    "sha256": "7eca291bd22bcbc6db4ffec1d1a5e51a4549aaefcc7a7baeb367a9076e484d36"
   },
   {
     "id": "057",
@@ -453,7 +509,8 @@
     "url": "/products/foto-057.jpeg",
     "originalName": "WhatsApp Image 2026-10-16 at 11.46.09.jpeg",
     "width": 900,
-    "height": 1600
+    "height": 1600,
+    "sha256": "9b79613062710843f235b70705d8c7907f2c68f2e79054ee593edb7ef8d8e699"
   },
   {
     "id": "058",
@@ -461,7 +518,8 @@
     "url": "/products/foto-058.jpeg",
     "originalName": "WhatsApp Image 2026-10-16 at 11.46.29.jpeg",
     "width": 900,
-    "height": 1600
+    "height": 1600,
+    "sha256": "e06549286f6fa6396f6ef8c356acc2a778ded19ecd7dc57776c09f7149472be6"
   },
   {
     "id": "059",
@@ -469,7 +527,8 @@
     "url": "/products/foto-059.jpeg",
     "originalName": "WhatsApp Image 2026-10-16 at 11.46.30 (1).jpeg",
     "width": 900,
-    "height": 1600
+    "height": 1600,
+    "sha256": "a1f9575e51ca08b17ecf2d11d5d9bcda67bf887a2bdc71d16bebda1327d7b8ef"
   },
   {
     "id": "060",
@@ -477,7 +536,8 @@
     "url": "/products/foto-060.jpeg",
     "originalName": "WhatsApp Image 2026-10-16 at 11.46.30 (2).jpeg",
     "width": 900,
-    "height": 1600
+    "height": 1600,
+    "sha256": "5615a3582e72c20a2a0a3fa723599345a857a919f5d37f0cd4db5a296383e125"
   },
   {
     "id": "061",
@@ -485,7 +545,8 @@
     "url": "/products/foto-061.jpeg",
     "originalName": "WhatsApp Image 2026-10-16 at 11.46.30 (3).jpeg",
     "width": 900,
-    "height": 1600
+    "height": 1600,
+    "sha256": "cff51024bc86a076c6832b77c9816923ef920d512f5cc67a992938c3a6e4ad51"
   },
   {
     "id": "062",
@@ -493,7 +554,8 @@
     "url": "/products/foto-062.jpeg",
     "originalName": "WhatsApp Image 2026-10-16 at 11.46.30.jpeg",
     "width": 1600,
-    "height": 900
+    "height": 900,
+    "sha256": "60cb9d148289c192c52ff6383a8ff1962754e23be6ca73f6294e1b21602f78d5"
   },
   {
     "id": "063",
@@ -501,7 +563,8 @@
     "url": "/products/foto-063.jpeg",
     "originalName": "WhatsApp Image 2026-10-16 at 11.46.31 (1).jpeg",
     "width": 900,
-    "height": 1600
+    "height": 1600,
+    "sha256": "d7750bf0516c6895684f7b75f6613d27e90cd0c3601b5564375fa4bf1db4b45f"
   },
   {
     "id": "064",
@@ -509,7 +572,8 @@
     "url": "/products/foto-064.jpeg",
     "originalName": "WhatsApp Image 2026-10-16 at 11.46.31 (2).jpeg",
     "width": 900,
-    "height": 1600
+    "height": 1600,
+    "sha256": "f9674c34bfb2d556c8d580e7fb41ae52293d63bed654f3fda45106ee513c90bd"
   },
   {
     "id": "065",
@@ -517,7 +581,8 @@
     "url": "/products/foto-065.jpeg",
     "originalName": "WhatsApp Image 2026-10-16 at 11.46.31 (3).jpeg",
     "width": 900,
-    "height": 1600
+    "height": 1600,
+    "sha256": "d2350f6708ded50b7dbb92cd645b03c6fff56d45a691369994bd91b962ebb406"
   },
   {
     "id": "066",
@@ -525,7 +590,8 @@
     "url": "/products/foto-066.jpeg",
     "originalName": "WhatsApp Image 2026-10-16 at 11.46.31.jpeg",
     "width": 1600,
-    "height": 900
+    "height": 900,
+    "sha256": "8a22f1e03b132e8e6a703ff208738bc2d18de166a8aa316fe062a12d4c2b6e94"
   },
   {
     "id": "067",
@@ -533,7 +599,8 @@
     "url": "/products/foto-067.jpeg",
     "originalName": "WhatsApp Image 2026-10-16 at 11.46.32 (1).jpeg",
     "width": 900,
-    "height": 1600
+    "height": 1600,
+    "sha256": "45347b7270e36256471f647484fa1c9836f855bbabdf7c059b963e043d875942"
   },
   {
     "id": "068",
@@ -541,7 +608,8 @@
     "url": "/products/foto-068.jpeg",
     "originalName": "WhatsApp Image 2026-10-16 at 11.46.32 (2).jpeg",
     "width": 900,
-    "height": 1600
+    "height": 1600,
+    "sha256": "607fa9afdc4047366d65a3cb2d0b9411c6df4f716a0b31e6a9eede90d3bcf541"
   },
   {
     "id": "069",
@@ -549,7 +617,8 @@
     "url": "/products/foto-069.jpeg",
     "originalName": "WhatsApp Image 2026-10-16 at 11.46.32 (3).jpeg",
     "width": 900,
-    "height": 1600
+    "height": 1600,
+    "sha256": "849c2a1508cff32c8a299639ed49de8ae01faa2a8f968b21380d74d2cbcf88c3"
   },
   {
     "id": "070",
@@ -557,7 +626,8 @@
     "url": "/products/foto-070.jpeg",
     "originalName": "WhatsApp Image 2026-10-16 at 11.46.32.jpeg",
     "width": 900,
-    "height": 1600
+    "height": 1600,
+    "sha256": "2f1bc2a27f02b80a778fde37a7cd3949d9ea52011f66c156b942fe659ec87ef4"
   },
   {
     "id": "071",
@@ -565,7 +635,8 @@
     "url": "/products/foto-071.jpeg",
     "originalName": "WhatsApp Image 2026-10-16 at 11.46.33 (1).jpeg",
     "width": 1200,
-    "height": 1600
+    "height": 1600,
+    "sha256": "f9eb7dff945bea2cff4bc75e957552d109c0ff6d4cef10574a9268cdce2990bb"
   },
   {
     "id": "072",
@@ -573,7 +644,8 @@
     "url": "/products/foto-072.jpeg",
     "originalName": "WhatsApp Image 2026-10-16 at 11.46.33 (2).jpeg",
     "width": 1183,
-    "height": 1305
+    "height": 1305,
+    "sha256": "3bc1549209b2bfe09f33c0f44dbbea564f93efe074ba140926f8104c2620b104"
   },
   {
     "id": "073",
@@ -581,7 +653,8 @@
     "url": "/products/foto-073.jpeg",
     "originalName": "WhatsApp Image 2026-10-16 at 11.46.33.jpeg",
     "width": 900,
-    "height": 1600
+    "height": 1600,
+    "sha256": "05c5bffb950366e5bb520cc0eceaa07cb0237144196b368d6201cbcd2d6a44db"
   },
   {
     "id": "074",
@@ -589,7 +662,8 @@
     "url": "/products/foto-074.jpeg",
     "originalName": "WhatsApp Image 2026-10-16 at 11.46.34 (1).jpeg",
     "width": 1600,
-    "height": 1600
+    "height": 1600,
+    "sha256": "7826f1e249e9bdbed63e336c67673db29e005970bd7bdc40a87168f8f1d9833a"
   },
   {
     "id": "075",
@@ -597,7 +671,8 @@
     "url": "/products/foto-075.jpeg",
     "originalName": "WhatsApp Image 2026-10-16 at 11.46.34 (2).jpeg",
     "width": 960,
-    "height": 1280
+    "height": 1280,
+    "sha256": "32c50343dbdef5bb9150e39c0c401150ceda47e46854eec31ce66202a1f5601e"
   },
   {
     "id": "076",
@@ -605,6 +680,247 @@
     "url": "/products/foto-076.jpeg",
     "originalName": "WhatsApp Image 2026-10-16 at 11.46.34.jpeg",
     "width": 1214,
-    "height": 1305
+    "height": 1305,
+    "sha256": "b5bb9edd94a32c16db8c675c4a70623d7ea2af9337aff59b26ea367633fc129b"
+  },
+  {
+    "id": "077",
+    "label": "Foto 077",
+    "url": "/products/foto-077.jpeg",
+    "originalName": "WhatsApp Image 2026-10-19 at 11.49.35 (1).jpeg",
+    "width": 1066,
+    "height": 1600,
+    "source": "Novos (2).zip",
+    "sha256": "3db612de0a8a6413349974685d0e0105034facba4ccb02fe0a0c575d1414166d"
+  },
+  {
+    "id": "078",
+    "label": "Foto 078",
+    "url": "/products/foto-078.jpeg",
+    "originalName": "WhatsApp Image 2026-10-19 at 11.49.35.jpeg",
+    "width": 1066,
+    "height": 1600,
+    "source": "Novos (2).zip",
+    "sha256": "5b771827a55674ea9278bc8c549f662ab5239f5b878bde8c0bb25526426eef03"
+  },
+  {
+    "id": "079",
+    "label": "Foto 079",
+    "url": "/products/foto-079.jpeg",
+    "originalName": "WhatsApp Image 2026-10-19 at 11.49.36.jpeg",
+    "width": 1066,
+    "height": 1600,
+    "source": "Novos (2).zip",
+    "sha256": "e4b8987e9ad8f7f49f3d8f722505aa9e313416f2381b88a45418c1a80f965700"
+  },
+  {
+    "id": "080",
+    "label": "Foto 080",
+    "url": "/products/foto-080.jpeg",
+    "originalName": "WhatsApp Image 2026-10-19 at 11.49.37.jpeg",
+    "width": 1066,
+    "height": 1600,
+    "source": "Novos (2).zip",
+    "sha256": "528abbec9c275f62db4c111b8acfc987010906a8b3378964fabf717b0d85c93d"
+  },
+  {
+    "id": "081",
+    "label": "Foto 081",
+    "url": "/products/foto-081.jpeg",
+    "originalName": "WhatsApp Image 2026-10-19 at 11.49.38 (1).jpeg",
+    "width": 1066,
+    "height": 1600,
+    "source": "Novos (2).zip",
+    "sha256": "94e4e5e9d88aaae65b7404cc04b80f00dc406c85d19823bbacfe4a7fe9c49828"
+  },
+  {
+    "id": "082",
+    "label": "Foto 082",
+    "url": "/products/foto-082.jpeg",
+    "originalName": "WhatsApp Image 2026-10-19 at 11.49.38.jpeg",
+    "width": 1066,
+    "height": 1600,
+    "source": "Novos (2).zip",
+    "sha256": "48d117734c8aa99038e178d2825195ddde2d351e57ee05fbabd5a5daba6e05fc"
+  },
+  {
+    "id": "083",
+    "label": "Foto 083",
+    "url": "/products/foto-083.jpeg",
+    "originalName": "WhatsApp Image 2026-10-19 at 11.49.39.jpeg",
+    "width": 854,
+    "height": 1280,
+    "source": "Novos (2).zip",
+    "sha256": "31b722bebdb8cc5428a1750e6e1147729fa6aa56225fbb6a66e88ca0bd64cc30"
+  },
+  {
+    "id": "084",
+    "label": "Foto 084",
+    "url": "/products/foto-084.jpeg",
+    "originalName": "WhatsApp Image 2026-10-19 at 11.49.40.jpeg",
+    "width": 853,
+    "height": 1280,
+    "source": "Novos (2).zip",
+    "sha256": "3379ad0d34a9124c1e7b946e9ac99cdb4d631011ce9a15644826e5aab5b302f9"
+  },
+  {
+    "id": "085",
+    "label": "Foto 085",
+    "url": "/products/foto-085.jpeg",
+    "originalName": "WhatsApp Image 2026-10-19 at 11.49.41 (1).jpeg",
+    "width": 850,
+    "height": 1280,
+    "source": "Novos (2).zip",
+    "sha256": "ddd8ba75c215538cd67f4fa904ad00283e1840a20687f6a785c62c2c22ae9978"
+  },
+  {
+    "id": "086",
+    "label": "Foto 086",
+    "url": "/products/foto-086.jpeg",
+    "originalName": "WhatsApp Image 2026-10-19 at 11.49.41.jpeg",
+    "width": 1200,
+    "height": 1600,
+    "source": "Novos (2).zip",
+    "sha256": "9e5583e1d2c382bcf736baca1a91c387a732899b49464d883526f6b20462c7d8"
+  },
+  {
+    "id": "087",
+    "label": "Foto 087",
+    "url": "/products/foto-087.jpeg",
+    "originalName": "WhatsApp Image 2026-10-19 at 11.49.42 (1).jpeg",
+    "width": 750,
+    "height": 893,
+    "source": "Novos (2).zip",
+    "sha256": "00a7b8786d04b4e977601daf3c716c74dfd06b4f25a621f3ea57aed72ab21644"
+  },
+  {
+    "id": "088",
+    "label": "Foto 088",
+    "url": "/products/foto-088.jpeg",
+    "originalName": "WhatsApp Image 2026-10-19 at 11.49.42.jpeg",
+    "width": 850,
+    "height": 1280,
+    "source": "Novos (2).zip",
+    "sha256": "bd9a0e69728fdcbd93c296a852d6d9cf69e6ec8e633db8b8080ba4e53e553c27"
+  },
+  {
+    "id": "089",
+    "label": "Foto 089",
+    "url": "/products/foto-089.jpeg",
+    "originalName": "WhatsApp Image 2026-10-19 at 11.49.43.jpeg",
+    "width": 720,
+    "height": 853,
+    "source": "Novos (2).zip",
+    "sha256": "61dfaa70fa43e82cd4a50688c593ca670a9cd0822a0b60c37655a22910d50f5c"
+  },
+  {
+    "id": "090",
+    "label": "Foto 090",
+    "url": "/products/foto-090.jpeg",
+    "originalName": "WhatsApp Image 2026-10-19 at 11.50.27.jpeg",
+    "width": 960,
+    "height": 1280,
+    "source": "Novos (2).zip",
+    "sha256": "c7ef7817f68ddc7aae041aa2e708f43785a25011463eb12bd87b138b0945ddb0"
+  },
+  {
+    "id": "091",
+    "label": "Foto 091",
+    "url": "/products/foto-091.jpeg",
+    "originalName": "WhatsApp Image 2026-10-19 at 11.50.28.jpeg",
+    "width": 960,
+    "height": 1280,
+    "source": "Novos (2).zip",
+    "sha256": "500bff060f0b96e09bc56a8b9965d6a0aa74bc411371f4df2dd0ec98ce818074"
+  },
+  {
+    "id": "092",
+    "label": "Foto 092",
+    "url": "/products/foto-092.jpeg",
+    "originalName": "WhatsApp Image 2026-10-19 at 11.51.29 (1).jpeg",
+    "width": 960,
+    "height": 1280,
+    "source": "Novos (2).zip",
+    "sha256": "967325bf2ccba53f1841d93b4a43e67d8af0bdc1efcee04a83afff9683a69fe5"
+  },
+  {
+    "id": "093",
+    "label": "Foto 093",
+    "url": "/products/foto-093.jpeg",
+    "originalName": "WhatsApp Image 2026-10-19 at 11.51.29.jpeg",
+    "width": 993,
+    "height": 1280,
+    "source": "Novos (2).zip",
+    "sha256": "2a85c2bfd72bf664fcdd1a04d90b8ca76cf55763a371413d519f5bcf4bdec4f5"
+  },
+  {
+    "id": "094",
+    "label": "Foto 094",
+    "url": "/products/foto-094.jpeg",
+    "originalName": "WhatsApp Image 2026-10-19 at 11.52.10 (1).jpeg",
+    "width": 849,
+    "height": 1280,
+    "source": "Novos (2).zip",
+    "sha256": "c32ea10d10fe22950ad844e0c3e48de388d3dff28d1b823c628b66b2ae654f3a"
+  },
+  {
+    "id": "095",
+    "label": "Foto 095",
+    "url": "/products/foto-095.jpeg",
+    "originalName": "WhatsApp Image 2026-10-19 at 11.52.10.jpeg",
+    "width": 849,
+    "height": 1280,
+    "source": "Novos (2).zip",
+    "sha256": "54b0b29b30622424c69069ccacfc828724f8ea5e16b11e52fe4db8bffc94be87"
+  },
+  {
+    "id": "096",
+    "label": "Foto 096",
+    "url": "/products/foto-096.jpeg",
+    "originalName": "WhatsApp Image 2026-10-19 at 11.52.11 (1).jpeg",
+    "width": 849,
+    "height": 1280,
+    "source": "Novos (2).zip",
+    "sha256": "27df6114b39804d3d7cf1f76020c2ddf31700add1e48cbd820984c056a9bd0b7"
+  },
+  {
+    "id": "097",
+    "label": "Foto 097",
+    "url": "/products/foto-097.jpeg",
+    "originalName": "WhatsApp Image 2026-10-19 at 11.52.11.jpeg",
+    "width": 849,
+    "height": 1280,
+    "source": "Novos (2).zip",
+    "sha256": "52d4d1bf1aea463b8623c1d09d3eafa0e7b1da26138a074517518cbec3af8e90"
+  },
+  {
+    "id": "098",
+    "label": "Foto 098",
+    "url": "/products/foto-098.jpeg",
+    "originalName": "WhatsApp Image 2026-10-19 at 11.52.12.jpeg",
+    "width": 849,
+    "height": 1280,
+    "source": "Novos (2).zip",
+    "sha256": "d9293f60038154bbb412530cb9c0a0c5a184fdcb0092171afefc0f1ef0ef1d4c"
+  },
+  {
+    "id": "099",
+    "label": "Foto 099",
+    "url": "/products/foto-099.jpeg",
+    "originalName": "WhatsApp Image 2026-10-19 at 11.52.38.jpeg",
+    "width": 853,
+    "height": 1280,
+    "source": "Novos (2).zip",
+    "sha256": "4a5a351c2ab795c7a47c960b50d0a8e3b3b767bf0c4fc6d3301cb868a4835e22"
+  },
+  {
+    "id": "100",
+    "label": "Foto 100",
+    "url": "/products/foto-100.jpeg",
+    "originalName": "WhatsApp Image 2026-10-19 at 11.52.39.jpeg",
+    "width": 853,
+    "height": 1280,
+    "source": "Novos (2).zip",
+    "sha256": "243479aa50bb12d39e51fea4f0b7584014a2f41078cc3f41a8a8843663b9a07a"
   }
 ]

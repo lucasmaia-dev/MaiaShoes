@@ -13,7 +13,7 @@ describe('Produtos (HTTP)', () => {
   const findMany = vi.fn();
   const update = vi.fn();
   const record = {
-    id: 1, name: 'Tênis Essencial', description: null, imageUrl: null, category: 'SEM_CATEGORIA' as const,
+    id: 1, name: 'Tênis Essencial', description: null, imageUrl: null, imageUrls: [], category: 'SEM_CATEGORIA' as const,
     price: new Prisma.Decimal('189.90'),
     createdAt: new Date('2026-10-16T12:00:00.000Z'),
     updatedAt: new Date('2026-10-16T12:00:00.000Z'),
@@ -75,6 +75,21 @@ describe('Produtos (HTTP)', () => {
   it('retorna lista vazia quando não há produtos', async () => {
     findMany.mockResolvedValue([]);
     await request(app.getHttpServer()).get('/api/products').expect(200).expect([]);
+  });
+
+  it('entrega capa e galeria na ordem certa sem repetir a foto da capa', async () => {
+    findMany.mockResolvedValue([{ ...record, imageUrl: '/products/foto-078.jpeg', imageUrls: ['/products/foto-078.jpeg', '/products/foto-095.jpeg'] }]);
+    const response = await request(app.getHttpServer()).get('/api/products').expect(200);
+    expect(response.body[0].imageUrls).toEqual(['/products/foto-078.jpeg', '/products/foto-095.jpeg']);
+  });
+
+  it('preserva a galeria ao trocar a capa e a oculta quando a capa é removida', async () => {
+    update.mockResolvedValueOnce({ ...record, imageUrl: '/products/foto-095.jpeg', imageUrls: ['/products/foto-078.jpeg', '/products/foto-095.jpeg'] });
+    const changed = await request(app.getHttpServer()).patch('/api/products/1/image').send({ imageUrl: '/products/foto-095.jpeg' }).expect(200);
+    expect(changed.body.imageUrls).toEqual(['/products/foto-095.jpeg', '/products/foto-078.jpeg']);
+    update.mockResolvedValueOnce({ ...record, imageUrl: null, imageUrls: ['/products/foto-078.jpeg'] });
+    const removed = await request(app.getHttpServer()).patch('/api/products/1/image').send({ imageUrl: null }).expect(200);
+    expect(removed.body.imageUrls).toEqual([]);
   });
 
   it('aceita uma foto importada no novo cadastro', async () => {

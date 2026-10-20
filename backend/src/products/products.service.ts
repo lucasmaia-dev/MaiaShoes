@@ -38,6 +38,7 @@ export class ProductsService {
       name: product.name,
       description: product.description,
       imageUrl: product.imageUrl,
+      imageUrls: product.imageUrl ? [...new Set([product.imageUrl, ...(product.imageUrls ?? [])])] : [],
       category: product.category,
       price: product.price.toFixed(2),
       createdAt: product.createdAt,

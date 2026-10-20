@@ -45,9 +45,11 @@ model Session {
 // Cada registro desta tabela representa um produto da loja.
 model Product {
   id          Int      @id @default(autoincrement())
+  catalogCode String?  @unique @db.VarChar(64)
   name        String   @db.VarChar(150)
   description String?
   imageUrl    String?  @db.VarChar(255)
+  imageUrls   String[] @default([])
   category    ProductCategory @default(SEM_CATEGORIA)
   price       Decimal  @db.Decimal(10, 2)
   createdAt   DateTime @default(now())

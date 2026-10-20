@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useState } from 'react';
 import { listProducts, type Product } from '@/lib/products-api';
-import Image from 'next/image';
+import ProductGallery from './product-gallery';
 import { PRODUCT_CATEGORIES, categoryLabel, type ProductCategory } from '@/lib/product-categories';
 
 const currency = new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' });
@@ -58,7 +58,7 @@ export default function ProductCatalog() {
       {visibleProducts.length === 0 && <div className="catalog-message"><h3>Novidades a caminho.</h3><p>Ainda não há produtos nesta categoria. Escolha outra opção para continuar.</p></div>}
       <div className="product-grid">
         {visibleProducts.map((product) => <article className="product-card" key={product.id}>
-          {product.imageUrl ? <div className="product-art product-photo"><Image src={product.imageUrl} alt={product.name} fill sizes="(max-width: 600px) 100vw, 33vw" /></div> : <div className="product-art product-placeholder">
+          {product.imageUrl ? <ProductGallery name={product.name} images={product.imageUrls?.length ? product.imageUrls : [product.imageUrl]} /> : <div className="product-art product-placeholder">
             <span className="product-tag">MAIA SELECTION</span>
             <svg viewBox="0 0 160 160" aria-hidden="true" focusable="false"><path d="M45 52h70l8 80H37zM61 52V39a19 19 0 0 1 38 0v13" fill="none" stroke="currentColor" strokeWidth="2" /><path d="M65 84l15 23 15-23" fill="none" stroke="currentColor" strokeWidth="1.5" /></svg>
             <span className="placeholder-label">Foto em breve</span>

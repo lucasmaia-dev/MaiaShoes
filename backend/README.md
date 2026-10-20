@@ -90,6 +90,12 @@ As rotas `/api/auth/register`, `/api/auth/login`, `/api/auth/me` e `/api/auth/lo
 
 Para criar o primeiro administrador, copie `.env.admin.example` para `.env.admin.local`, preencha os dados locais e execute `npm run build` e `npm run admin:create`. Nenhuma senha padrão é publicada. Os testes HTTP de autenticação usam os guards reais; os de produtos substituem os guards para isolar suas validações.
 
+## Importação do catálogo
+
+Depois de aplicar as migrações e compilar, `npm run catalog:preview` valida o lote `data/catalog-2026-10-20.json` e gera a conferência em `docs/`, sem alterar o banco. `npm run catalog:import` cadastra ou atualiza somente os códigos desse lote, em transação. Repetições idênticas não duplicam produtos nem alteram a data de atualização. Produtos manuais são preservados.
+
+O campo `imageUrl` é a capa. `imageUrls` guarda as fotos agrupadas; na resposta pública, a capa aparece primeiro, sem repetição. Remover a capa oculta a galeria na vitrine; escolher outra capa preserva as demais fotos. O código `catalogCode` é interno e não é aceito pelo formulário público de criação. Preços sem fonte ou sem confirmação de venda são rejeitados pelo importador.
+
 Mais detalhes e exemplos estão em `docs/AUTENTICACAO.md` na raiz.
 
 ## Comandos de verificação

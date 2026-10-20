@@ -61,6 +61,8 @@ jobs:
       - run: npm run build
       - run: npm test
       - run: npm run test:e2e
+      - name: Conferir importação do catálogo no PostgreSQL
+        run: npm run catalog:import
       - name: Conferir o banco real pela API
         run: |
           node dist/main.js > /tmp/maiashoes-api.log 2>&1 &
