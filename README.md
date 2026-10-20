@@ -116,6 +116,19 @@ Cadastre um produto pelo painel, selecione uma foto e atualize a loja. Cada cada
 
 O painel exige login de administrador. O cadastro público cria somente clientes. A documentação de [login e permissões](docs/AUTENTICACAO.md) explica sessões, proteção das rotas e exercícios para verificar os dois perfis.
 
+### Catálogo de produtos e preços
+
+O lote de 20/10/2026 organiza 22 combinações de modelo e cor, com 43 fotos associadas e preços finais conferidos no material enviado. O acervo completo tem 100 imagens. Consulte a [conferência com preços e pendências](docs/catalogo-2026-10-20.md) ou abra [a versão visual](docs/catalogo-2026-10-20.html) após baixar o repositório.
+
+Para cadastrar esse lote em outro banco local, execute em `backend/`, depois das migrações e do build:
+
+```powershell
+npm run catalog:preview
+npm run catalog:import
+```
+
+A primeira chamada apenas gera a conferência. A segunda grava em transação, usando códigos únicos para evitar duplicatas. Registros anteriores sem esses códigos são preservados. A vitrine permite alternar entre as fotos de cada produto. Fotos sem preço confirmado continuam no seletor do painel; não recebem valores estimados.
+
 O script `backend/scripts/setup-local-db.mjs` é uma conveniência específica do ambiente original. A instalação a partir de um clone segue os passos acima e não exige as credenciais administrativas do autor.
 
 ## Estrutura

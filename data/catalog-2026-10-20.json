@@ -1,0 +1,46 @@
+{
+  "version": 1,
+  "batch": "2026-10-20",
+  "currency": "BRL",
+  "pricesAreRetail": true,
+  "priceSources": {
+    "samba": "Print 091639: lote de Sambas a 160,00; print 091658: Sambas todos 160. Preços finais confirmados pelo usuário.",
+    "renda": "Prints 091658 e 091627: Samba com renda rosa, 180,00.",
+    "campus": "Print 091658: foto do tênis branco, preto e verde-claro com solado caramelo, 200,00.",
+    "vans-claro": "Print 091708: foto do par claro com faixas vinho dentro da embalagem, 200,00.",
+    "casual-marrom": "Print 091658: foto do tênis marrom e branco usado com calça clara, 220; mensagem seguinte identifica couro.",
+    "mizuno": "Prints 091708 e 091715: foto do tênis verde-água ao lado da caixa azul, 220.",
+    "vans-preto": "Prints 091708 e 091715: vídeo do tênis preto com faixa lateral branca, 220; associação visual ao modelo das fotos 027, 061 e 072."
+  },
+  "products": [
+    { "code": "SAMBA-CREME-BRANCO", "name": "Samba creme e branco", "price": "160.00", "source": "samba", "photos": ["077", "051"] },
+    { "code": "SAMBA-BRANCO-PRETO", "name": "Samba branco e preto", "price": "160.00", "source": "samba", "photos": ["078", "095", "099", "016", "031", "053"] },
+    { "code": "SAMBA-CREME-VINHO", "name": "Samba creme e vinho", "price": "160.00", "source": "samba", "photos": ["079"] },
+    { "code": "SAMBA-PRETO-BRANCO", "name": "Samba preto e branco", "price": "160.00", "source": "samba", "photos": ["080"] },
+    { "code": "SAMBA-BRANCO-DOURADO", "name": "Samba branco e dourado", "price": "160.00", "source": "samba", "photos": ["081", "094"] },
+    { "code": "SAMBA-MARROM-BRANCO", "name": "Samba marrom e branco", "price": "160.00", "source": "samba", "photos": ["082", "091", "098", "055"] },
+    { "code": "SAMBA-MARINHO-BRANCO", "name": "Samba azul-marinho e branco", "price": "160.00", "source": "samba", "photos": ["083"] },
+    { "code": "SAMBA-CREME-METALIZADO", "name": "Samba creme com faixas metalizadas", "price": "160.00", "source": "samba", "photos": ["084", "096", "054"] },
+    { "code": "SAMBA-PRETO-CINZA", "name": "Samba preto e cinza", "price": "160.00", "source": "samba", "photos": ["085"] },
+    { "code": "SAMBA-ROSA-BRANCO", "name": "Samba rosa e branco", "price": "160.00", "source": "samba", "photos": ["086"] },
+    { "code": "SAMBA-CREME-CARAMELO", "name": "Samba creme e caramelo", "price": "160.00", "source": "samba", "photos": ["087", "089", "024", "037", "050"] },
+    { "code": "SAMBA-BRANCO-PRATA", "name": "Samba branco e prata", "price": "160.00", "source": "samba", "photos": ["088", "097"] },
+    { "code": "SAMBA-PRETO", "name": "Samba todo preto", "price": "160.00", "source": "samba", "photos": ["092"] },
+    { "code": "SAMBA-BRANCO-VERMELHO", "name": "Samba branco e vermelho", "price": "160.00", "source": "samba", "photos": ["093", "003"] },
+    { "code": "SAMBA-VINHO-BRANCO", "name": "Samba vinho e branco", "price": "160.00", "source": "samba", "photos": ["100", "009"] },
+    { "code": "SAMBA-BRANCO", "name": "Samba todo branco", "price": "160.00", "source": "samba", "photos": ["052"] },
+    { "code": "SAMBA-RENDA-ROSA", "name": "Samba com renda rosa", "price": "180.00", "source": "renda", "photos": ["048"] },
+    { "code": "CAMPUS-BRANCO-VERDE", "name": "Campus branco, preto e verde-claro", "price": "200.00", "source": "campus", "photos": ["008"] },
+    { "code": "VANS-CLARO-VINHO", "name": "Vans claro com faixas vinho", "price": "200.00", "source": "vans-claro", "photos": ["011"] },
+    { "code": "CASUAL-MARROM-BRANCO", "name": "Tênis casual marrom e branco", "price": "220.00", "source": "casual-marrom", "photos": ["004"] },
+    { "code": "MIZUNO-VERDE-AGUA", "name": "Mizuno verde-água", "price": "220.00", "source": "mizuno", "photos": ["012"] },
+    { "code": "VANS-PRETO-BRANCO", "name": "Vans preto e branco", "price": "220.00", "source": "vans-preto", "photos": ["072", "027", "061"] }
+  ],
+  "reviewNotes": [
+    { "photos": ["090"], "reason": "Foto com vários modelos: mantida no acervo, sem criar um produto para a composição inteira." },
+    { "photos": ["033", "049"], "reason": "Variações com solado diferente: confirmar se seguem o preço de 160,00 antes de publicar." },
+    { "photos": ["018", "019", "075"], "reason": "Bolsas e mochila sem preço informado nos prints." },
+    { "photos": ["028"], "reason": "Outro tênis Mizuno: não aplicar automaticamente o preço do verde-água." },
+    { "photos": ["001"], "reason": "Tênis marrom diferente da foto 004: não aplicar automaticamente 220,00." }
+  ]
+}
