@@ -61,7 +61,7 @@
     { "code": "NB-CREME-VINHO", "name": "New Balance creme e vinho", "price": "220.00", "source": "new-balance", "photos": ["071", "017"] },
     { "code": "NB-530-BRANCO-MARINHO", "name": "New Balance 530 branco e azul-marinho", "price": "220.00", "source": "new-balance", "photos": ["059", "032"] },
     { "code": "NB-REBEL-ROSA", "name": "New Balance Rebel rosa", "price": "220.00", "source": "new-balance", "photos": ["057"] },
-    { "code": "NB-REBEL-CINZA", "name": "New Balance Rebel cinza", "price": "220.00", "source": "new-balance", "photos": ["058"] }
+    { "code": "NB-REBEL-CINZA", "name": "New Balance Rebel cinza", "price": "220.00", "source": "new-balance", "photos": ["058", "015"] }
   ],
   "reviewNotes": [
     { "photos": ["090"], "reason": "Foto com vários modelos: mantida no acervo, sem criar um produto para a composição inteira." },

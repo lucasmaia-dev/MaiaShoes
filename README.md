@@ -118,7 +118,7 @@ O painel exige login de administrador. O cadastro público cria somente clientes
 
 ### Catálogo de produtos e preços
 
-O lote de 20/10/2026 organiza 46 combinações de modelo e cor, com 74 fotos associadas e preços finais conferidos no material enviado. Nike custa R$ 200, Adidas R$ 160 e New Balance R$ 220; o Campus identificado permanece a R$ 200, o modelo de couro a R$ 220 e o Samba com renda a R$ 180. O acervo completo tem 100 imagens. Consulte a [conferência com preços e pendências](docs/catalogo-2026-10-20.md) ou abra [a versão visual](docs/catalogo-2026-10-20.html) após baixar o repositório.
+O lote de 20/10/2026 organiza 46 combinações de modelo e cor, com 75 fotos associadas e preços finais conferidos no material enviado. Nike custa R$ 200, Adidas R$ 160 e New Balance R$ 220; o Campus identificado permanece a R$ 200, o modelo de couro a R$ 220 e o Samba com renda a R$ 180. O acervo completo tem 100 imagens. Consulte a [conferência com preços e pendências](docs/catalogo-2026-10-20.md) ou abra [a versão visual](docs/catalogo-2026-10-20.html) após baixar o repositório.
 
 Para cadastrar esse lote em outro banco local, execute em `backend/`, depois das migrações e do build:
 
