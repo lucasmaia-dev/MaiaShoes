@@ -2,13 +2,39 @@ import Image from "next/image";
 import Link from "next/link";
 import { Suspense } from "react";
 import ProductCatalog from "./components/product-catalog";
-import { PUBLIC_CATEGORIES } from "@/lib/product-categories";
+import StoreHeader from "./components/store-header";
+import StyleExperience from "./components/style-experience";
+import ScrollReveal from "./components/scroll-reveal";
 
-const categoryNotes = [
-  "Conforto com personalidade.",
-  "Elegância nos seus passos.",
-  "Leveza para os seus dias.",
-  "Detalhes que acompanham.",
+const categories = [
+  {
+    value: "TENIS",
+    label: "Tênis",
+    image: "080",
+    note: "Encontre o seu ritmo",
+    position: "center 55%",
+  },
+  {
+    value: "SAPATOS",
+    label: "Sapatos",
+    image: "002",
+    note: "Seleção em preparação",
+    position: "center 80%",
+  },
+  {
+    value: "SANDALIAS",
+    label: "Sandálias",
+    image: null,
+    note: "Seleção em preparação",
+    position: "center",
+  },
+  {
+    value: "BOLSAS",
+    label: "Bolsas",
+    image: "019",
+    note: "Seleção em preparação",
+    position: "center 65%",
+  },
 ];
 
 export default function Home() {
@@ -17,118 +43,80 @@ export default function Home() {
       <a className="skip-link" href="#colecao">
         Ir para a coleção
       </a>
-      <div className="announcement">
-        MAIA SHOES & BAGS <span>Uma seleção feita para o seu ritmo.</span>
-      </div>
-      <header className="header container">
-        <Link href="/" aria-label="Maia shoes — início" className="brand">
-          <Image src="/logo-maia.jpg" width={62} height={62} alt="" priority />
-          <span>
-            maia<span className="brand-subtitle">SHOES & BAGS</span>
-          </span>
-        </Link>
-        <nav aria-label="Menu principal">
-          <a href="#categorias">Categorias</a>
-          <a href="#colecao">Coleção</a>
-          <a href="#sobre">A Maia</a>
-        </nav>
-        <Link href="/conta" className="account-link">
-          <svg
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="1.3"
-            aria-hidden="true"
-          >
-            <circle cx="12" cy="8" r="3.5" />
-            <path d="M4 21v-2a8 8 0 0 1 16 0v2" />
-          </svg>
-          <span>Minha conta</span>
-        </Link>
-      </header>
+      <StoreHeader />
       <main id="inicio">
-        <section className="hero container" aria-labelledby="hero-title">
-          <div className="hero-copy">
-            <p className="eyebrow">O EXTRAORDINÁRIO NO COTIDIANO</p>
-            <h1 id="hero-title">
-              Seu estilo.
-              <br />
-              Seu tempo.
-              <br />
-              <em>Seus passos.</em>
-            </h1>
-            <p className="hero-description">
-              Peças que encontram o seu jeito de ser. Descubra novos favoritos e
-              vista a liberdade de ser você.
-            </p>
-            <a className="button" href="#colecao">
-              Encontre seu próximo favorito <span aria-hidden="true">↗</span>
-            </a>
-            <a className="hero-secondary" href="#categorias">
-              Explore por categoria <span aria-hidden="true">↓</span>
-            </a>
-            <div className="hero-note">
-              <span className="note-line" /> ESTILO É O QUE CAMINHA COM VOCÊ.
-            </div>
-          </div>
-          <div className="hero-visual">
-            <div className="hero-main-photo">
-              <Image
-                src="/products/foto-078.jpeg"
-                alt="Tênis Samba branco com listras pretas em uma composição de moda"
-                fill
-                sizes="(max-width: 700px) 90vw, 48vw"
-                priority
-              />
-              <span className="photo-label">OS CLÁSSICOS, DO SEU JEITO.</span>
-            </div>
-            <Link className="hero-detail" href="/?categoria=TENIS#colecao">
-              <div>
-                <Image
-                  src="/products/foto-100.jpeg"
-                  alt="Samba vinho e branco, visto nos pés"
-                  fill
-                  sizes="(max-width: 700px) 30vw, 15vw"
-                />
-              </div>
-              <span>
-                Um novo olhar.<span aria-hidden="true">↗</span>
-              </span>
-            </Link>
-            <span className="hero-side-note" aria-hidden="true">
-              MAIA — ESCOLHAS COM PERSONALIDADE
-            </span>
-          </div>
-        </section>
+        <div className="stage-container">
+          <StyleExperience />
+        </div>
+        <div className="discovery-line container">
+          <span>SEU ESTILO. SUAS ESCOLHAS.</span>
+          <a href="#categorias">
+            Deslize para descobrir <span aria-hidden="true">↓</span>
+          </a>
+        </div>
         <section
           id="categorias"
           className="category-section container"
           aria-labelledby="categories-title"
+          data-reveal
         >
           <div className="section-heading">
             <div>
-              <p className="eyebrow">CADA MOMENTO, UMA ESCOLHA</p>
-              <h2 id="categories-title">Encontre o seu universo.</h2>
+              <p className="eyebrow">EXPLORE POR CATEGORIA</p>
+              <h2 id="categories-title">Qual é a sua vibe?</h2>
             </div>
-            <p>
-              Um lugar para cada estilo.
-              <br />
-              Uma escolha com a sua cara.
-            </p>
+            <Link className="text-link" href="/?categoria=TENIS#colecao">
+              Ver a coleção <span aria-hidden="true">↗</span>
+            </Link>
           </div>
           <nav className="category-grid" aria-label="Categorias de produtos">
-            {PUBLIC_CATEGORIES.map((category, index) => (
+            {categories.map((category, index) => (
               <Link
-                className="category-tile"
-                key={category.value}
+                className={`category-tile category-${category.value.toLowerCase()}`}
                 href={`/?categoria=${category.value}#colecao`}
+                key={category.value}
               >
-                <span className="category-number">0{index + 1}</span>
-                <h3>{category.label}</h3>
-                <p>{categoryNotes[index]}</p>
-                <span className="category-arrow" aria-hidden="true">
-                  ↗
-                </span>
+                {category.image ? (
+                  <Image
+                    src={`/products/foto-${category.image}.jpeg`}
+                    alt=""
+                    fill
+                    sizes="(max-width: 700px) 68vw, 24vw"
+                    style={{ objectPosition: category.position }}
+                  />
+                ) : (
+                  <div className="sandal-art" aria-hidden="true">
+                    <svg viewBox="0 0 240 300" fill="none">
+                      <path
+                        d="M113 30c-35 2-59 44-55 89l10 108c3 28 14 47 35 48s43-21 45-49l15-123c4-42-15-75-50-73Z"
+                        stroke="currentColor"
+                        strokeWidth="3"
+                      />
+                      <path
+                        d="m64 123 88 26M68 150l81 24M80 198l58 14M73 63l73 145M143 58 78 197"
+                        stroke="currentColor"
+                        strokeWidth="11"
+                        strokeLinecap="round"
+                      />
+                      <path
+                        d="m140 214-5 27M108 36l1 16"
+                        stroke="currentColor"
+                        strokeWidth="4"
+                      />
+                    </svg>
+                    <span>DIAS MAIS LEVES</span>
+                  </div>
+                )}
+                <span className="category-index">0{index + 1}</span>
+                <div className="category-caption">
+                  <div>
+                    <h3>{category.label}</h3>
+                    <p>{category.note}</p>
+                  </div>
+                  <span className="round-arrow" aria-hidden="true">
+                    ↗
+                  </span>
+                </div>
               </Link>
             ))}
           </nav>
@@ -137,82 +125,83 @@ export default function Home() {
           id="colecao"
           className="collection container"
           aria-labelledby="collection-title"
+          data-reveal
         >
           <div className="section-heading">
             <div>
-              <p className="eyebrow">A SELEÇÃO MAIA</p>
-              <h2 id="collection-title">
-                Feitos para combinar
-                <br />
-                <em>com você.</em>
-              </h2>
+              <p className="eyebrow">ESCOLHAS COM PERSONALIDADE</p>
+              <h2 id="collection-title">Seu próximo favorito.</h2>
             </div>
-            <p>
-              Explore os detalhes.
-              <br />
-              Escolha no seu tempo.
-            </p>
+            <p>Explore. Combine. Se encontre.</p>
           </div>
           <Suspense
             fallback={
-              <p className="catalog-message" role="status">
-                Preparando a coleção…
-              </p>
+              <div className="catalog-message" role="status">
+                Carregando a seleção Maia…
+              </div>
             }
           >
             <ProductCatalog />
           </Suspense>
         </section>
-        <section id="sobre" className="about" aria-labelledby="about-title">
-          <div className="about-inner container">
-            <div className="about-photo">
-              <Image
-                src="/products/foto-087.jpeg"
-                alt="Detalhes de um par de tênis em tons claros com solado caramelo"
-                fill
-                sizes="(max-width: 700px) 90vw, 40vw"
-              />
-            </div>
-            <div className="about-copy">
-              <p className="eyebrow">PRAZER, SOMOS A MAIA</p>
-              <h2 id="about-title">
-                A beleza está
-                <br />
-                em ser <em>você.</em>
-              </h2>
-              <p>
-                Acreditamos nas escolhas que fazem sentido para a sua vida. No
-                detalhe que transforma um look. Na peça que vira companhia para
-                os seus próximos passos.
-              </p>
-              <p>
-                Uma seleção de calçados e bolsas para expressar sua
-                personalidade, todos os dias.
-              </p>
-              <a className="text-link" href="#colecao">
-                Descubra a seleção <span aria-hidden="true">↗</span>
-              </a>
-            </div>
+        <section
+          className="maia-manifesto container"
+          id="sobre"
+          aria-labelledby="about-title"
+          data-reveal
+        >
+          <div className="manifesto-picture">
+            <Image
+              src="/products/foto-100.jpeg"
+              alt="Tênis Samba vinho e branco em uma composição de moda"
+              fill
+              sizes="(max-width: 700px) 100vw, 45vw"
+            />
+          </div>
+          <div className="manifesto-copy">
+            <span className="manifesto-mark" aria-hidden="true">
+              m.
+            </span>
+            <p className="eyebrow">O UNIVERSO MAIA</p>
+            <h2 id="about-title">
+              Tendências passam.
+              <br />
+              <span>Seu estilo fica.</span>
+            </h2>
+            <p>
+              Para os dias comuns. Para os planos inesperados.
+              <br />
+              Para todas as versões de você.
+            </p>
+            <Link
+              className="button button-light"
+              href="/?categoria=TENIS#colecao"
+            >
+              Encontre sua Maia{" "}
+              <span className="round-arrow" aria-hidden="true">
+                ↗
+              </span>
+            </Link>
           </div>
         </section>
       </main>
       <footer className="footer container">
-        <div>
-          <a className="footer-wordmark" href="#inicio">
-            maia
+        <div className="footer-top">
+          <a href="#inicio" className="footer-wordmark">
+            maia<span>®</span>
           </a>
-          <p>O seu jeito de caminhar pelo mundo.</p>
+          <p>O próximo passo é seu.</p>
         </div>
-        <nav aria-label="Menu do rodapé">
-          <a href="#categorias">Categorias</a>
-          <a href="#colecao">Coleção</a>
-          <Link href="/conta">Minha conta</Link>
-        </nav>
         <div className="footer-bottom">
           <span>© Maia Shoes & Bags</span>
-          <a href="#inicio">Voltar ao início ↑</a>
+          <nav aria-label="Menu do rodapé">
+            <Link href="/?categoria=TENIS#colecao">Coleção</Link>
+            <Link href="/conta">Minha conta</Link>
+            <a href="#inicio">Voltar ao topo ↑</a>
+          </nav>
         </div>
       </footer>
+      <ScrollReveal />
     </div>
   );
 }

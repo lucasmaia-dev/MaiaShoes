@@ -7,6 +7,8 @@ import { useSearchParams } from "next/navigation";
 import { listProducts, type Product } from "@/lib/products-api";
 import { PUBLIC_CATEGORIES, categoryLabel } from "@/lib/product-categories";
 import ProductGallery from "./product-gallery";
+import { useFavorites } from "@/lib/favorites";
+import { HeartIcon } from "./store-header";
 
 const currency = new Intl.NumberFormat("pt-BR", {
   style: "currency",
@@ -19,6 +21,16 @@ const normalize = (text: string) =>
     .toLocaleLowerCase("pt-BR");
 const gallery = (product: Product) =>
   product.imageUrls.length ? product.imageUrls : [product.imageUrl!];
+const featuredNames = [
+  "Samba branco e preto",
+  "Samba creme e caramelo",
+  "Samba vinho e branco",
+  "Samba preto e branco",
+];
+const selectionRank = (product: Product) => {
+  const rank = featuredNames.indexOf(product.name);
+  return rank < 0 ? featuredNames.length : rank;
+};
 
 function ProductDetails({
   product,
@@ -28,6 +40,10 @@ function ProductDetails({
   close: () => void;
 }) {
   const dialog = useRef<HTMLDialogElement>(null);
+  const requestClose = () => {
+    dialog.current?.close();
+    close();
+  };
   useEffect(() => {
     const element = dialog.current!;
     const previousOverflow = document.body.style.overflow;
@@ -45,10 +61,10 @@ function ProductDetails({
       aria-labelledby="detail-title"
       onCancel={(event) => {
         event.preventDefault();
-        close();
+        requestClose();
       }}
       onClick={(event) => {
-        if (event.target === event.currentTarget) close();
+        if (event.target === event.currentTarget) requestClose();
       }}
     >
       <div className="detail-layout">
@@ -58,7 +74,7 @@ function ProductDetails({
             autoFocus
             className="dialog-close"
             type="button"
-            onClick={close}
+            onClick={requestClose}
             aria-label="Fechar detalhes"
           >
             ×
@@ -81,7 +97,7 @@ function ProductDetails({
               Consulte a disponibilidade desta peça antes de comprar.
             </p>
           </div>
-          <button className="button" onClick={close} type="button">
+          <button className="button" onClick={requestClose} type="button">
             Continuar explorando <span aria-hidden="true">↗</span>
           </button>
         </div>
@@ -95,19 +111,34 @@ export default function ProductCatalog() {
   const category =
     PUBLIC_CATEGORIES.find((item) => item.value === params.get("categoria"))
       ?.value ?? "TENIS";
-  // A chave reinicia busca e paginação quando o visitante troca de categoria, inclusive pelo histórico.
-  return <CategoryCatalog key={category} category={category} />;
+  const initialSearch = params.get("busca") ?? "";
+  const onlyFavorites = params.get("favoritos") === "1";
+  // A URL permite chegar a uma peça pelo destaque e compartilhar uma categoria.
+  return (
+    <CategoryCatalog
+      key={`${category}:${initialSearch}:${onlyFavorites}`}
+      category={category}
+      initialSearch={initialSearch}
+      onlyFavorites={onlyFavorites}
+    />
+  );
 }
 
 function CategoryCatalog({
   category,
+  initialSearch,
+  onlyFavorites,
 }: {
   category: (typeof PUBLIC_CATEGORIES)[number]["value"];
+  initialSearch: string;
+  onlyFavorites: boolean;
 }) {
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
-  const [search, setSearch] = useState("");
+  const [search, setSearch] = useState(initialSearch);
+  const [brand, setBrand] = useState("Todas");
+  const { ids: favorites, toggle: toggleFavorite } = useFavorites();
   const [sort, setSort] = useState("selection");
   const [limit, setLimit] = useState(12);
   const [selected, setSelected] = useState<Product | null>(null);
@@ -133,17 +164,26 @@ function CategoryCatalog({
   }, [loadProducts]);
 
   const categoryProducts = products.filter(
-    (product) => product.imageUrl && product.category === category,
+    (product) =>
+      product.imageUrl &&
+      product.category !== "SEM_CATEGORIA" &&
+      (onlyFavorites || product.category === category),
   );
   const matches = categoryProducts
-    .filter((product) =>
-      normalize(product.name).includes(normalize(search.trim())),
+    .filter(
+      (product) =>
+        normalize(product.name).includes(normalize(search.trim())) &&
+        (!onlyFavorites || favorites.includes(product.id)) &&
+        (brand === "Todas" ||
+          (brand === "Adidas"
+            ? /adidas|samba|campus|gazelle/.test(normalize(product.name))
+            : normalize(product.name).includes(normalize(brand)))),
     )
     .sort((a, b) => {
       if (sort === "price-asc") return Number(a.price) - Number(b.price);
       if (sort === "price-desc") return Number(b.price) - Number(a.price);
       if (sort === "name") return a.name.localeCompare(b.name, "pt-BR");
-      return a.id - b.id;
+      return selectionRank(a) - selectionRank(b) || a.id - b.id;
     });
   const closeDetails = () => {
     setSelected(null);
@@ -157,10 +197,11 @@ function CategoryCatalog({
           <Link
             key={item.value}
             href={`/?categoria=${item.value}#colecao`}
-            aria-current={item.value === category ? "page" : undefined}
+            aria-current={
+              !onlyFavorites && item.value === category ? "page" : undefined
+            }
           >
             {item.label}
-            <span aria-hidden="true">↗</span>
           </Link>
         ))}
       </nav>
@@ -176,10 +217,14 @@ function CategoryCatalog({
             <circle cx="10.5" cy="10.5" r="6.5" />
             <path d="m16 16 5 5" />
           </svg>
-          <span className="sr-only">Buscar em {categoryLabel(category)}</span>
+          <span className="sr-only">
+            {onlyFavorites
+              ? "Buscar nos favoritos"
+              : `Buscar em ${categoryLabel(category)}`}
+          </span>
           <input
             type="search"
-            placeholder={`Encontre seu favorito em ${categoryLabel(category).toLowerCase()}`}
+            placeholder="Busque por modelo ou marca"
             value={search}
             onChange={(event) => {
               setSearch(event.target.value);
@@ -202,6 +247,36 @@ function CategoryCatalog({
             <option value="name">Nome: A a Z</option>
           </select>
         </label>
+      </div>
+      <div className="catalog-refinements">
+        <div
+          className="brand-filters"
+          role="group"
+          aria-label="Filtrar por marca"
+        >
+          {["Todas", "Nike", "Adidas", "New Balance", "Vans", "Mizuno"].map(
+            (item) => (
+              <button
+                key={item}
+                type="button"
+                aria-pressed={item === brand}
+                onClick={() => {
+                  setBrand(item);
+                  setLimit(12);
+                }}
+              >
+                {item}
+              </button>
+            ),
+          )}
+        </div>
+        <Link
+          className={`favorites-filter ${onlyFavorites ? "is-active" : ""}`}
+          href={`/?categoria=${category}${onlyFavorites ? "" : "&favoritos=1"}#colecao`}
+        >
+          <HeartIcon filled={onlyFavorites} /> Meus favoritos
+          {onlyFavorites && <span>×</span>}
+        </Link>
       </div>
       {loading ? (
         <div className="catalog-message" role="status">
@@ -228,9 +303,16 @@ function CategoryCatalog({
             <p role="status">
               {matches.length}{" "}
               {matches.length === 1 ? "peça encontrada" : "peças encontradas"}
-              <span> / {categoryLabel(category)}</span>
+              <span>
+                {" "}
+                / {onlyFavorites ? "Meus favoritos" : categoryLabel(category)}
+              </span>
             </p>
-            <span>ESCOLHA NO SEU TEMPO</span>
+            <span>
+              {onlyFavorites
+                ? "Salvos neste navegador"
+                : "Encontre uma peça. Descubra os detalhes."}
+            </span>
           </div>
           {!matches.length && (
             <div className="catalog-empty">
@@ -238,25 +320,37 @@ function CategoryCatalog({
                 M
               </span>
               <h3>
-                {categoryProducts.length
-                  ? "Vamos tentar outra busca?"
-                  : `${categoryLabel(category)}: o próximo capítulo.`}
+                {onlyFavorites
+                  ? "Guarde o que faz seu estilo."
+                  : categoryProducts.length
+                    ? "Ainda não encontramos essa combinação."
+                    : `${categoryLabel(category)}: em breve por aqui.`}
               </h3>
               <p>
-                {categoryProducts.length
-                  ? "Ainda não encontramos uma peça com esse nome. Experimente outra palavra."
-                  : "Estamos preparando esta seleção. Enquanto isso, descubra os tênis que já fazem parte da Maia."}
+                {onlyFavorites
+                  ? "Toque no coração das peças que você gosta. Elas ficam salvas neste navegador para você rever depois."
+                  : categoryProducts.length
+                    ? "Experimente outro modelo, outra marca ou limpe os filtros."
+                    : "Estamos preparando esta seleção. Descubra os tênis que já fazem parte da Maia."}
               </p>
-              {categoryProducts.length ? (
+              {onlyFavorites ? (
+                <Link
+                  className="button"
+                  href={`/?categoria=${category}#colecao`}
+                >
+                  Explorar peças <span aria-hidden="true">↗</span>
+                </Link>
+              ) : categoryProducts.length ? (
                 <button
                   className="text-link"
                   type="button"
                   onClick={() => {
                     setSearch("");
+                    setBrand("Todas");
                     setLimit(12);
                   }}
                 >
-                  Limpar busca ↗
+                  Limpar filtros ↗
                 </button>
               ) : (
                 <Link className="text-link" href="/?categoria=TENIS#colecao">
@@ -284,8 +378,17 @@ function CategoryCatalog({
                       fill
                       sizes="(max-width: 700px) 45vw, (max-width: 1050px) 30vw, 23vw"
                     />
+                    {gallery(product).length > 1 && (
+                      <Image
+                        className="product-alternate"
+                        src={gallery(product)[1]}
+                        alt=""
+                        fill
+                        sizes="(max-width: 700px) 45vw, (max-width: 1050px) 30vw, 23vw"
+                      />
+                    )}
                     <span className="product-view">
-                      Ver detalhes <span aria-hidden="true">↗</span>
+                      Explorar peça <span aria-hidden="true">↗</span>
                     </span>
                     {gallery(product).length > 1 && (
                       <span className="photo-count">
@@ -295,13 +398,22 @@ function CategoryCatalog({
                   </div>
                   <div className="product-info">
                     <p className="product-category">
-                      {categoryLabel(product.category)} / Maia selection
+                      {categoryLabel(product.category)}
                     </p>
                     <h3>{product.name}</h3>
                     <p className="product-price">
                       {currency.format(Number(product.price))}
                     </p>
                   </div>
+                </button>
+                <button
+                  type="button"
+                  className="product-favorite icon-button"
+                  aria-pressed={favorites.includes(product.id)}
+                  aria-label={`${favorites.includes(product.id) ? "Remover" : "Salvar"} ${product.name} ${favorites.includes(product.id) ? "dos" : "nos"} favoritos`}
+                  onClick={() => toggleFavorite(product.id)}
+                >
+                  <HeartIcon filled={favorites.includes(product.id)} />
                 </button>
               </article>
             ))}
