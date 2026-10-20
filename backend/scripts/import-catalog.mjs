@@ -3,6 +3,7 @@ import { readFile, writeFile, access } from 'node:fs/promises';
 import { PrismaPg } from '@prisma/adapter-pg';
 import { PrismaClient } from '../dist/generated/prisma/client.js';
 import { buildCatalogPlan } from '../dist/products/catalog-plan.js';
+import { syncCatalog } from '../dist/products/catalog-import.js';
 
 const args = process.argv.slice(2);
 if (args.some((arg) => !['--apply', '--report'].includes(arg))) throw new Error('Use sem argumentos para simular; --apply grava; --report gera a conferência.');
@@ -23,7 +24,7 @@ if (args.includes('--report')) {
     '## Fontes dos preços', '', ...Object.entries(raw.priceSources).map(([key, value]) => `- **${key}:** ${value}`), '',
     '## Pendências', '', ...raw.reviewNotes.map((note) => `- Fotos ${note.photos.join(', ')}: ${note.reason}`), '',
     `Demais fotos não associadas: ${plan.pendingPhotos.map((p) => p.id).join(', ')}. Elas continuam disponíveis no seletor do painel, mas não geram novos produtos com preço estimado.`, '',
-    'Os quatro cadastros anteriores são preservados, inclusive seus preços. O código de importação não faz deduplicação por nome aproximado e não altera registros sem catalogCode.', '',
+    'O lote pode atualizar um cadastro manual somente quando adoptExistingByImage está explicitamente habilitado e existe uma única foto exatamente correspondente. O ID é preservado e o item recebe seu código de catálogo; não há deduplicação por nome aproximado. Duas correspondências abortam a transação. Os demais cadastros manuais são preservados. O cadastro local genérico Tênis Nike, sem foto, também teve seu preço corrigido para R$ 200 conforme a confirmação; nenhum modelo ou foto foi presumido para ele.', '',
     '## Repetir a importação', '', 'De backend/, execute npm run build e npm run catalog:preview. Confira o plano antes de usar npm run catalog:import. A simulação não altera o banco. A aplicação usa transação e códigos únicos; repetir o lote não duplica produtos nem altera updatedAt dos itens iguais. O comando não apaga cadastros. Para rever fotos e preços, consulte catalogo-2026-10-20.html nesta pasta.', '',
   ].join('\n');
   await writeFile(new URL('../../docs/catalogo-2026-10-20.md', import.meta.url), markdown);
@@ -38,16 +39,7 @@ if (args.includes('--report')) {
 if (args.includes('--apply')) {
   const prisma = new PrismaClient({ adapter: new PrismaPg({ connectionString: process.env.DATABASE_URL }) });
   try {
-    const result = await prisma.$transaction(async (tx) => {
-      const counts = { created: 0, updated: 0, unchanged: 0 };
-      for (const { photoIds: _photoIds, source: _source, ...data } of plan.products) {
-        const existing = await tx.product.findUnique({ where: { catalogCode: data.catalogCode } });
-        if (!existing) { await tx.product.create({ data }); counts.created++; }
-        else if (existing.name === data.name && existing.description === data.description && existing.category === data.category && existing.price.toFixed(2) === data.price && existing.imageUrl === data.imageUrl && JSON.stringify(existing.imageUrls) === JSON.stringify(data.imageUrls)) counts.unchanged++;
-        else { await tx.product.update({ where: { catalogCode: data.catalogCode }, data }); counts.updated++; }
-      }
-      return counts;
-    }, { timeout: 30000 });
-    console.log(`Importação concluída: ${result.created} criados, ${result.updated} atualizados, ${result.unchanged} sem mudanças. Cadastros sem código preservados.`);
+    const result = await prisma.$transaction((tx) => syncCatalog(tx, plan.products), { timeout: 30000 });
+    console.log(`Importação concluída: ${result.created} criados, ${result.updated} atualizados (${result.adopted} associados por foto), ${result.unchanged} sem mudanças.`);
   } finally { await prisma.$disconnect(); }
 } else console.log('Simulação: nenhum cadastro foi alterado.');

@@ -92,7 +92,7 @@ Para criar o primeiro administrador, copie `.env.admin.example` para `.env.admin
 
 ## Importação do catálogo
 
-Depois de aplicar as migrações e compilar, `npm run catalog:preview` valida o lote `data/catalog-2026-10-20.json` e gera a conferência em `docs/`, sem alterar o banco. `npm run catalog:import` cadastra ou atualiza somente os códigos desse lote, em transação. Repetições idênticas não duplicam produtos nem alteram a data de atualização. Produtos manuais são preservados.
+Depois de aplicar as migrações e compilar, `npm run catalog:preview` valida o lote `data/catalog-2026-10-20.json` e gera a conferência em `docs/`, sem alterar o banco. `npm run catalog:import` cadastra ou atualiza os códigos desse lote, em transação. Repetições idênticas não duplicam produtos nem alteram a data de atualização. Produtos manuais são preservados, exceto quando `adoptExistingByImage: true` é explicitamente definido para um item: uma única correspondência exata da foto permite atualizar o cadastro existente, conservando seu ID. Mais de uma correspondência aborta a transação. Não existe associação por nome aproximado.
 
 O campo `imageUrl` é a capa. `imageUrls` guarda as fotos agrupadas; na resposta pública, a capa aparece primeiro, sem repetição. Remover a capa oculta a galeria na vitrine; escolher outra capa preserva as demais fotos. O código `catalogCode` é interno e não é aceito pelo formulário público de criação. Preços sem fonte ou sem confirmação de venda são rejeitados pelo importador.
 
