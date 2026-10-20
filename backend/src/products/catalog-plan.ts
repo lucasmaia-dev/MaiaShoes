@@ -1,5 +1,5 @@
 type Photo = { id: string; url: string };
-export type CatalogItem = { catalogCode: string; name: string; description: string; category: 'TENIS'; price: string; imageUrl: string; imageUrls: string[]; photoIds: string[]; source: string };
+export type CatalogItem = { catalogCode: string; name: string; description: string; category: 'TENIS'; price: string; imageUrl: string; imageUrls: string[]; photoIds: string[]; source: string; adoptExistingByImage: boolean };
 const object = (value: unknown): value is Record<string, unknown> => typeof value === 'object' && value !== null && !Array.isArray(value);
 
 /** Valida o plano inteiro antes de qualquer gravação. Não adivinha preços ou vínculos. */
@@ -16,6 +16,7 @@ export function buildCatalogPlan(input: unknown, photoInput: unknown) {
   const products: CatalogItem[] = input.products.map((item) => {
     if (!object(item) || typeof item.code !== 'string' || !/^[A-Z0-9-]{1,64}$/.test(item.code) || codes.has(item.code)) throw new Error('Código de catálogo inválido ou duplicado.');
     codes.add(item.code);
+    if (item.adoptExistingByImage !== undefined && typeof item.adoptExistingByImage !== 'boolean') throw new Error('A opção de associação por foto deve ser booleana.');
     if (typeof item.name !== 'string' || !item.name.trim() || item.name.length > 150 || typeof item.price !== 'string' || !/^(0|[1-9]\d{0,7})\.\d{2}$/.test(item.price)) throw new Error(`Nome ou preço inválido: ${item.code}`);
     if (typeof item.source !== 'string' || typeof sources[item.source] !== 'string' || !sources[item.source]) throw new Error(`Preço sem fonte: ${item.code}`);
     if (!Array.isArray(item.photos) || !item.photos.length || item.photos.length > 20) throw new Error(`Galeria inválida: ${item.code}`);
@@ -27,7 +28,7 @@ export function buildCatalogPlan(input: unknown, photoInput: unknown) {
       used.add(id); photoIds.push(id);
       return photo.url;
     });
-    return { catalogCode: item.code, name: item.name.trim(), description: 'Consulte a disponibilidade de numeração com a MaiaShoes.', category: 'TENIS', price: item.price, imageUrl: imageUrls[0], imageUrls, photoIds, source: sources[item.source] as string };
+    return { catalogCode: item.code, name: item.name.trim(), description: 'Consulte a disponibilidade de numeração com a MaiaShoes.', category: 'TENIS', price: item.price, imageUrl: imageUrls[0], imageUrls, photoIds, source: sources[item.source] as string, adoptExistingByImage: item.adoptExistingByImage === true };
   });
   return { products, pendingPhotos: photos.filter((p) => !used.has(p.id)) };
 }

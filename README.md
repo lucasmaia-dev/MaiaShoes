@@ -118,7 +118,7 @@ O painel exige login de administrador. O cadastro público cria somente clientes
 
 ### Catálogo de produtos e preços
 
-O lote de 20/10/2026 organiza 22 combinações de modelo e cor, com 43 fotos associadas e preços finais conferidos no material enviado. O acervo completo tem 100 imagens. Consulte a [conferência com preços e pendências](docs/catalogo-2026-10-20.md) ou abra [a versão visual](docs/catalogo-2026-10-20.html) após baixar o repositório.
+O lote de 20/10/2026 organiza 46 combinações de modelo e cor, com 75 fotos associadas e preços finais conferidos no material enviado. Nike custa R$ 200, Adidas R$ 160 e New Balance R$ 220; o Campus identificado permanece a R$ 200, o modelo de couro a R$ 220 e o Samba com renda a R$ 180. O acervo completo tem 100 imagens. Consulte a [conferência com preços e pendências](docs/catalogo-2026-10-20.md) ou abra [a versão visual](docs/catalogo-2026-10-20.html) após baixar o repositório.
 
 Para cadastrar esse lote em outro banco local, execute em `backend/`, depois das migrações e do build:
 
@@ -127,7 +127,7 @@ npm run catalog:preview
 npm run catalog:import
 ```
 
-A primeira chamada apenas gera a conferência. A segunda grava em transação, usando códigos únicos para evitar duplicatas. Registros anteriores sem esses códigos são preservados. A vitrine permite alternar entre as fotos de cada produto. Fotos sem preço confirmado continuam no seletor do painel; não recebem valores estimados.
+A primeira chamada apenas gera a conferência. A segunda grava em transação, usando códigos únicos para evitar duplicatas. Uma opção explícita no lote permite associar um cadastro manual por uma única foto exatamente correspondente, preservando seu ID. Os demais registros manuais são preservados. A vitrine permite alternar entre as fotos de cada produto. Fotos sem preço confirmado continuam no seletor do painel; não recebem valores estimados.
 
 O script `backend/scripts/setup-local-db.mjs` é uma conveniência específica do ambiente original. A instalação a partir de um clone segue os passos acima e não exige as credenciais administrativas do autor.
 
