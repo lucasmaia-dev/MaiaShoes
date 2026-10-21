@@ -1,6 +1,17 @@
 # Organização da vitrine Maia
 
-A página usa uma abertura imersiva com três estilos selecionáveis, categorias visuais e uma coleção interativa. Tipografia sem serifa, navegação flutuante, superfícies translúcidas e transições dão unidade à interface. As fotos continuam sendo as fornecidas para o projeto.
+A página usa uma campanha escura em tela ampla, com títulos condensados, fotografias assimétricas e três estilos selecionáveis. A composição e o contraste foram repensados a partir da referência visual enviada, mantendo a identidade Maia e as fotos fornecidas para o projeto. Categorias e coleção usam superfícies claras para facilitar a descoberta dos produtos e a leitura dos preços.
+
+## Direção visual e movimento
+
+- Barlow Condensed nos títulos da campanha, Space Grotesk na interface e Instrument Serif em destaques editoriais. As fontes ficam no próprio projeto, carregadas com `next/font/local`, com as licenças SIL Open Font License em `frontend/src/app/fonts/`. O navegador não consulta o Google Fonts.
+- A campanha permite trocar estilos pelos botões numerados, setas, prévia da próxima foto e gestos horizontais no celular. As setas do teclado também funcionam no grupo de estilos. O produto selecionado leva à busca correspondente na coleção.
+- As fotos respondem discretamente ao movimento do mouse e recebem uma transição ao trocar de estilo. Não há rotação automática das peças.
+- O cabeçalho acompanha a rolagem, destaca a seção atual e muda de contraste ao sair da campanha. Uma linha mostra o progresso da página nos navegadores com suporte a animação ligada à rolagem.
+- As categorias entram em sequência e os cartões respondem a foco e hover. A rolagem continua nativa, sem interceptação da roda do mouse.
+- A preferência por movimento reduzido desativa os efeitos e a rolagem suave. A composição continua funcionando com imagens e controles estáticos.
+
+Fontes oficiais: [Barlow Condensed](https://github.com/google/fonts/tree/main/ofl/barlowcondensed), [Space Grotesk](https://github.com/google/fonts/tree/main/ofl/spacegrotesk) e [Instrument Serif](https://github.com/google/fonts/tree/main/ofl/instrumentserif).
 
 ## Como funciona
 

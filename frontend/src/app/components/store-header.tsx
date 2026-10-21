@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useFavorites } from "@/lib/favorites";
 
 export function HeartIcon({ filled = false }: { filled?: boolean }) {
@@ -22,8 +22,37 @@ export function HeartIcon({ filled = false }: { filled?: boolean }) {
 export default function StoreHeader() {
   const { ids } = useFavorites();
   const menu = useRef<HTMLDetailsElement>(null);
+  const [activeSection, setActiveSection] = useState("");
+  useEffect(() => {
+    if (!("IntersectionObserver" in window)) return;
+    let observer: IntersectionObserver;
+    const observeSections = () => {
+      observer?.disconnect();
+      observer = new IntersectionObserver(
+        (entries) => {
+          const current = entries.find((entry) => entry.isIntersecting);
+          if (current) setActiveSection(current.target.id);
+        },
+        {
+          rootMargin: `-90px 0px -${Math.round(window.innerHeight * 0.6)}px 0px`,
+        },
+      );
+      document
+        .querySelectorAll("#estilos, #categorias, #colecao, #sobre")
+        .forEach((section) => observer.observe(section));
+    };
+    observeSections();
+    window.addEventListener("resize", observeSections);
+    return () => {
+      observer.disconnect();
+      window.removeEventListener("resize", observeSections);
+    };
+  }, []);
   return (
-    <header className="header-shell">
+    <header
+      className={`header-shell${activeSection === "estilos" || activeSection === "" ? " header-dark" : ""}`}
+    >
+      <span className="reading-progress" aria-hidden="true" />
       <div className="header container">
         <Link href="/" className="brand" aria-label="Maia shoes — início">
           <Image src="/logo-maia.jpg" width={46} height={46} alt="" />
@@ -32,9 +61,26 @@ export default function StoreHeader() {
           </span>
         </Link>
         <nav className="desktop-nav" aria-label="Menu principal">
-          <a href="#colecao">Explorar coleção</a>
-          <a href="#categorias">Categorias</a>
-          <a href="#sobre">Universo Maia</a>
+          <a
+            href="#colecao"
+            aria-current={activeSection === "colecao" ? "location" : undefined}
+          >
+            Explorar coleção
+          </a>
+          <a
+            href="#categorias"
+            aria-current={
+              activeSection === "categorias" ? "location" : undefined
+            }
+          >
+            Categorias
+          </a>
+          <a
+            href="#sobre"
+            aria-current={activeSection === "sobre" ? "location" : undefined}
+          >
+            Universo Maia
+          </a>
         </nav>
         <div className="header-actions">
           <Link
@@ -77,6 +123,9 @@ export default function StoreHeader() {
             <nav aria-label="Menu no celular">
               <a
                 href="#colecao"
+                aria-current={
+                  activeSection === "colecao" ? "location" : undefined
+                }
                 onClick={() => {
                   if (menu.current) menu.current.open = false;
                 }}
@@ -85,6 +134,9 @@ export default function StoreHeader() {
               </a>
               <a
                 href="#categorias"
+                aria-current={
+                  activeSection === "categorias" ? "location" : undefined
+                }
                 onClick={() => {
                   if (menu.current) menu.current.open = false;
                 }}
@@ -93,6 +145,9 @@ export default function StoreHeader() {
               </a>
               <a
                 href="#sobre"
+                aria-current={
+                  activeSection === "sobre" ? "location" : undefined
+                }
                 onClick={() => {
                   if (menu.current) menu.current.open = false;
                 }}

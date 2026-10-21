@@ -49,9 +49,9 @@ export default function Home() {
           <StyleExperience />
         </div>
         <div className="discovery-line container">
-          <span>SEU ESTILO. SUAS ESCOLHAS.</span>
+          <span>PEÇAS QUE CONVERSAM COM VOCÊ.</span>
           <a href="#categorias">
-            Deslize para descobrir <span aria-hidden="true">↓</span>
+            Explore seu universo <span aria-hidden="true">↓</span>
           </a>
         </div>
         <section
@@ -63,7 +63,9 @@ export default function Home() {
           <div className="section-heading">
             <div>
               <p className="eyebrow">EXPLORE POR CATEGORIA</p>
-              <h2 id="categories-title">Qual é a sua vibe?</h2>
+              <h2 id="categories-title">
+                Um universo de <em>possibilidades.</em>
+              </h2>
             </div>
             <a className="text-link" href="#colecao">
               Ver a coleção <span aria-hidden="true">↗</span>
@@ -133,7 +135,9 @@ export default function Home() {
           <div className="section-heading">
             <div>
               <p className="eyebrow">ESCOLHAS COM PERSONALIDADE</p>
-              <h2 id="collection-title">Seu próximo favorito.</h2>
+              <h2 id="collection-title">
+                Encontros que viram <em>favoritos.</em>
+              </h2>
             </div>
             <p>Explore. Combine. Se encontre.</p>
           </div>

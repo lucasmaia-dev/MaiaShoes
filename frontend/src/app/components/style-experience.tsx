@@ -7,158 +7,201 @@ import { useRef, useState } from "react";
 const looks = [
   {
     label: "Os essenciais",
-    title: (
-      <>
-        O próximo
-        <br />
-        passo é seu.
-      </>
-    ),
-    image: "078",
+    image: "095",
     product: "Samba branco e preto",
-    caption: "Clássicos que acompanham o seu ritmo.",
+    caption: "Clássicos para o seu próprio ritmo.",
     tone: "essential",
   },
   {
     label: "Tons naturais",
-    title: (
-      <>
-        Leve no look.
-        <br />
-        Livre na vida.
-      </>
-    ),
     image: "087",
     product: "Samba creme e caramelo",
-    caption: "Texturas e tons para combinar sem esforço.",
+    caption: "Leveza para combinar do seu jeito.",
     tone: "natural",
   },
   {
     label: "Com presença",
-    title: (
-      <>
-        Presença em
-        <br />
-        cada passo.
-      </>
-    ),
     image: "100",
     product: "Samba vinho e branco",
-    caption: "Uma escolha que faz parte de quem você é.",
+    caption: "Cor e personalidade em cada passo.",
     tone: "presence",
   },
 ];
 
 export default function StyleExperience() {
   const [active, setActive] = useState(0);
-  const stage = useRef<HTMLElement>(null);
+  const touchStart = useRef<{ x: number; y: number } | null>(null);
+  const styles = useRef<HTMLDivElement>(null);
   const look = looks[active];
+  const next = looks[(active + 1) % looks.length];
+  const changeLook = (direction: number) =>
+    setActive((current) => (current + direction + looks.length) % looks.length);
+
   return (
     <section
-      ref={stage}
-      className={`style-stage stage-${look.tone}`}
-      aria-label="Explore os estilos Maia"
+      id="estilos"
+      className={`campaign campaign-${look.tone}`}
+      aria-labelledby="campaign-title"
       onPointerMove={(event) => {
         if (event.pointerType !== "mouse") return;
         const bounds = event.currentTarget.getBoundingClientRect();
         event.currentTarget.style.setProperty(
-          "--pointer-x",
+          "--drift",
           `${(event.clientX - bounds.left - bounds.width / 2) * 0.012}px`,
         );
-        event.currentTarget.style.setProperty(
-          "--pointer-y",
-          `${(event.clientY - bounds.top - bounds.height / 2) * 0.012}px`,
-        );
       }}
-      onPointerLeave={(event) => {
-        event.currentTarget.style.setProperty("--pointer-x", "0px");
-        event.currentTarget.style.setProperty("--pointer-y", "0px");
-      }}
+      onPointerLeave={(event) =>
+        event.currentTarget.style.setProperty("--drift", "0px")
+      }
     >
-      <div className="stage-picture" key={look.image}>
-        <Image
-          src={`/products/foto-${look.image}.jpeg`}
-          alt={look.product}
-          fill
-          sizes="(max-width: 700px) 100vw, 70vw"
-          priority={active === 0}
-        />
-      </div>
-      <div className="stage-shade" />
-      <span className="stage-watermark" aria-hidden="true">
-        maia
-      </span>
-      <div className="stage-copy" key={look.label}>
-        <span className="stage-chip">
-          <span /> SELEÇÃO MAIA
-        </span>
-        <h1>{look.title}</h1>
-        <p>{look.caption}</p>
-        <a href="#colecao" className="button button-light">
-          Explorar coleção{" "}
-          <span className="round-arrow" aria-hidden="true">
-            ↗
+      <div className="campaign-grid" aria-hidden="true" />
+      <div className="campaign-halo" aria-hidden="true" />
+      <div className="campaign-content">
+        <p className="campaign-eyebrow">
+          <span /> MAIA SHOES & BAGS{" "}
+          <span className="campaign-edition">/ SELEÇÃO DE ESTILOS</span>
+        </p>
+        <h1 id="campaign-title">
+          <span>VISTA SUA</span>
+          <span className="campaign-title-accent">
+            ATITUDE<span className="campaign-period">.</span>
           </span>
-        </a>
+        </h1>
+        <p className="campaign-intro">
+          O estilo é seu. O próximo passo também.
+          <br />
+          Descubra peças que acompanham quem você é.
+        </p>
+        <div className="campaign-actions">
+          <a href="#colecao" className="campaign-cta">
+            Explorar coleção <span aria-hidden="true">↗</span>
+          </a>
+          <a href="#categorias" className="campaign-secondary">
+            Encontre seu estilo <span aria-hidden="true">↓</span>
+          </a>
+        </div>
       </div>
-      <Link
-        className="stage-pick"
-        href={`/?categoria=TENIS&busca=${encodeURIComponent(look.product)}#colecao`}
+      <div
+        className="campaign-photos"
+        aria-label="Inspirações Maia. Deslize na horizontal para trocar de estilo."
+        onTouchStart={(event) => {
+          touchStart.current = {
+            x: event.touches[0].clientX,
+            y: event.touches[0].clientY,
+          };
+        }}
+        onTouchEnd={(event) => {
+          if (!touchStart.current) return;
+          const dx = event.changedTouches[0].clientX - touchStart.current.x;
+          const dy = event.changedTouches[0].clientY - touchStart.current.y;
+          if (Math.abs(dx) > 55 && Math.abs(dx) > Math.abs(dy) * 1.5)
+            changeLook(dx < 0 ? 1 : -1);
+          touchStart.current = null;
+        }}
+        onTouchCancel={() => {
+          touchStart.current = null;
+        }}
       >
-        <span className="stage-pick-photo">
-          <Image
-            src={`/products/foto-${look.image}.jpeg`}
-            width={58}
-            height={68}
-            alt=""
-          />
-        </span>
-        <span>
-          <small>NESTE LOOK</small>
-          <strong>{look.product}</strong>
-          <span>Conhecer a peça</span>
-        </span>
-        <span className="round-arrow" aria-hidden="true">
-          ↗
-        </span>
-      </Link>
-      <div className="stage-bottom">
-        <div className="look-tabs" role="group" aria-label="Escolher estilo">
+        <button
+          className="campaign-preview"
+          type="button"
+          onClick={() => changeLook(1)}
+          aria-label={`Explorar próximo estilo: ${next.label}`}
+        >
+          <span className="campaign-preview-image" key={next.image}>
+            <Image
+              src={`/products/foto-${next.image}.jpeg`}
+              alt=""
+              fill
+              sizes="(max-width: 700px) 30vw, 240px"
+            />
+          </span>
+          <span className="campaign-preview-label">
+            A SEGUIR / {next.label}
+            <span aria-hidden="true">↗</span>
+          </span>
+        </button>
+        <div className="campaign-feature">
+          <div className="campaign-feature-image" key={look.image}>
+            <Image
+              src={`/products/foto-${look.image}.jpeg`}
+              alt={look.product}
+              fill
+              sizes="(max-width: 700px) 55vw, (max-width: 1100px) 25vw, 320px"
+              priority={active === 0}
+            />
+          </div>
+          <div
+            className="campaign-feature-caption"
+            aria-live="polite"
+            aria-atomic="true"
+          >
+            <span>NA SELEÇÃO MAIA</span>
+            <Link
+              href={`/?categoria=TENIS&busca=${encodeURIComponent(look.product)}#colecao`}
+            >
+              {look.product} <span aria-hidden="true">↗</span>
+            </Link>
+          </div>
+        </div>
+      </div>
+      <div className="campaign-bottom container">
+        <div
+          className="campaign-styles"
+          ref={styles}
+          role="group"
+          aria-label="Escolher estilo"
+          onKeyDown={(event) => {
+            if (event.key !== "ArrowLeft" && event.key !== "ArrowRight") return;
+            event.preventDefault();
+            const index =
+              (active + (event.key === "ArrowRight" ? 1 : -1) + looks.length) %
+              looks.length;
+            setActive(index);
+            styles.current?.querySelectorAll("button")[index]?.focus();
+          }}
+        >
           {looks.map((item, index) => (
             <button
               key={item.label}
               type="button"
               aria-pressed={index === active}
+              aria-label={`Estilo ${index + 1}: ${item.label}`}
               onClick={() => setActive(index)}
             >
-              <span>0{index + 1}</span>
-              {item.label}
+              <span className="campaign-style-index">0{index + 1}</span>
+              <span>{item.label}</span>
+              <span className="campaign-style-dot" aria-hidden="true" />
             </button>
           ))}
         </div>
-        <div className="look-controls">
-          <span aria-live="polite">
-            0{active + 1}
-            <span> / 03</span>
+        <div className="campaign-controls">
+          <span className="campaign-counter">
+            <b>0{active + 1}</b>
+            <span>/ 03</span>
           </span>
           <button
-            className="icon-button"
             type="button"
-            onClick={() => setActive((active + 2) % 3)}
+            onClick={() => changeLook(-1)}
             aria-label="Estilo anterior"
           >
             ←
           </button>
           <button
-            className="icon-button"
             type="button"
-            onClick={() => setActive((active + 1) % 3)}
+            onClick={() => changeLook(1)}
             aria-label="Próximo estilo"
           >
             →
           </button>
         </div>
+        <a href="#categorias" className="campaign-scroll">
+          CONTINUE A EXPLORAR <span aria-hidden="true">↓</span>
+        </a>
       </div>
+      <span className="campaign-note" aria-hidden="true">
+        SEU ESTILO. SUAS ESCOLHAS.
+      </span>
     </section>
   );
 }
