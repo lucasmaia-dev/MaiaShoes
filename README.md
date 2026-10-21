@@ -224,8 +224,11 @@ npm run test:e2e
 Dentro de `frontend/`:
 
 ```powershell
+npm test
 npm run build
 ```
+
+Os testes do front-end conferem as grades confirmadas de calçados: Feminino do 34 ao 39 e Masculino do 37 ao 43. A coleção permite navegar por linha sem duplicar produtos no banco.
 
 Os testes HTTP usam um substituto do banco para verificar os contratos e as validações. O CI também cria um PostgreSQL temporário, aplica as migrações e confere a conexão real pela API. As credenciais do CI são descartáveis e não correspondem às do ambiente local.
 

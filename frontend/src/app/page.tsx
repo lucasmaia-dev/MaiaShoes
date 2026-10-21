@@ -47,12 +47,6 @@ export default function Home() {
         <div className="stage-container">
           <StyleExperience />
         </div>
-        <div className="discovery-line container">
-          <span>PEÇAS QUE CONVERSAM COM VOCÊ.</span>
-          <a href="#categorias">
-            Explore seu universo <span aria-hidden="true">↓</span>
-          </a>
-        </div>
         <section
           id="categorias"
           className="category-section container"
@@ -70,6 +64,18 @@ export default function Home() {
               Ver a coleção <span aria-hidden="true">↗</span>
             </a>
           </div>
+          <nav className="home-lines" aria-label="Explore por linha">
+            <Link href="/colecao?linha=FEMININO">
+              <span>Feminino</span>
+              <small>Calçados do 34 ao 39</small>
+              <span aria-hidden="true">↗</span>
+            </Link>
+            <Link href="/colecao?linha=MASCULINO">
+              <span>Masculino</span>
+              <small>Calçados do 37 ao 43</small>
+              <span aria-hidden="true">↗</span>
+            </Link>
+          </nav>
           <nav className="category-grid" aria-label="Categorias de produtos">
             {categories.map((category, index) => (
               <Link

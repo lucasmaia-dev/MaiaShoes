@@ -150,11 +150,7 @@ html[data-theme="light"]
     .campaign-edition,
     .campaign-intro,
     .campaign-feature-caption > span,
-    .campaign-preview-label,
-    .campaign-scroll,
-    .campaign-note,
-    .campaign-counter > span,
-    .campaign-style-index
+    .campaign-preview-label
   ) {
   color: #5f6a56;
 }
@@ -176,22 +172,6 @@ html[data-theme="light"] .campaign-secondary {
 }
 html[data-theme="light"] .campaign-secondary:hover {
   background: #fff9;
-}
-html[data-theme="light"] .campaign-bottom {
-  border-color: #25282225;
-}
-html[data-theme="light"] .campaign-styles button {
-  color: #627057;
-}
-html[data-theme="light"] .campaign-styles button[aria-pressed="true"] {
-  color: #252e20;
-}
-html[data-theme="light"] .campaign-controls button {
-  border-color: #abb6a0;
-  color: #30392b;
-}
-html[data-theme="light"] .campaign-controls button:hover {
-  background: #d8dfce;
 }
 html[data-theme="light"] .storefront :is(.maia-manifesto, .manifesto-copy) {
   background: #e3e7dc;

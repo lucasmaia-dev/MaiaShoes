@@ -9,21 +9,18 @@ const looks = [
     label: "Os essenciais",
     image: "095",
     product: "Samba branco e preto",
-    caption: "Clássicos para o seu próprio ritmo.",
     tone: "essential",
   },
   {
     label: "Tons naturais",
     image: "087",
     product: "Samba creme e caramelo",
-    caption: "Leveza para combinar do seu jeito.",
     tone: "natural",
   },
   {
     label: "Com presença",
     image: "100",
     product: "Samba vinho e branco",
-    caption: "Cor e personalidade em cada passo.",
     tone: "presence",
   },
 ];
@@ -31,7 +28,6 @@ const looks = [
 export default function StyleExperience() {
   const [active, setActive] = useState(0);
   const touchStart = useRef<{ x: number; y: number } | null>(null);
-  const styles = useRef<HTMLDivElement>(null);
   const look = looks[active];
   const next = looks[(active + 1) % looks.length];
   const changeLook = (direction: number) =>
@@ -143,65 +139,31 @@ export default function StyleExperience() {
               {look.product} <span aria-hidden="true">↗</span>
             </Link>
           </div>
-        </div>
-      </div>
-      <div className="campaign-bottom container">
-        <div
-          className="campaign-styles"
-          ref={styles}
-          role="group"
-          aria-label="Escolher estilo"
-          onKeyDown={(event) => {
-            if (event.key !== "ArrowLeft" && event.key !== "ArrowRight") return;
-            event.preventDefault();
-            const index =
-              (active + (event.key === "ArrowRight" ? 1 : -1) + looks.length) %
-              looks.length;
-            setActive(index);
-            styles.current?.querySelectorAll("button")[index]?.focus();
-          }}
-        >
-          {looks.map((item, index) => (
+          <div
+            className="photo-navigation"
+            role="group"
+            aria-label="Trocar destaque"
+          >
             <button
-              key={item.label}
               type="button"
-              aria-pressed={index === active}
-              aria-label={`Estilo ${index + 1}: ${item.label}`}
-              onClick={() => setActive(index)}
+              onClick={() => changeLook(-1)}
+              aria-label="Estilo anterior"
             >
-              <span className="campaign-style-index">0{index + 1}</span>
-              <span>{item.label}</span>
-              <span className="campaign-style-dot" aria-hidden="true" />
+              ←
             </button>
-          ))}
+            <span>
+              {active + 1} / {looks.length}
+            </span>
+            <button
+              type="button"
+              onClick={() => changeLook(1)}
+              aria-label="Próximo estilo"
+            >
+              →
+            </button>
+          </div>
         </div>
-        <div className="campaign-controls">
-          <span className="campaign-counter">
-            <b>0{active + 1}</b>
-            <span>/ 03</span>
-          </span>
-          <button
-            type="button"
-            onClick={() => changeLook(-1)}
-            aria-label="Estilo anterior"
-          >
-            ←
-          </button>
-          <button
-            type="button"
-            onClick={() => changeLook(1)}
-            aria-label="Próximo estilo"
-          >
-            →
-          </button>
-        </div>
-        <a href="#categorias" className="campaign-scroll">
-          CONTINUE A EXPLORAR <span aria-hidden="true">↓</span>
-        </a>
       </div>
-      <span className="campaign-note" aria-hidden="true">
-        SEU ESTILO. SUAS ESCOLHAS.
-      </span>
     </section>
   );
 }

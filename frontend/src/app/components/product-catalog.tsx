@@ -14,6 +14,12 @@ import {
   matchesFilters,
   type CatalogFilters,
 } from "@/lib/catalog-filters";
+import {
+  FOOTWEAR_LINES,
+  parseFootwearLine,
+  hasFootwearSizing,
+  type FootwearLine,
+} from "@/lib/product-sizing";
 import ProductDetails from "./product-details";
 import { HeartIcon } from "./store-header";
 import CatalogFilterPanel, { FilterIcon } from "./catalog-filter-panel";
@@ -58,6 +64,7 @@ export default function ProductCatalog() {
   const category =
     PUBLIC_CATEGORIES.find((item) => item.value === params.get("categoria"))
       ?.value ?? "TENIS";
+  const line = parseFootwearLine(params.get("linha"));
   const initialSearch = params.get("busca") ?? "";
   const onlyFavorites = params.get("favoritos") === "1";
   // A troca de categoria reutiliza os dados carregados, sem piscar toda a coleção.
@@ -108,7 +115,8 @@ export default function ProductCatalog() {
   }, [error, loadProducts]);
   return (
     <CategoryCatalog
-      key={`${category}:${initialSearch}:${onlyFavorites}`}
+      key={`${category}:${initialSearch}:${onlyFavorites}:${line}`}
+      line={line}
       category={category}
       initialSearch={initialSearch}
       onlyFavorites={onlyFavorites}
@@ -125,6 +133,7 @@ export default function ProductCatalog() {
 }
 
 type CatalogProps = {
+  line: FootwearLine | null;
   category: (typeof PUBLIC_CATEGORIES)[number]["value"];
   initialSearch: string;
   onlyFavorites: boolean;
@@ -135,6 +144,7 @@ type CatalogProps = {
 };
 
 function CategoryCatalog({
+  line,
   category,
   initialSearch,
   onlyFavorites,
@@ -143,6 +153,15 @@ function CategoryCatalog({
   error,
   retry,
 }: CatalogProps) {
+  const lineQuery = line ? `&linha=${line}` : "";
+  const lineInfo = FOOTWEAR_LINES.find((item) => item.value === line);
+  const lineHref = (value: FootwearLine | null) => {
+    const query = new URLSearchParams({ categoria: category });
+    if (value) query.set("linha", value);
+    if (onlyFavorites) query.set("favoritos", "1");
+    if (search) query.set("busca", search);
+    return `/colecao?${query}`;
+  };
   const [search, setSearch] = useState(initialSearch);
   const [filters, setFilters] = useState<CatalogFilters>(DEFAULT_FILTERS);
   const [filtersOpen, setFiltersOpen] = useState(false);
@@ -155,7 +174,8 @@ function CategoryCatalog({
     (product) =>
       product.imageUrl &&
       product.category !== "SEM_CATEGORIA" &&
-      (onlyFavorites || product.category === category),
+      (onlyFavorites || product.category === category) &&
+      (!line || hasFootwearSizing(product.category)),
   );
   const searched = categoryProducts.filter(
     (product) =>
@@ -199,11 +219,28 @@ function CategoryCatalog({
 
   return (
     <>
+      <nav className="collection-lines" aria-label="Escolher linha da coleção">
+        <Link href={lineHref(null)} aria-current={!line ? "page" : undefined}>
+          Toda a coleção
+        </Link>
+        {FOOTWEAR_LINES.map((item) => (
+          <Link
+            key={item.value}
+            href={lineHref(item.value)}
+            aria-current={line === item.value ? "page" : undefined}
+          >
+            <span>{item.label}</span>
+            <small>
+              {item.sizes[0]}–{item.sizes[item.sizes.length - 1]}
+            </small>
+          </Link>
+        ))}
+      </nav>
       <nav className="catalog-tabs" aria-label="Filtrar coleção por categoria">
         {PUBLIC_CATEGORIES.map((item) => (
           <Link
             key={item.value}
-            href={`/colecao?categoria=${item.value}`}
+            href={`/colecao?categoria=${item.value}${lineQuery}`}
             aria-current={
               !onlyFavorites && item.value === category ? "page" : undefined
             }
@@ -214,7 +251,9 @@ function CategoryCatalog({
                 {
                   products.filter(
                     (product) =>
-                      product.imageUrl && product.category === item.value,
+                      product.imageUrl &&
+                      product.category === item.value &&
+                      (!line || hasFootwearSizing(product.category)),
                   ).length
                 }
               </small>
@@ -281,7 +320,7 @@ function CategoryCatalog({
               </label>
               <Link
                 className={`favorites-filter ${onlyFavorites ? "is-active" : ""}`}
-                href={`/colecao?categoria=${category}${onlyFavorites ? "" : "&favoritos=1"}`}
+                href={`/colecao?categoria=${category}${onlyFavorites ? "" : "&favoritos=1"}${lineQuery}`}
                 aria-label={
                   onlyFavorites
                     ? "Voltar à coleção completa"
@@ -370,12 +409,15 @@ function CategoryCatalog({
               <span>
                 {" "}
                 / {onlyFavorites ? "Meus favoritos" : categoryLabel(category)}
+                {lineInfo ? ` / ${lineInfo.label}` : ""}
               </span>
             </p>
             <span>
               {onlyFavorites
                 ? "Salvos neste navegador"
-                : "Uma seleção para chamar de sua."}
+                : lineInfo
+                  ? `Numeração ${lineInfo.sizes[0]} a ${lineInfo.sizes[lineInfo.sizes.length - 1]}`
+                  : "Uma seleção para chamar de sua."}
             </span>
           </div>
           {!matches.length && (
@@ -400,7 +442,7 @@ function CategoryCatalog({
               {emptyFavorites ? (
                 <Link
                   className="button"
-                  href={`/colecao?categoria=${category}`}
+                  href={`/colecao?categoria=${category}${lineQuery}`}
                 >
                   Explorar a coleção <span aria-hidden="true">↗</span>
                 </Link>
@@ -409,7 +451,10 @@ function CategoryCatalog({
                   Limpar escolhas ↗
                 </button>
               ) : (
-                <Link className="text-link" href="/colecao?categoria=TENIS">
+                <Link
+                  className="text-link"
+                  href={`/colecao?categoria=TENIS${lineQuery}`}
+                >
                   Explorar tênis ↗
                 </Link>
               )}
@@ -518,7 +563,13 @@ function CategoryCatalog({
           onClose={closeFilters}
         />
       )}
-      {selected && <ProductDetails product={selected} close={closeDetails} />}
+      {selected && (
+        <ProductDetails
+          product={selected}
+          initialLine={line}
+          close={closeDetails}
+        />
+      )}
     </>
   );
 }
