@@ -15,6 +15,8 @@ Fontes oficiais: [Barlow Condensed](https://github.com/google/fonts/tree/main/of
 
 ## Como funciona
 
+- O ícone de sol/lua no cabeçalho abre as opções Claro e Escuro. A preferência fica salva em `localStorage` e sincroniza entre abas. Sem escolha salva, a vitrine acompanha a aparência do dispositivo. O tema é restaurado antes da primeira pintura da página; se o armazenamento estiver bloqueado, a troca continua funcionando na página atual.
+- O tema ajusta a campanha, o cabeçalho, a coleção, a busca, os filtros e os detalhes dos produtos. As fotografias preservam suas cores originais.
 - `/?categoria=TENIS#colecao` abre a coleção de tênis. Sapatos, Sandálias e Bolsas usam o mesmo padrão. O histórico do navegador acompanha a categoria.
 - Os destaques levam à peça correspondente pelo parâmetro `busca`. Não há rotação automática: o visitante controla os estilos.
 - A busca ignora maiúsculas e acentos; a ordenação considera o preço numérico, preservando os valores enviados pela API.

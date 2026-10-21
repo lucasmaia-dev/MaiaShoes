@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
 import "./studio.css";
+import "./theme.css";
+import { THEME_BOOT_SCRIPT } from "@/lib/theme-config";
 
 const sans = localFont({
   src: "./fonts/SpaceGrotesk-Variable.ttf",
@@ -35,8 +37,15 @@ export default function RootLayout({
   return (
     <html
       lang="pt-BR"
+      suppressHydrationWarning
       className={`${sans.variable} ${editorial.variable} ${display.variable}`}
     >
+      <head>
+        <script
+          id="maia-theme"
+          dangerouslySetInnerHTML={{ __html: THEME_BOOT_SCRIPT }}
+        />
+      </head>
       <body>{children}</body>
     </html>
   );

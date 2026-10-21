@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { useFavorites } from "@/lib/favorites";
+import ThemePicker from "./theme-picker";
 
 export function HeartIcon({ filled = false }: { filled?: boolean }) {
   return (
@@ -83,6 +84,7 @@ export default function StoreHeader() {
           </a>
         </nav>
         <div className="header-actions">
+          <ThemePicker />
           <Link
             className="icon-button saved-link"
             href="/?favoritos=1#colecao"
