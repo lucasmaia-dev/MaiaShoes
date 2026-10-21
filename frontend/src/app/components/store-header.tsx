@@ -20,26 +20,33 @@ export function HeartIcon({ filled = false }: { filled?: boolean }) {
   );
 }
 
-export default function StoreHeader() {
+export default function StoreHeader({
+  collectionPage = false,
+}: {
+  collectionPage?: boolean;
+}) {
   const { ids } = useFavorites();
   const menu = useRef<HTMLDetailsElement>(null);
   const [activeSection, setActiveSection] = useState("");
   useEffect(() => {
-    if (!("IntersectionObserver" in window)) return;
+    if (collectionPage || !("IntersectionObserver" in window)) return;
     let observer: IntersectionObserver;
     const observeSections = () => {
       observer?.disconnect();
       observer = new IntersectionObserver(
         (entries) => {
           const current = entries.find((entry) => entry.isIntersecting);
-          if (current) setActiveSection(current.target.id);
+          if (current)
+            setActiveSection(
+              current.target.id === "comunidade" ? "sobre" : current.target.id,
+            );
         },
         {
           rootMargin: `-90px 0px -${Math.round(window.innerHeight * 0.6)}px 0px`,
         },
       );
       document
-        .querySelectorAll("#estilos, #categorias, #colecao, #sobre")
+        .querySelectorAll("#estilos, #categorias, #sobre, #comunidade")
         .forEach((section) => observer.observe(section));
     };
     observeSections();
@@ -48,10 +55,10 @@ export default function StoreHeader() {
       observer.disconnect();
       window.removeEventListener("resize", observeSections);
     };
-  }, []);
+  }, [collectionPage]);
   return (
     <header
-      className={`header-shell${activeSection === "estilos" || activeSection === "" ? " header-dark" : ""}`}
+      className={`header-shell${!collectionPage && (activeSection === "estilos" || activeSection === "") ? " header-dark" : ""}`}
     >
       <span className="reading-progress" aria-hidden="true" />
       <div className="header container">
@@ -62,14 +69,14 @@ export default function StoreHeader() {
           </span>
         </Link>
         <nav className="desktop-nav" aria-label="Menu principal">
-          <a
-            href="#colecao"
-            aria-current={activeSection === "colecao" ? "location" : undefined}
+          <Link
+            href="/colecao"
+            aria-current={collectionPage ? "page" : undefined}
           >
             Explorar coleção
-          </a>
+          </Link>
           <a
-            href="#categorias"
+            href={collectionPage ? "/#categorias" : "#categorias"}
             aria-current={
               activeSection === "categorias" ? "location" : undefined
             }
@@ -77,7 +84,7 @@ export default function StoreHeader() {
             Categorias
           </a>
           <a
-            href="#sobre"
+            href={collectionPage ? "/#sobre" : "#sobre"}
             aria-current={activeSection === "sobre" ? "location" : undefined}
           >
             Universo Maia
@@ -87,7 +94,7 @@ export default function StoreHeader() {
           <ThemePicker />
           <Link
             className="icon-button saved-link"
-            href="/?favoritos=1#colecao"
+            href="/colecao?favoritos=1"
             aria-label={`Ver favoritos (${ids.length})`}
           >
             <HeartIcon />
@@ -124,10 +131,8 @@ export default function StoreHeader() {
             </summary>
             <nav aria-label="Menu no celular">
               <a
-                href="#colecao"
-                aria-current={
-                  activeSection === "colecao" ? "location" : undefined
-                }
+                href="/colecao"
+                aria-current={collectionPage ? "page" : undefined}
                 onClick={() => {
                   if (menu.current) menu.current.open = false;
                 }}
@@ -135,7 +140,7 @@ export default function StoreHeader() {
                 Explorar coleção ↗
               </a>
               <a
-                href="#categorias"
+                href={collectionPage ? "/#categorias" : "#categorias"}
                 aria-current={
                   activeSection === "categorias" ? "location" : undefined
                 }
@@ -146,7 +151,7 @@ export default function StoreHeader() {
                 Categorias ↗
               </a>
               <a
-                href="#sobre"
+                href={collectionPage ? "/#sobre" : "#sobre"}
                 aria-current={
                   activeSection === "sobre" ? "location" : undefined
                 }

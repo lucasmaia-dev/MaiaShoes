@@ -73,7 +73,7 @@ export default function StyleExperience() {
           Descubra peças que acompanham quem você é.
         </p>
         <div className="campaign-actions">
-          <a href="#colecao" className="campaign-cta">
+          <a href="/colecao" className="campaign-cta">
             Explorar coleção <span aria-hidden="true">↗</span>
           </a>
           <a href="#categorias" className="campaign-secondary">
@@ -138,7 +138,7 @@ export default function StyleExperience() {
           >
             <span>NA SELEÇÃO MAIA</span>
             <Link
-              href={`/?categoria=TENIS&busca=${encodeURIComponent(look.product)}#colecao`}
+              href={`/colecao?categoria=TENIS&busca=${encodeURIComponent(look.product)}`}
             >
               {look.product} <span aria-hidden="true">↗</span>
             </Link>

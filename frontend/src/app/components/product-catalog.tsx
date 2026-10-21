@@ -71,6 +71,7 @@ export default function ProductCatalog() {
           if (signal?.aborted) return;
           setProducts(result);
           setLoading(false);
+          setError(false);
         },
         () => {
           if (!signal?.aborted) {
@@ -86,6 +87,25 @@ export default function ProductCatalog() {
     void loadProducts(controller.signal);
     return () => controller.abort();
   }, [loadProducts]);
+  useEffect(() => {
+    if (!error) return;
+    const controller = new AbortController();
+    const retry = () => {
+      if (document.visibilityState === "visible")
+        void loadProducts(controller.signal);
+    };
+    const timers = [4000, 12000, 25000].map((delay) =>
+      window.setTimeout(retry, delay),
+    );
+    window.addEventListener("online", retry);
+    document.addEventListener("visibilitychange", retry);
+    return () => {
+      controller.abort();
+      timers.forEach((timer) => window.clearTimeout(timer));
+      window.removeEventListener("online", retry);
+      document.removeEventListener("visibilitychange", retry);
+    };
+  }, [error, loadProducts]);
   return (
     <CategoryCatalog
       key={`${category}:${initialSearch}:${onlyFavorites}`}
@@ -183,7 +203,7 @@ function CategoryCatalog({
         {PUBLIC_CATEGORIES.map((item) => (
           <Link
             key={item.value}
-            href={`/?categoria=${item.value}#colecao`}
+            href={`/colecao?categoria=${item.value}`}
             aria-current={
               !onlyFavorites && item.value === category ? "page" : undefined
             }
@@ -261,7 +281,7 @@ function CategoryCatalog({
               </label>
               <Link
                 className={`favorites-filter ${onlyFavorites ? "is-active" : ""}`}
-                href={`/?categoria=${category}${onlyFavorites ? "" : "&favoritos=1"}#colecao`}
+                href={`/colecao?categoria=${category}${onlyFavorites ? "" : "&favoritos=1"}`}
                 aria-label={
                   onlyFavorites
                     ? "Voltar à coleção completa"
@@ -335,7 +355,8 @@ function CategoryCatalog({
         <CatalogSkeleton />
       ) : error ? (
         <div className="catalog-message">
-          <p role="alert">Não foi possível carregar a coleção.</p>
+          <p role="alert">A coleção está temporariamente indisponível.</p>
+          <p>Confira sua conexão ou tente novamente em instantes.</p>
           <button className="button" type="button" onClick={retry}>
             Tentar novamente ↗
           </button>
@@ -379,7 +400,7 @@ function CategoryCatalog({
               {emptyFavorites ? (
                 <Link
                   className="button"
-                  href={`/?categoria=${category}#colecao`}
+                  href={`/colecao?categoria=${category}`}
                 >
                   Explorar a coleção <span aria-hidden="true">↗</span>
                 </Link>
@@ -388,7 +409,7 @@ function CategoryCatalog({
                   Limpar escolhas ↗
                 </button>
               ) : (
-                <Link className="text-link" href="/?categoria=TENIS#colecao">
+                <Link className="text-link" href="/colecao?categoria=TENIS">
                   Explorar tênis ↗
                 </Link>
               )}

@@ -7,7 +7,7 @@ A página usa uma campanha escura em tela ampla, com títulos condensados, fotog
 - Barlow Condensed nos títulos da campanha, Space Grotesk na interface e Instrument Serif em destaques editoriais. As fontes ficam no próprio projeto, carregadas com `next/font/local`, com as licenças SIL Open Font License em `frontend/src/app/fonts/`. O navegador não consulta o Google Fonts.
 - A campanha permite trocar estilos pelos botões numerados, setas, prévia da próxima foto e gestos horizontais no celular. As setas do teclado também funcionam no grupo de estilos. O produto selecionado leva à busca correspondente na coleção.
 - As fotos respondem discretamente ao movimento do mouse e recebem uma transição ao trocar de estilo. Não há rotação automática das peças.
-- O cabeçalho acompanha a rolagem, destaca a seção atual e muda de contraste ao sair da campanha. Uma linha mostra o progresso da página nos navegadores com suporte a animação ligada à rolagem.
+- O cabeçalho acompanha a rolagem, destaca a seção atual e respeita o tema escolhido. Uma linha mostra o progresso da página nos navegadores com suporte a animação ligada à rolagem.
 - As categorias entram em sequência e os cartões respondem a foco e hover. A rolagem continua nativa, sem interceptação da roda do mouse.
 - A preferência por movimento reduzido desativa os efeitos e a rolagem suave. A composição continua funcionando com imagens e controles estáticos.
 
@@ -17,7 +17,8 @@ Fontes oficiais: [Barlow Condensed](https://github.com/google/fonts/tree/main/of
 
 - O ícone de sol/lua no cabeçalho abre as opções Claro e Escuro. A preferência fica salva em `localStorage` e sincroniza entre abas. Sem escolha salva, a vitrine acompanha a aparência do dispositivo. O tema é restaurado antes da primeira pintura da página; se o armazenamento estiver bloqueado, a troca continua funcionando na página atual.
 - O tema ajusta a campanha, o cabeçalho, a coleção, a busca, os filtros e os detalhes dos produtos. As fotografias preservam suas cores originais.
-- `/?categoria=TENIS#colecao` abre a coleção de tênis. Sapatos, Sandálias e Bolsas usam o mesmo padrão. O histórico do navegador acompanha a categoria.
+- A coleção fica em `/colecao`, separada da apresentação da marca. `Explorar coleção`, os favoritos e os destaques abrem essa página. Categorias e Universo Maia continuam na página inicial.
+- `/colecao?categoria=TENIS` abre a coleção de tênis. Sapatos, Sandálias e Bolsas usam o mesmo padrão. Os links antigos com parâmetros na raiz são redirecionados preservando os filtros.
 - Os destaques levam à peça correspondente pelo parâmetro `busca`. Não há rotação automática: o visitante controla os estilos.
 - A busca ignora maiúsculas e acentos; a ordenação considera o preço numérico, preservando os valores enviados pela API.
 - O painel de filtros reúne marca, limite de preço e ordenação. A prévia de resultados acompanha a escolha, mas a coleção só muda ao aplicar; fechar ou usar Escape descarta o rascunho. No celular, o painel aparece na parte inferior da tela.
@@ -29,6 +30,8 @@ Fontes oficiais: [Barlow Condensed](https://github.com/google/fonts/tree/main/of
 - No computador, os cartões revelam a segunda foto ao passar o mouse. No celular, as categorias usam rolagem horizontal com encaixe e o menu abre sob o cabeçalho.
 - As animações de entrada usam `IntersectionObserver`. A preferência por movimento reduzido desativa animações, deslocamentos e rolagem suave. Sem JavaScript, as seções de conteúdo permanecem visíveis.
 - Apenas produtos com foto e categoria definida entram na vitrine. Cadastros incompletos continuam acessíveis no painel, onde podem ser finalizados.
+- Em uma falha temporária, a coleção preserva a opção de tentar novamente e faz três tentativas em segundo plano. Também tenta recuperar quando a conexão volta ou o visitante retorna à aba.
+- O Universo Maia reúne a apresentação da marca e a comunidade. Avaliações públicas passam por moderação; sugestões são privadas. As regras estão em `docs/comunidade-maia.md`.
 - A migração adiciona Sapatos e Sandálias ao enum do PostgreSQL. Não remove nem reclassifica produtos existentes.
 
 ## Para aprender com esta mudança

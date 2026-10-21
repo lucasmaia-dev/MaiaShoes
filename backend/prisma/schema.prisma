@@ -21,15 +21,48 @@ enum UserRole {
 }
 
 model User {
-  id           Int       @id @default(autoincrement())
-  name         String    @db.VarChar(100)
-  username     String?   @unique @db.VarChar(32)
-  email        String?   @unique @db.VarChar(254)
-  googleSub    String?   @unique @db.VarChar(255)
-  passwordHash String?
-  role         UserRole  @default(CLIENTE)
-  createdAt    DateTime  @default(now())
-  sessions     Session[]
+  id                 Int        @id @default(autoincrement())
+  name               String     @db.VarChar(100)
+  username           String?    @unique @db.VarChar(32)
+  email              String?    @unique @db.VarChar(254)
+  googleSub          String?    @unique @db.VarChar(255)
+  passwordHash       String?
+  role               UserRole   @default(CLIENTE)
+  createdAt          DateTime   @default(now())
+  sessions           Session[]
+  feedbacks          Feedback[] @relation("FeedbackAuthor")
+  moderatedFeedbacks Feedback[] @relation("FeedbackModerator")
+}
+
+enum FeedbackKind {
+  AVALIACAO
+  SUGESTAO
+}
+
+enum FeedbackStatus {
+  PENDENTE
+  APROVADO
+  ARQUIVADO
+}
+
+model Feedback {
+  id             Int            @id @default(autoincrement())
+  userId         Int
+  user           User           @relation("FeedbackAuthor", fields: [userId], references: [id], onDelete: Cascade)
+  authorName     String         @db.VarChar(100)
+  kind           FeedbackKind
+  message        String         @db.VarChar(1000)
+  rating         Int?
+  publishConsent Boolean        @default(false)
+  status         FeedbackStatus @default(PENDENTE)
+  moderatedById  Int?
+  moderatedBy    User?          @relation("FeedbackModerator", fields: [moderatedById], references: [id], onDelete: SetNull)
+  moderatedAt    DateTime?
+  createdAt      DateTime       @default(now())
+  updatedAt      DateTime       @updatedAt
+
+  @@unique([userId, kind])
+  @@index([status, kind, updatedAt])
 }
 
 model Session {
@@ -46,25 +79,26 @@ model Session {
 
 // Cada registro desta tabela representa um produto da loja.
 model Product {
-  id          Int      @id @default(autoincrement())
-  catalogCode String?  @unique @db.VarChar(64)
-  name        String   @db.VarChar(150)
+  id          Int             @id @default(autoincrement())
+  catalogCode String?         @unique @db.VarChar(64)
+  name        String          @db.VarChar(150)
   description String?
-  imageUrl    String?  @db.VarChar(255)
-  imageUrls   String[] @default([])
+  imageUrl    String?         @db.VarChar(255)
+  imageUrls   String[]        @default([])
   category    ProductCategory @default(SEM_CATEGORIA)
-  price       Decimal  @db.Decimal(10, 2)
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  price       Decimal         @db.Decimal(10, 2)
+  createdAt   DateTime        @default(now())
+  updatedAt   DateTime        @updatedAt
 
   @@map("products")
 }
 
 model GoogleLoginAttempt {
-  stateHash String @id @db.Char(64)
-  browserHash String @db.Char(64)
-  nonce String @db.Char(64)
-  codeVerifier String @db.VarChar(128)
-  expiresAt DateTime
+  stateHash    String   @id @db.Char(64)
+  browserHash  String   @db.Char(64)
+  nonce        String   @db.Char(64)
+  codeVerifier String   @db.VarChar(128)
+  expiresAt    DateTime
+
   @@index([expiresAt])
 }

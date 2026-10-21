@@ -1,9 +1,8 @@
 import Image from "next/image";
 import Link from "next/link";
-import { Suspense } from "react";
-import ProductCatalog from "./components/product-catalog";
 import StoreHeader from "./components/store-header";
 import StyleExperience from "./components/style-experience";
+import CommunityFeedback from "./components/community-feedback";
 import ScrollReveal from "./components/scroll-reveal";
 
 const categories = [
@@ -40,7 +39,7 @@ const categories = [
 export default function Home() {
   return (
     <div className="storefront">
-      <a className="skip-link" href="#colecao">
+      <a className="skip-link" href="/colecao">
         Ir para a coleção
       </a>
       <StoreHeader />
@@ -67,7 +66,7 @@ export default function Home() {
                 Um universo de <em>possibilidades.</em>
               </h2>
             </div>
-            <a className="text-link" href="#colecao">
+            <a className="text-link" href="/colecao">
               Ver a coleção <span aria-hidden="true">↗</span>
             </a>
           </div>
@@ -75,7 +74,7 @@ export default function Home() {
             {categories.map((category, index) => (
               <Link
                 className={`category-tile category-${category.value.toLowerCase()}`}
-                href={`/?categoria=${category.value}#colecao`}
+                href={`/colecao?categoria=${category.value}`}
                 key={category.value}
               >
                 {category.image ? (
@@ -127,31 +126,6 @@ export default function Home() {
           </nav>
         </section>
         <section
-          id="colecao"
-          className="collection container"
-          aria-labelledby="collection-title"
-          data-reveal
-        >
-          <div className="section-heading">
-            <div>
-              <p className="eyebrow">ESCOLHAS COM PERSONALIDADE</p>
-              <h2 id="collection-title">
-                Encontros que viram <em>favoritos.</em>
-              </h2>
-            </div>
-            <p>Explore. Combine. Se encontre.</p>
-          </div>
-          <Suspense
-            fallback={
-              <div className="catalog-message" role="status">
-                Carregando a seleção Maia…
-              </div>
-            }
-          >
-            <ProductCatalog />
-          </Suspense>
-        </section>
-        <section
           className="maia-manifesto container"
           id="sobre"
           aria-labelledby="about-title"
@@ -180,13 +154,21 @@ export default function Home() {
               <br />
               Para todas as versões de você.
             </p>
-            <a className="button button-light" href="#colecao">
-              Encontre sua Maia{" "}
+            <a className="button button-light" href="#comunidade">
+              Participe do universo Maia{" "}
               <span className="round-arrow" aria-hidden="true">
                 ↗
               </span>
             </a>
           </div>
+        </section>
+        <section
+          id="comunidade"
+          className="community container"
+          aria-labelledby="community-title"
+          data-reveal
+        >
+          <CommunityFeedback />
         </section>
       </main>
       <footer className="footer container">
@@ -199,7 +181,7 @@ export default function Home() {
         <div className="footer-bottom">
           <span>© Maia Shoes & Bags</span>
           <nav aria-label="Menu do rodapé">
-            <a href="#colecao">Coleção</a>
+            <a href="/colecao">Coleção</a>
             <Link href="/conta">Minha conta</Link>
             <a href="#inicio">Voltar ao topo ↑</a>
           </nav>

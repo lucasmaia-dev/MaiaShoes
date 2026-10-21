@@ -3,6 +3,7 @@ import localFont from "next/font/local";
 import "./globals.css";
 import "./studio.css";
 import "./theme.css";
+import "./community.css";
 import { THEME_BOOT_SCRIPT } from "@/lib/theme-config";
 
 const sans = localFont({

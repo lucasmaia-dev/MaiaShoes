@@ -6,6 +6,8 @@ Aplicação full stack de uma loja de calçados e bolsas, com vitrine e painel d
 
 - Vitrine com campanha em tela ampla, três estilos selecionáveis, fotos reais, navegação por seção e transições acessíveis.
 - Temas claro e escuro selecionáveis no cabeçalho, com preferência salva no navegador.
+- Coleção em página própria (`/colecao`); as categorias da página inicial redirecionam para a seleção correspondente.
+- Universo Maia com avaliações de clientes aprovadas pelo administrador e sugestões privadas para a equipe.
 - Navegação separada em Tênis, Sapatos, Sandálias e Bolsas, com links compartilháveis por categoria.
 - Busca por nome, painel de filtros por marca e preço com prévia de resultados, ordenação e carregamento de mais peças sob demanda.
 - Favoritos salvos no navegador, com seleção e remoção na própria coleção.
@@ -46,6 +48,12 @@ O Next.js encaminha as chamadas `/api/products` para o NestJS na porta 3001. As 
 ### Vitrine
 
 ![Vitrine MaiaShoes](docs/vitrine-editorial.png)
+
+### Coleção e comunidade
+
+![Coleção em página própria](docs/colecao-maia.png)
+
+![Área de avaliações e sugestões](docs/comunidade-maia.png)
 
 ### Painel de produtos e galeria
 
@@ -93,6 +101,8 @@ npm run start:dev
 
 API: [http://127.0.0.1:3001/api/health](http://127.0.0.1:3001/api/health).
 
+O modo de desenvolvimento compila em `backend/.dev-dist`, separado de `backend/dist`, usado no build. Isso evita que o build remova arquivos da API em execução. Após atualizar o repositório, aplique as migrações pendentes em `backend/` com `npx prisma migrate deploy` e reinicie `npm run start:dev`.
+
 ### Criar o primeiro administrador
 
 Em outro terminal de `backend/`, depois de configurar o banco:
@@ -115,6 +125,9 @@ npm run dev
 ```
 
 - Loja: [http://localhost:3000](http://localhost:3000).
+- Coleção: [http://localhost:3000/colecao](http://localhost:3000/colecao).
+- Comunidade: [http://localhost:3000/#comunidade](http://localhost:3000/#comunidade).
+- Moderação: [http://localhost:3000/admin/feedbacks](http://localhost:3000/admin/feedbacks), exclusiva do administrador.
 - Painel: [http://localhost:3000/admin](http://localhost:3000/admin).
 - Login: [http://localhost:3000/login](http://localhost:3000/login).
 - Cadastro de cliente: [http://localhost:3000/cadastro](http://localhost:3000/cadastro).
@@ -174,6 +187,13 @@ docs/                      # Prévias e registro de aprendizado
 | GET | `/api/auth/google/callback` | Receber retorno do Google |
 | GET | `/api/auth/me` | Consultar a própria sessão |
 | POST | `/api/auth/logout` | Revogar a sessão e limpar o cookie |
+| GET | `/api/feedback` | Listar avaliações públicas aprovadas e resumo das notas |
+| GET | `/api/feedback/mine` | Consultar as próprias participações, com sessão |
+| PUT | `/api/feedback` | Cliente envia ou atualiza avaliação/sugestão |
+| GET | `/api/feedback/moderation` | Administrador consulta as últimas 100 participações |
+| PATCH | `/api/feedback/:id/status` | Administrador aprova ou arquiva a versão conferida |
+
+As [regras da comunidade](docs/comunidade-maia.md) explicam consentimento, privacidade das sugestões e moderação. Não são criados depoimentos de demonstração no banco da loja.
 
 Exemplo de cadastro:
 
