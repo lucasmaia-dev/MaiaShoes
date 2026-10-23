@@ -21,18 +21,17 @@ export default function ProductsPanel() {
   // A referência impede dois envios simultâneos, mesmo antes de a tela atualizar.
   const submitting = useRef(false);
 
-  const refreshProducts = useCallback(async (signal?: AbortSignal) => {
-    setLoading(true);
-    setListError('');
-    try {
-      const result = await listProducts(signal);
-      if (!signal?.aborted) setProducts(result);
-    } catch (error) {
+  const refreshProducts = useCallback((signal?: AbortSignal) =>
+    listProducts(signal).then((result) => {
+      if (!signal?.aborted) {
+        setProducts(result);
+        setListError('');
+      }
+    }).catch((error: unknown) => {
       if (!signal?.aborted) setListError(error instanceof Error ? error.message : 'Não foi possível carregar os produtos.');
-    } finally {
+    }).finally(() => {
       if (!signal?.aborted) setLoading(false);
-    }
-  }, []);
+    }), []);
 
   useEffect(() => {
     const controller = new AbortController();
@@ -114,7 +113,11 @@ export default function ProductsPanel() {
       <section className={styles.card} aria-labelledby="saved-products-title" aria-busy={loading}>
         <div className={styles.listHeading}>
           <div><p className={styles.eyebrow}>SEU CATÁLOGO</p><h2 id="saved-products-title">Produtos cadastrados</h2></div>
-          <button className={styles.refreshButton} type="button" disabled={loading || saving} onClick={() => void refreshProducts()}>{loading ? 'Carregando…' : 'Atualizar'}</button>
+          <button className={styles.refreshButton} type="button" disabled={loading || saving} onClick={() => {
+            setLoading(true);
+            setListError('');
+            void refreshProducts();
+          }}>{loading ? 'Carregando…' : 'Atualizar'}</button>
         </div>
         <p className={styles.subtitle}>{loading ? 'Buscando os produtos salvos…' : `${products.length} ${products.length === 1 ? 'produto na lista' : 'produtos na lista'}`}</p>
         {listError && <p role="alert" className={styles.error}>{listError}</p>}

@@ -11,6 +11,11 @@ Aplicação full stack de uma loja de calçados e bolsas, com vitrine e painel d
 - Navegação separada em Tênis, Sapatos, Sandálias e Bolsas, com links compartilháveis por categoria.
 - Busca por nome, painel de filtros por marca e preço com prévia de resultados, ordenação e carregamento de mais peças sob demanda.
 - Favoritos salvos no navegador, com seleção e remoção na própria coleção.
+- Carrinho salvo no navegador, com tamanhos, quantidades, remoção de peças e compra de vários produtos no mesmo pedido.
+- Numeração opcional ao adicionar ao carrinho e obrigatória na finalização; contador de peças no cabeçalho.
+- Pedidos com todas as peças no painel e na mensagem do WhatsApp, com entrega de R$ 15 uma única vez por pedido.
+- Acompanhamento do pedido com preparação, saída para entrega ou retirada e conclusão; histórico das etapas e atualização automática na página do cliente.
+- Busca e filtros de pedidos no painel, com atualizações restritas ao administrador após confirmar o recebimento do Pix.
 - Detalhes em janela com galeria, zoom, navegação por teclado e retorno à coleção.
 - Categorias com fotos e navegação horizontal por deslize no celular.
 - Cadastro de produtos pelo painel administrativo.
@@ -23,7 +28,9 @@ Aplicação full stack de uma loja de calçados e bolsas, com vitrine e painel d
 - Tratamento de carregamento, coleção vazia e falhas na consulta.
 - Testes automatizados e verificações no GitHub Actions.
 
-**Em desenvolvimento:** esta versão foi preparada para uso local. Estoque, carrinho, pedidos, recuperação de senha e pagamentos fazem parte do planejamento. O catálogo é público; as operações de escrita exigem administrador autenticado.
+**Em desenvolvimento:** esta versão foi preparada para uso local. A loja recebe pedidos de uma ou várias peças com pagamento Pix, entrega ou retirada e conferência manual do recebimento pelo administrador. Estoque por numeração, recuperação de senha e integração bancária automática fazem parte do planejamento. O catálogo é público; pedidos exigem conta e alterações do catálogo exigem administrador autenticado.
+
+O [processo de pedidos e Pix](docs/PAGAMENTOS.md) explica a configuração local e a conferência do recebimento pelo extrato. Os produtos publicados estão disponíveis: o cliente escolhe retirada gratuita ou entrega em casa de R$ 15,00, já incluída no mesmo Pix, e a cobrança é liberada imediatamente. Após pagar, combina os detalhes pelo WhatsApp. O cliente acompanha em `/pedidos`; o administrador atende em `/admin/pedidos`.
 
 A vitrine exibe somente produtos com foto e categoria definida. Cadastros incompletos continuam no painel administrativo. No catálogo atual, as 46 peças com preços confirmados são tênis; Sapatos, Sandálias e Bolsas mostram uma seleção em preparação até receberem produtos completos. A reorganização visual não altera os preços.
 
@@ -187,6 +194,14 @@ docs/                      # Prévias e registro de aprendizado
 | GET | `/api/auth/google/callback` | Receber retorno do Google |
 | GET | `/api/auth/me` | Consultar a própria sessão |
 | POST | `/api/auth/logout` | Revogar a sessão e limpar o cookie |
+| POST | `/api/orders` | Criar pedido de uma peça com Pix |
+| POST | `/api/orders/cart` | Criar pedido com várias peças e um único Pix |
+| GET | `/api/orders` | Consultar os próprios pedidos |
+| GET | `/api/orders/:id` | Consultar pedido próprio e QR Code |
+| GET | `/api/orders/moderation` | Administrador consulta os pedidos recebidos |
+| PATCH | `/api/orders/:id/fulfillment` | Escolher recebimento de pedido antigo sem Pix |
+| PATCH | `/api/orders/:id/payment` | Administrador confirma o Pix recebido no extrato |
+| PATCH | `/api/orders/:id/progress` | Administrador atualiza preparação, entrega ou retirada |
 | GET | `/api/feedback` | Listar avaliações públicas aprovadas e resumo das notas |
 | GET | `/api/feedback/mine` | Consultar as próprias participações, com sessão |
 | PUT | `/api/feedback` | Cliente envia ou atualiza avaliação/sugestão |
@@ -239,8 +254,11 @@ Os testes HTTP usam um substituto do banco para verificar os contratos e as vali
 - [ ] Recuperação de senha e verificação de contato.
 - [ ] Estoque por tamanho e cor.
 - [ ] Edição completa de produtos.
-- [ ] Carrinho e pedidos.
-- [ ] Integração de pagamento.
+- [x] Pedidos de uma peça, com retirada ou entrega.
+- [x] Pix com QR Code, copia e cola e conferência manual.
+- [x] Carrinho com vários produtos.
+- [x] Acompanhamento de preparação, entrega e retirada, com histórico de etapas.
+- [ ] Integração bancária para confirmação automática e cartões.
 - [ ] Publicação da aplicação em um ambiente adequado.
 
 ## Aprendizado e desenvolvimento

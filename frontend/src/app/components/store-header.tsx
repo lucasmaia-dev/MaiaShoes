@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { useFavorites } from "@/lib/favorites";
+import { useCart } from "@/lib/cart";
 import ThemePicker from "./theme-picker";
 
 export function HeartIcon({ filled = false }: { filled?: boolean }) {
@@ -26,6 +27,7 @@ export default function StoreHeader({
   collectionPage?: boolean;
 }) {
   const { ids } = useFavorites();
+  const { count } = useCart();
   const menu = useRef<HTMLDetailsElement>(null);
   const [activeSection, setActiveSection] = useState("");
   useEffect(() => {
@@ -92,6 +94,23 @@ export default function StoreHeader({
         </nav>
         <div className="header-actions">
           <ThemePicker />
+          <Link
+            href="/carrinho"
+            className="icon-button saved-link"
+            aria-label={`Meu carrinho (${count} peças)`}
+          >
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="1.6"
+              aria-hidden="true"
+            >
+              <path d="M5 7h14l1 14H4L5 7Z" />
+              <path d="M8 8V6a4 4 0 0 1 8 0v2" />
+            </svg>
+            {count > 0 && <span className="favorite-count">{count}</span>}
+          </Link>
           <Link
             className="icon-button saved-link"
             href="/colecao?favoritos=1"
@@ -162,6 +181,8 @@ export default function StoreHeader({
                 Universo Maia ↗
               </a>
               <Link href="/conta">Minha conta ↗</Link>
+              <Link href="/pedidos">Meus pedidos ↗</Link>
+              <Link href="/carrinho">Meu carrinho ({count}) ↗</Link>
             </nav>
           </details>
         </div>

@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 import {
   FOOTWEAR_LINES,
   hasFootwearSizing,
@@ -10,6 +11,7 @@ import type { Product } from "@/lib/products-api";
 import { currency } from "@/lib/catalog-filters";
 import { categoryLabel } from "@/lib/product-categories";
 import { useFavorites } from "@/lib/favorites";
+import { useCart } from "@/lib/cart";
 import ProductGallery from "./product-gallery";
 import { HeartIcon } from "./store-header";
 import useModal from "./use-modal";
@@ -24,6 +26,9 @@ export default function ProductDetails({
   close: () => void;
 }) {
   const [line, setLine] = useState<FootwearLine>(initialLine ?? "FEMININO");
+  const [size, setSize] = useState<number | null>(null);
+  const [cartMessage, setCartMessage] = useState("");
+  const { add } = useCart();
   const sizeGuide = FOOTWEAR_LINES.find((item) => item.value === line)!;
   const { dialog, dismiss } = useModal(close);
   const { ids, toggle } = useFavorites();
@@ -83,7 +88,11 @@ export default function ProductDetails({
                     key={item.value}
                     type="button"
                     aria-pressed={line === item.value}
-                    onClick={() => setLine(item.value)}
+                    onClick={() => {
+                      setLine(item.value);
+                      setSize(null);
+                      setCartMessage("");
+                    }}
                   >
                     {item.label}{" "}
                     <small>
@@ -99,12 +108,25 @@ export default function ProductDetails({
                 className="size-grid"
                 aria-label={`Tamanhos da linha ${sizeGuide.label.toLowerCase()}`}
               >
-                {sizeGuide.sizes.map((size) => (
-                  <li key={size}>{size}</li>
+                {sizeGuide.sizes.map((number) => (
+                  <li key={number}>
+                    <button
+                      type="button"
+                      aria-pressed={size === number}
+                      onClick={() => {
+                        setSize(number);
+                        setCartMessage("");
+                      }}
+                      aria-label={`Selecionar tamanho ${number}`}
+                    >
+                      {number}
+                    </button>
+                  </li>
                 ))}
               </ol>
               <p className="size-caption">
-                Grade brasileira · todos os modelos de calçados.
+                Grade brasileira · você também pode escolher a numeração ao
+                finalizar a compra.
               </p>
             </section>
           )}
@@ -113,8 +135,8 @@ export default function ProductDetails({
             <div>
               <strong>Os detalhes fazem a escolha.</strong>
               <p>
-                Explore as fotos e amplie para ver de perto. Consulte a
-                disponibilidade para encomendar.
+                Explore as fotos e amplie para ver de perto. Escolha sua peça e
+                pague com Pix.
               </p>
             </div>
           </div>
@@ -131,6 +153,38 @@ export default function ProductDetails({
             </div>
           </dl>
           <div className="detail-actions">
+            <button
+              className="button"
+              type="button"
+              onClick={() => {
+                try {
+                  add({
+                    productId: product.id,
+                    quantity: 1,
+                    ...(hasFootwearSizing(product.category) && size !== null
+                      ? { line, size }
+                      : {}),
+                  });
+                  setCartMessage("Peça adicionada ao carrinho.");
+                } catch (error) {
+                  setCartMessage(
+                    error instanceof Error
+                      ? error.message
+                      : "Não foi possível adicionar a peça.",
+                  );
+                }
+              }}
+            >
+              Adicionar ao carrinho <span aria-hidden="true">+</span>
+            </button>
+            {cartMessage && (
+              <p role="status">
+                {cartMessage} <Link href="/carrinho">Ver carrinho →</Link>
+              </p>
+            )}
+            <Link className="button" href={`/checkout?produto=${product.id}`}>
+              Comprar com Pix <span aria-hidden="true">↗</span>
+            </Link>
             <button
               className={`button detail-save ${saved ? "is-saved" : ""}`}
               type="button"

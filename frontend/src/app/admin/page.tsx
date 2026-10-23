@@ -30,6 +30,7 @@ export default function AdminPage() {
         <p className={styles.localNotice}>Área do administrador · Cadastros e alterações exigem uma sessão autorizada.</p>
         <p><Link href="/admin/feedbacks" className={styles.storeLink}>Avaliações e sugestões de clientes ↗</Link></p>
         <ProductsPanel />
+        <p><Link href="/admin/pedidos" className={styles.storeLink}>Pedidos e pagamentos Pix ↗</Link></p>
       </main>
       <footer className={styles.footer}>MAIA SHOES & BAGS <span>Cuidar dos detalhes faz parte.</span></footer>
     </div>
