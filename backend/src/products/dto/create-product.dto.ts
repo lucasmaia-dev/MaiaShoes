@@ -20,7 +20,7 @@ export class CreateProductDto {
 
   // Clientes antigos podem omitir o campo; null e valores desconhecidos são rejeitados.
   @ValidateIf((_object: unknown, value: unknown) => value !== undefined)
-  @IsEnum(ProductCategory, { message: 'Escolha Tênis, Bolsas ou Sem categoria.' })
+  @IsEnum(ProductCategory, { message: 'Escolha Tênis, Sapatos, Sandálias, Bolsas ou Sem categoria.' })
   category?: ProductCategory;
 
   // O preço viaja como texto decimal para preservar os centavos.

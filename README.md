@@ -4,9 +4,22 @@ Aplicação full stack de uma loja de calçados e bolsas, com vitrine e painel d
 
 ## Funcionalidades
 
-- Vitrine responsiva com nome, descrição, preço e foto principal dos produtos.
+- Vitrine com campanha em tela ampla, três estilos selecionáveis, fotos reais, navegação por seção e transições acessíveis.
+- Temas claro e escuro selecionáveis no cabeçalho, com preferência salva no navegador.
+- Coleção em página própria (`/colecao`); as categorias da página inicial redirecionam para a seleção correspondente.
+- Universo Maia com avaliações de clientes aprovadas pelo administrador e sugestões privadas para a equipe.
+- Navegação separada em Tênis, Sapatos, Sandálias e Bolsas, com links compartilháveis por categoria.
+- Busca por nome, painel de filtros por marca e preço com prévia de resultados, ordenação e carregamento de mais peças sob demanda.
+- Favoritos salvos no navegador, com seleção e remoção na própria coleção.
+- Carrinho salvo no navegador, com tamanhos, quantidades, remoção de peças e compra de vários produtos no mesmo pedido.
+- Numeração opcional ao adicionar ao carrinho e obrigatória na finalização; contador de peças no cabeçalho.
+- Pedidos com todas as peças no painel e na mensagem do WhatsApp, com entrega de R$ 15 uma única vez por pedido.
+- Acompanhamento do pedido com preparação, saída para entrega ou retirada e conclusão; histórico das etapas e atualização automática na página do cliente.
+- Busca e filtros de pedidos no painel, com atualizações restritas ao administrador após confirmar o recebimento do Pix.
+- Detalhes em janela com galeria, zoom, navegação por teclado e retorno à coleção.
+- Categorias com fotos e navegação horizontal por deslize no celular.
 - Cadastro de produtos pelo painel administrativo.
-- Galeria com 76 fotos fornecidas para o projeto.
+- Galeria com 100 fotos fornecidas para o projeto.
 - Seleção, troca e remoção da foto principal de produtos existentes.
 - Categorias no cadastro, classificação de produtos existentes e filtros na vitrine.
 - Login, cadastro de clientes, sessão com cookie HttpOnly e permissões de administrador na API.
@@ -15,7 +28,11 @@ Aplicação full stack de uma loja de calçados e bolsas, com vitrine e painel d
 - Tratamento de carregamento, coleção vazia e falhas na consulta.
 - Testes automatizados e verificações no GitHub Actions.
 
-**Em desenvolvimento:** esta versão foi preparada para uso local. Estoque, carrinho, pedidos, recuperação de senha e pagamentos fazem parte do planejamento. O catálogo é público; as operações de escrita exigem administrador autenticado.
+**Em desenvolvimento:** esta versão foi preparada para uso local. A loja recebe pedidos de uma ou várias peças com pagamento Pix, entrega ou retirada e conferência manual do recebimento pelo administrador. Estoque por numeração, recuperação de senha e integração bancária automática fazem parte do planejamento. O catálogo é público; pedidos exigem conta e alterações do catálogo exigem administrador autenticado.
+
+O [processo de pedidos e Pix](docs/PAGAMENTOS.md) explica a configuração local e a conferência do recebimento pelo extrato. Os produtos publicados estão disponíveis: o cliente escolhe retirada gratuita ou entrega em casa de R$ 15,00, já incluída no mesmo Pix, e a cobrança é liberada imediatamente. Após pagar, combina os detalhes pelo WhatsApp. O cliente acompanha em `/pedidos`; o administrador atende em `/admin/pedidos`.
+
+A vitrine exibe somente produtos com foto e categoria definida. Cadastros incompletos continuam no painel administrativo. No catálogo atual, as 46 peças com preços confirmados são tênis; Sapatos, Sandálias e Bolsas mostram uma seleção em preparação até receberem produtos completos. A reorganização visual não altera os preços.
 
 ## Tecnologias
 
@@ -37,7 +54,13 @@ O Next.js encaminha as chamadas `/api/products` para o NestJS na porta 3001. As 
 
 ### Vitrine
 
-![Vitrine MaiaShoes](docs/vitrine.jpg)
+![Vitrine MaiaShoes](docs/vitrine-editorial.png)
+
+### Coleção e comunidade
+
+![Coleção em página própria](docs/colecao-maia.png)
+
+![Área de avaliações e sugestões](docs/comunidade-maia.png)
 
 ### Painel de produtos e galeria
 
@@ -85,6 +108,8 @@ npm run start:dev
 
 API: [http://127.0.0.1:3001/api/health](http://127.0.0.1:3001/api/health).
 
+O modo de desenvolvimento compila em `backend/.dev-dist`, separado de `backend/dist`, usado no build. Isso evita que o build remova arquivos da API em execução. Após atualizar o repositório, aplique as migrações pendentes em `backend/` com `npx prisma migrate deploy` e reinicie `npm run start:dev`.
+
 ### Criar o primeiro administrador
 
 Em outro terminal de `backend/`, depois de configurar o banco:
@@ -107,6 +132,9 @@ npm run dev
 ```
 
 - Loja: [http://localhost:3000](http://localhost:3000).
+- Coleção: [http://localhost:3000/colecao](http://localhost:3000/colecao).
+- Comunidade: [http://localhost:3000/#comunidade](http://localhost:3000/#comunidade).
+- Moderação: [http://localhost:3000/admin/feedbacks](http://localhost:3000/admin/feedbacks), exclusiva do administrador.
 - Painel: [http://localhost:3000/admin](http://localhost:3000/admin).
 - Login: [http://localhost:3000/login](http://localhost:3000/login).
 - Cadastro de cliente: [http://localhost:3000/cadastro](http://localhost:3000/cadastro).
@@ -166,6 +194,21 @@ docs/                      # Prévias e registro de aprendizado
 | GET | `/api/auth/google/callback` | Receber retorno do Google |
 | GET | `/api/auth/me` | Consultar a própria sessão |
 | POST | `/api/auth/logout` | Revogar a sessão e limpar o cookie |
+| POST | `/api/orders` | Criar pedido de uma peça com Pix |
+| POST | `/api/orders/cart` | Criar pedido com várias peças e um único Pix |
+| GET | `/api/orders` | Consultar os próprios pedidos |
+| GET | `/api/orders/:id` | Consultar pedido próprio e QR Code |
+| GET | `/api/orders/moderation` | Administrador consulta os pedidos recebidos |
+| PATCH | `/api/orders/:id/fulfillment` | Escolher recebimento de pedido antigo sem Pix |
+| PATCH | `/api/orders/:id/payment` | Administrador confirma o Pix recebido no extrato |
+| PATCH | `/api/orders/:id/progress` | Administrador atualiza preparação, entrega ou retirada |
+| GET | `/api/feedback` | Listar avaliações públicas aprovadas e resumo das notas |
+| GET | `/api/feedback/mine` | Consultar as próprias participações, com sessão |
+| PUT | `/api/feedback` | Cliente envia ou atualiza avaliação/sugestão |
+| GET | `/api/feedback/moderation` | Administrador consulta as últimas 100 participações |
+| PATCH | `/api/feedback/:id/status` | Administrador aprova ou arquiva a versão conferida |
+
+As [regras da comunidade](docs/comunidade-maia.md) explicam consentimento, privacidade das sugestões e moderação. Não são criados depoimentos de demonstração no banco da loja.
 
 Exemplo de cadastro:
 
@@ -196,8 +239,11 @@ npm run test:e2e
 Dentro de `frontend/`:
 
 ```powershell
+npm test
 npm run build
 ```
+
+Os testes do front-end conferem as grades confirmadas de calçados: Feminino do 34 ao 39 e Masculino do 37 ao 43. A coleção permite navegar por linha sem duplicar produtos no banco.
 
 Os testes HTTP usam um substituto do banco para verificar os contratos e as validações. O CI também cria um PostgreSQL temporário, aplica as migrações e confere a conexão real pela API. As credenciais do CI são descartáveis e não correspondem às do ambiente local.
 
@@ -208,8 +254,11 @@ Os testes HTTP usam um substituto do banco para verificar os contratos e as vali
 - [ ] Recuperação de senha e verificação de contato.
 - [ ] Estoque por tamanho e cor.
 - [ ] Edição completa de produtos.
-- [ ] Carrinho e pedidos.
-- [ ] Integração de pagamento.
+- [x] Pedidos de uma peça, com retirada ou entrega.
+- [x] Pix com QR Code, copia e cola e conferência manual.
+- [x] Carrinho com vários produtos.
+- [x] Acompanhamento de preparação, entrega e retirada, com histórico de etapas.
+- [ ] Integração bancária para confirmação automática e cartões.
 - [ ] Publicação da aplicação em um ambiente adequado.
 
 ## Aprendizado e desenvolvimento

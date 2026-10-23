@@ -131,7 +131,7 @@ describe('Produtos (HTTP)', () => {
     expect(update).not.toHaveBeenCalled();
   });
 
-  it.each(['TENIS', 'BOLSAS', 'SEM_CATEGORIA'])('cadastra a categoria %s', async (category) => {
+  it.each(['TENIS', 'SAPATOS', 'SANDALIAS', 'BOLSAS', 'SEM_CATEGORIA'])('cadastra a categoria %s', async (category) => {
     create.mockResolvedValue({ ...record, category });
     const response = await request(app.getHttpServer()).post('/api/products')
       .send({ name: 'Produto', price: '10.00', category }).expect(201);
@@ -145,12 +145,12 @@ describe('Produtos (HTTP)', () => {
     expect(create).not.toHaveBeenCalled();
   });
 
-  it('altera apenas a categoria, preservando nome, preço e foto', async () => {
-    update.mockResolvedValue({ ...record, category: 'TENIS' });
+  it.each(['TENIS', 'SAPATOS', 'SANDALIAS'])('altera apenas a categoria para %s, preservando nome, preço e foto', async (category) => {
+    update.mockResolvedValue({ ...record, category });
     const response = await request(app.getHttpServer()).patch('/api/products/1/category')
-      .send({ category: 'TENIS' }).expect(200);
-    expect(response.body).toMatchObject({ name: record.name, price: '189.90', imageUrl: null, category: 'TENIS' });
-    expect(update).toHaveBeenCalledWith({ where: { id: 1 }, data: { category: 'TENIS' } });
+      .send({ category }).expect(200);
+    expect(response.body).toMatchObject({ name: record.name, price: '189.90', imageUrl: null, category });
+    expect(update).toHaveBeenCalledWith({ where: { id: 1 }, data: { category } });
   });
 
   it.each([{}, { category: null }, { category: 'OUTRA' }, { category: 'TENIS', price: '0.00' }])('rejeita mudança de categoria inválida: %j', async (body) => {

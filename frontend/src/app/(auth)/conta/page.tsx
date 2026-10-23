@@ -14,7 +14,7 @@ async function Account() {
     <p className={styles.eyebrow}>MINHA CONTA</p><h1>Olá, {user.name}.</h1>
     <p className={styles.intro}>Você está conectado à MaiaShoes.</p>
     <div className={styles.details}><p>{user.email ? 'E-mail' : 'Usuário'}: <strong>{user.email ?? user.username}</strong></p><p>Perfil: <strong>{user.role === 'ADMIN' ? 'Administrador' : 'Cliente'}</strong></p></div>
-    <div className={styles.links}><Link href="/">Ver coleção ↗</Link>{user.role === 'ADMIN' && <Link href="/admin">Abrir painel</Link>}<LogoutButton /></div>
+    <div className={styles.links}><Link href="/colecao">Ver coleção ↗</Link><Link href="/pedidos">Meus pedidos e Pix ↗</Link><Link href="/#comunidade">Avaliar ou sugerir uma ideia ↗</Link>{user.role === 'ADMIN' && <Link href="/admin">Abrir painel</Link>}<LogoutButton /></div>
   </section>;
 }
 

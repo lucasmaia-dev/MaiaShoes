@@ -1,0 +1,343 @@
+/* Preferência de aparência da vitrine; fotografias mantêm suas cores originais. */
+.storefront {
+  --surface: #fff;
+  --surface-soft: #eeeee7;
+  --header-surface: #f6f5f1f5;
+  color: var(--ink);
+  background: var(--background);
+  color-scheme: light;
+}
+html[data-theme="dark"] .storefront {
+  --background: #111510;
+  --ink: #e9eee4;
+  --muted: #a7b3a0;
+  --line: #323c2d;
+  --brand: #becdb1;
+  --surface: #1b2218;
+  --surface-soft: #242e20;
+  --header-surface: #111510f5;
+  color-scheme: dark;
+}
+html[data-theme="light"]:has(.storefront) {
+  color-scheme: light;
+}
+html[data-theme="dark"]:has(.storefront) {
+  color-scheme: dark;
+}
+html[data-theme="dark"]:has(.storefront) body {
+  background: #111510;
+}
+html[data-theme] .storefront .header-shell {
+  background: var(--header-surface);
+  color: var(--ink);
+  border-color: var(--line);
+}
+html[data-theme] .storefront .header-shell .brand img {
+  mix-blend-mode: normal;
+  opacity: 1;
+}
+html[data-theme] .storefront .header-shell :is(.icon-button, .account-link) {
+  color: var(--ink);
+  background: transparent;
+  border-color: var(--line);
+}
+html[data-theme] .storefront .header-shell .desktop-nav a::after,
+html[data-theme] .storefront .header-shell .mobile-menu summary > span {
+  background: var(--ink);
+}
+html[data-theme] .storefront .header-shell .favorite-count {
+  color: var(--background);
+  background: var(--ink);
+}
+html[data-theme] .storefront .header-shell .mobile-menu nav {
+  color: var(--ink);
+  background: var(--surface);
+  border-color: var(--line);
+}
+html[data-theme] .storefront .header-shell .mobile-menu nav a + a {
+  border-color: var(--line);
+}
+.theme-menu {
+  position: relative;
+}
+.theme-menu summary {
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 44px;
+  cursor: pointer;
+  list-style: none;
+  border-radius: 50%;
+}
+.theme-menu summary::-webkit-details-marker {
+  display: none;
+}
+.theme-menu summary:hover,
+.theme-menu[open] summary {
+  background: var(--surface-soft);
+}
+.theme-menu svg {
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+}
+.theme-options {
+  position: absolute;
+  right: 0;
+  top: calc(100% + 13px);
+  z-index: 35;
+  width: 190px;
+  padding: 9px;
+  color: var(--ink);
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 15px;
+  box-shadow: 0 14px 40px #0002;
+}
+.theme-options > span {
+  display: block;
+  padding: 8px 10px 12px;
+  color: var(--muted);
+  font-size: 11px;
+}
+.theme-options button {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  min-height: 45px;
+  padding: 10px;
+  border: 0;
+  border-radius: 9px;
+  color: var(--ink);
+  background: transparent;
+  font-size: 13px;
+  text-align: left;
+}
+.theme-options button > span {
+  margin-left: auto;
+}
+.theme-options button:hover,
+.theme-options button[aria-pressed="true"] {
+  background: var(--surface-soft);
+}
+html[data-theme="light"] .campaign {
+  --campaign-accent: #526348;
+  background: #eeede7;
+  color: #252822;
+}
+html[data-theme="light"] .campaign-natural {
+  --campaign-accent: #795d3f;
+}
+html[data-theme="light"] .campaign-presence {
+  --campaign-accent: #8e4c62;
+}
+html[data-theme="light"] .campaign-grid {
+  filter: invert(1);
+  opacity: 0.6;
+}
+html[data-theme="light"] .campaign-halo {
+  border-color: #2528220a;
+  background: radial-gradient(ellipse, #9da98c15, transparent 67%);
+}
+html[data-theme="light"] .campaign-period {
+  color: #252822;
+}
+html[data-theme="light"]
+  .campaign
+  :is(
+    .campaign-eyebrow,
+    .campaign-edition,
+    .campaign-intro,
+    .campaign-feature-caption > span,
+    .campaign-preview-label
+  ) {
+  color: #5f6a56;
+}
+html[data-theme="light"] .campaign-feature-caption a {
+  color: #30392b;
+}
+html[data-theme="light"] .campaign-cta {
+  background: #252e20;
+  border-color: #252e20;
+  color: #f5f5ef;
+}
+html[data-theme="light"] .campaign-cta:hover {
+  background: #455738;
+}
+html[data-theme="light"] .campaign-secondary {
+  color: #30392b;
+  border-color: #b8bfb0;
+  background: #ffffff25;
+}
+html[data-theme="light"] .campaign-secondary:hover {
+  background: #fff9;
+}
+html[data-theme="light"] .storefront :is(.maia-manifesto, .manifesto-copy) {
+  background: #e3e7dc;
+  color: var(--ink);
+}
+html[data-theme="light"]
+  .storefront
+  .manifesto-copy
+  :is(.eyebrow, p:not(.eyebrow)) {
+  color: #56624f;
+}
+html[data-theme="light"] .storefront .manifesto-copy h2 > span {
+  color: #5d6d4d;
+}
+html[data-theme="light"] .storefront .manifesto-mark {
+  color: #47553c10;
+}
+html[data-theme="dark"]
+  .storefront
+  :is(
+    .catalog-tabs,
+    .catalog-message,
+    .catalog-empty,
+    .product-gallery,
+    .detail-notes
+  ) {
+  background: var(--surface-soft);
+}
+html[data-theme="dark"]
+  .storefront
+  :is(
+    .catalog-search,
+    .catalog-sort select,
+    .panel-sort select,
+    .filter-trigger,
+    .favorites-filter,
+    .filter-options button,
+    .filter-panel-footer,
+    .filter-dialog,
+    .product-dialog,
+    .outline-button,
+    .dialog-close,
+    .filter-panel-header .icon-button,
+    .product-thumbnails button,
+    .detail-photo-wrap
+  ) {
+  background: var(--surface);
+  color: var(--ink);
+  border-color: var(--line);
+}
+html[data-theme="dark"]
+  .storefront
+  :is(
+    .catalog-tabs a,
+    .catalog-meta p span,
+    .filter-options small,
+    .panel-reset,
+    .detail-breadcrumb,
+    .detail-breadcrumb span:last-child,
+    .detail-specs dd,
+    .detail-specs dt,
+    .detail-notes strong,
+    .detail-notes p,
+    .detail-actions > p,
+    .product-category
+  ) {
+  color: var(--muted);
+}
+html[data-theme="dark"]
+  .storefront
+  :is(
+    .catalog-tabs a[aria-current],
+    .filter-options button[aria-pressed="true"],
+    .favorites-filter.is-active,
+    .filter-trigger.has-filters,
+    .active-filters > button,
+    .detail-actions .detail-save.is-saved,
+    .product-thumbnails button[aria-pressed="true"]
+  ) {
+  background: #34452b;
+  color: #e0efd5;
+  border-color: #687f5b;
+}
+html[data-theme="dark"]
+  .storefront
+  :is(.catalog-tabs a small, .catalog-tabs a[aria-current] small) {
+  background: #ffffff16;
+  color: #c1d3b4;
+}
+html[data-theme="dark"]
+  .storefront
+  :is(
+    .catalog-tabs a:hover,
+    .outline-button:hover,
+    .filter-trigger:hover,
+    .favorites-filter:hover,
+    .dialog-close:hover
+  ) {
+  background: #34452b;
+  color: #e0efd5;
+}
+html[data-theme="dark"]
+  .storefront
+  :is(.product-view, .photo-count, .product-favorite) {
+  background: #172013ed;
+  color: #edf1e8;
+  border-color: #ffffff20;
+}
+html[data-theme="dark"] .storefront .product-favorite[aria-pressed="true"] {
+  background: #dbe7ce;
+  color: #24321a;
+}
+html[data-theme="dark"]
+  .storefront
+  :is(.button, .filter-panel-footer .button, .detail-actions .detail-save) {
+  background: #ceddbf;
+  color: #202b19;
+}
+html[data-theme="dark"] .storefront .button-light {
+  background: #e3ebdb;
+  color: #202b19;
+}
+html[data-theme="dark"] .storefront .round-arrow {
+  background: #33432b;
+  color: #e8efdf;
+}
+html[data-theme="dark"] .storefront .selection-dot {
+  background: var(--surface);
+  border-color: #7c8c71;
+}
+html[data-theme="dark"]
+  .storefront
+  .filter-options
+  button[aria-pressed="true"]
+  .selection-dot {
+  background: #c0d4ad;
+  border-color: #c0d4ad;
+  box-shadow: inset 0 0 0 3px #34452b;
+}
+html[data-theme="dark"] .storefront .active-filters > .clear-filters {
+  background: transparent;
+  color: var(--muted);
+}
+html[data-theme="dark"] .storefront .skeleton-photo {
+  background: linear-gradient(100deg, #232e1f 25%, #34402d 45%, #232e1f 65%);
+  background-size: 220% 100%;
+}
+html[data-theme="dark"] .storefront :is(.skeleton-line, .collection-progress) {
+  background: #34402d;
+}
+html[data-theme="dark"]
+  .storefront
+  :is(.filter-dialog, .product-dialog)::backdrop {
+  background: #050a04b8;
+}
+html[data-theme="dark"]
+  .storefront
+  :is(a, button, input, select, summary):focus-visible {
+  outline-color: #b1c798;
+}
+@media (max-width: 700px) {
+  .theme-menu summary {
+    width: 36px;
+    height: 38px;
+  }
+  .theme-options {
+    right: -78px;
+  }
+}
